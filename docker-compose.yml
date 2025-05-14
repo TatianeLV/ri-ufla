@@ -2,6 +2,23 @@ networks:
   dockernet:
 
 services:
+  # Frontend
+  ui:
+     container_name: dspace-ui
+     image: dspace/dspace-angular:${DSPACE_VERSION}-dist
+     build: 
+       context: .
+       dockerfile: ui.dockerfile
+     env_file:
+       - .env
+     networks:
+       - dockernet
+     ports:
+     - published: 4000
+       target: 4000
+     stdin_open: true
+     tty: true
+
   # Dspace API
   api:
     env_file:
