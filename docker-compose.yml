@@ -28,7 +28,6 @@ services:
     build: 
       context: .
       dockerfile: api.dockerfile
-    
     depends_on:
       - dspacedb
       - dspacesolr
