@@ -1,5 +1,5 @@
 .env
 v6
 dspace-updater-tool/
-migrations/dump_v6.sql
+migrations/
 v6dspace/
