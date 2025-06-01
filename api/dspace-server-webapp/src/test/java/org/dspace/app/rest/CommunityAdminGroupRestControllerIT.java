@@ -56,9 +56,6 @@ public class CommunityAdminGroupRestControllerIT extends AbstractControllerInteg
     @Autowired
     private ConfigurationService configurationService;
 
-    @Autowired
-    private ObjectMapper mapper;
-
     Collection collection;
 
     @Before
@@ -136,6 +133,8 @@ public class CommunityAdminGroupRestControllerIT extends AbstractControllerInteg
 
     @Test
     public void postCommunityAdminGroupCreateAdminGroupSuccess() throws Exception {
+
+        ObjectMapper mapper = new ObjectMapper();
         GroupRest groupRest = new GroupRest();
         MetadataRest metadataRest = new MetadataRest();
 
@@ -163,6 +162,8 @@ public class CommunityAdminGroupRestControllerIT extends AbstractControllerInteg
 
     @Test
     public void postCommunityAdminGroupCreateAdminGroupExtraMetadataSuccess() throws Exception {
+
+        ObjectMapper mapper = new ObjectMapper();
         GroupRest groupRest = new GroupRest();
         MetadataRest metadataRest = new MetadataRest();
         metadataRest.put("dc.description", new MetadataValueRest("testingDescription"));
@@ -195,6 +196,8 @@ public class CommunityAdminGroupRestControllerIT extends AbstractControllerInteg
 
     @Test
     public void postCommunityAdminGroupCreateAdminGroupDcTitleUnprocessable() throws Exception {
+
+        ObjectMapper mapper = new ObjectMapper();
         GroupRest groupRest = new GroupRest();
         MetadataRest metadataRest = new MetadataRest();
         metadataRest.put("dc.description", new MetadataValueRest("testingDescription"));
@@ -218,6 +221,8 @@ public class CommunityAdminGroupRestControllerIT extends AbstractControllerInteg
 
     @Test
     public void postCommunityAdminGroupCreateAdminGroupSuccessCommunityAdmin() throws Exception {
+
+        ObjectMapper mapper = new ObjectMapper();
         GroupRest groupRest = new GroupRest();
         MetadataRest metadataRest = new MetadataRest();
         metadataRest.put("dc.description", new MetadataValueRest("testingDescription"));
@@ -249,6 +254,8 @@ public class CommunityAdminGroupRestControllerIT extends AbstractControllerInteg
 
     @Test
     public void postCommunityAdminGroupCreateAdminGroupUnAuthorized() throws Exception {
+
+        ObjectMapper mapper = new ObjectMapper();
         GroupRest groupRest = new GroupRest();
         MetadataRest metadataRest = new MetadataRest();
         metadataRest.put("dc.description", new MetadataValueRest("testingDescription"));
@@ -269,6 +276,8 @@ public class CommunityAdminGroupRestControllerIT extends AbstractControllerInteg
 
     @Test
     public void postCommunityAdminGroupCreateAdminGroupForbidden() throws Exception {
+
+        ObjectMapper mapper = new ObjectMapper();
         GroupRest groupRest = new GroupRest();
         MetadataRest metadataRest = new MetadataRest();
         metadataRest.put("dc.description", new MetadataValueRest("testingDescription"));
@@ -292,6 +301,8 @@ public class CommunityAdminGroupRestControllerIT extends AbstractControllerInteg
 
     @Test
     public void postCommunityAdminGroupCreateAdminGroupNotFound() throws Exception {
+
+        ObjectMapper mapper = new ObjectMapper();
         GroupRest groupRest = new GroupRest();
         MetadataRest metadataRest = new MetadataRest();
         metadataRest.put("dc.description", new MetadataValueRest("testingDescription"));
@@ -310,6 +321,8 @@ public class CommunityAdminGroupRestControllerIT extends AbstractControllerInteg
 
     @Test
     public void postCommunityAdminGroupCreateAdminGroupUnProcessableName() throws Exception {
+
+        ObjectMapper mapper = new ObjectMapper();
         GroupRest groupRest = new GroupRest();
         groupRest.setName("Fail");
         MetadataRest metadataRest = new MetadataRest();
@@ -333,6 +346,8 @@ public class CommunityAdminGroupRestControllerIT extends AbstractControllerInteg
 
     @Test
     public void postCommunityAdminGroupCreateAdminGroupUnProcessablePermanent() throws Exception {
+
+        ObjectMapper mapper = new ObjectMapper();
         GroupRest groupRest = new GroupRest();
         groupRest.setPermanent(true);
         MetadataRest metadataRest = new MetadataRest();

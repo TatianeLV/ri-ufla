@@ -36,12 +36,10 @@ import org.dspace.discovery.SearchServiceException;
 import org.dspace.discovery.indexobject.IndexableItem;
 import org.dspace.eperson.EPerson;
 import org.dspace.eperson.service.EPersonService;
-import org.dspace.orcid.OrcidQueue;
 import org.dspace.orcid.OrcidToken;
 import org.dspace.orcid.client.OrcidClient;
 import org.dspace.orcid.model.OrcidEntityType;
 import org.dspace.orcid.model.OrcidTokenResponseDTO;
-import org.dspace.orcid.service.OrcidQueueService;
 import org.dspace.orcid.service.OrcidSynchronizationService;
 import org.dspace.orcid.service.OrcidTokenService;
 import org.dspace.profile.OrcidEntitySyncPreference;
@@ -63,12 +61,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class OrcidSynchronizationServiceImpl implements OrcidSynchronizationService {
 
     private static final Logger log = LoggerFactory.getLogger(OrcidSynchronizationServiceImpl.class);
-
     @Autowired
     private ItemService itemService;
-
-    @Autowired
-    private OrcidQueueService orcidQueueService;
 
     @Autowired
     private ConfigurationService configurationService;
@@ -126,22 +120,11 @@ public class OrcidSynchronizationServiceImpl implements OrcidSynchronizationServ
 
     @Override
     public void unlinkProfile(Context context, Item profile) throws SQLException {
-        clearOrcidProfileMetadata(context, profile);
 
-        clearSynchronizationSettings(context, profile);
+        itemService.clearMetadata(context, profile, "person", "identifier", "orcid", Item.ANY);
+        itemService.clearMetadata(context, profile, "dspace", "orcid", "scope", Item.ANY);
+        itemService.clearMetadata(context, profile, "dspace", "orcid", "authenticated", Item.ANY);
 
-        clearOrcidToken(context, profile);
-
-        updateItem(context, profile);
-
-        List<OrcidQueue> queueRecords = orcidQueueService.findByProfileItemId(context, profile.getID());
-        for (OrcidQueue queueRecord : queueRecords) {
-            orcidQueueService.delete(context, queueRecord);
-        }
-
-    }
-
-    private void clearOrcidToken(Context context, Item profile) {
         OrcidToken profileToken = orcidTokenService.findByProfileItem(context, profile);
         if (profileToken == null) {
             log.warn("Cannot find any token related to the user profile: {}", profile.getID());
@@ -150,12 +133,9 @@ public class OrcidSynchronizationServiceImpl implements OrcidSynchronizationServ
 
         orcidTokenService.deleteByProfileItem(context, profile);
         orcidClient.revokeToken(profileToken);
-    }
 
-    private void clearOrcidProfileMetadata(Context context, Item profile) throws SQLException {
-        itemService.clearMetadata(context, profile, "person", "identifier", "orcid", Item.ANY);
-        itemService.clearMetadata(context, profile, "dspace", "orcid", "scope", Item.ANY);
-        itemService.clearMetadata(context, profile, "dspace", "orcid", "authenticated", Item.ANY);
+        updateItem(context, profile);
+
     }
 
     @Override
@@ -299,22 +279,6 @@ public class OrcidSynchronizationServiceImpl implements OrcidSynchronizationServ
 
         return true;
 
-    }
-
-    private void clearSynchronizationSettings(Context context, Item profile)
-        throws SQLException {
-
-        if (configurationService.getBooleanProperty("orcid.disconnection.remain-sync", false)) {
-            return;
-        }
-
-        itemService.clearMetadata(context, profile, "dspace", "orcid", "sync-mode", Item.ANY);
-        itemService.clearMetadata(context, profile, "dspace", "orcid", "sync-profile", Item.ANY);
-
-        for (OrcidEntityType entityType : OrcidEntityType.values()) {
-            itemService.clearMetadata(context, profile, "dspace", "orcid",
-                "sync-" + entityType.name().toLowerCase() + "s", Item.ANY);
-        }
     }
 
     private boolean containsSameValues(List<String> firstList, List<String> secondList) {

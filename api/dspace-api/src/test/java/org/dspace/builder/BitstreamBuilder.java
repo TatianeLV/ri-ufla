@@ -10,7 +10,6 @@ package org.dspace.builder;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.SQLException;
-import java.time.Period;
 import java.util.List;
 
 import org.dspace.authorize.AuthorizeException;
@@ -183,11 +182,17 @@ public class BitstreamBuilder extends AbstractDSpaceObjectBuilder<Bitstream> {
     }
 
     public BitstreamBuilder withFormat(String format) throws SQLException {
-        return withMetadata("dc", "format", null, null, format);
+
+        bitstreamService.addMetadata(context, bitstream, "dc", "format", null, null, format);
+
+        return this;
     }
 
     public BitstreamBuilder withProvenance(String provenance) throws SQLException {
-        return withMetadata("dc", "description", "provenance", null, provenance);
+
+        bitstreamService.addMetadata(context, bitstream, "dc", "description", "provenance", null, provenance);
+
+        return this;
     }
 
 
@@ -197,24 +202,22 @@ public class BitstreamBuilder extends AbstractDSpaceObjectBuilder<Bitstream> {
     }
 
     public BitstreamBuilder withIIIFLabel(String label) throws SQLException {
-        return withMetadata("iiif", "label", null, null, label);
+        bitstreamService.addMetadata(context, bitstream, "iiif", "label", null, null, label);
+        return this;
     }
 
     public BitstreamBuilder withIIIFCanvasWidth(int i) throws SQLException {
-        return withMetadata("iiif", "image", "width", null, String.valueOf(i));
+        bitstreamService.addMetadata(context, bitstream, "iiif", "image", "width", null, String.valueOf(i));
+        return this;
     }
 
     public BitstreamBuilder withIIIFCanvasHeight(int i) throws SQLException {
-        return withMetadata("iiif", "image", "height", null, String.valueOf(i));
+        bitstreamService.addMetadata(context, bitstream, "iiif", "image", "height", null, String.valueOf(i));
+        return this;
     }
 
     public BitstreamBuilder withIIIFToC(String toc) throws SQLException {
-        return withMetadata("iiif", "toc", null, null, toc);
-    }
-
-    public BitstreamBuilder withMetadata(String schema, String element, String qualifier, String lang, String value)
-        throws SQLException {
-        bitstreamService.addMetadata(context, bitstream, schema, element, qualifier, lang, value);
+        bitstreamService.addMetadata(context, bitstream, "iiif", "toc", null, null, toc);
         return this;
     }
 
@@ -233,7 +236,7 @@ public class BitstreamBuilder extends AbstractDSpaceObjectBuilder<Bitstream> {
         return targetBundle;
     }
 
-    public BitstreamBuilder withEmbargoPeriod(Period embargoPeriod) {
+    public BitstreamBuilder withEmbargoPeriod(String embargoPeriod) {
         return setEmbargo(embargoPeriod, bitstream);
     }
 

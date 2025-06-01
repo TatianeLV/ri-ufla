@@ -8,15 +8,17 @@
 package org.dspace.checker;
 
 import java.io.Serializable;
-import java.time.Instant;
+import java.util.Date;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.Table;
-import jakarta.persistence.Transient;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.dspace.content.Bitstream;
@@ -43,11 +45,13 @@ public class MostRecentChecksum implements Serializable {
     @Column(name = "current_checksum", nullable = false)
     private String currentChecksum;
 
+    @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "last_process_start_date", nullable = false)
-    private Instant processStartDate;
+    private Date processStartDate;
 
+    @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "last_process_end_date", nullable = false)
-    private Instant processEndDate;
+    private Date processEndDate;
 
     @Column(name = "checksum_algorithm", nullable = false)
     private String checksumAlgorithm;
@@ -104,19 +108,19 @@ public class MostRecentChecksum implements Serializable {
         this.currentChecksum = currentChecksum;
     }
 
-    public Instant getProcessStartDate() {
+    public Date getProcessStartDate() {
         return processStartDate;
     }
 
-    public void setProcessStartDate(Instant processStartDate) {
+    public void setProcessStartDate(Date processStartDate) {
         this.processStartDate = processStartDate;
     }
 
-    public Instant getProcessEndDate() {
+    public Date getProcessEndDate() {
         return processEndDate;
     }
 
-    public void setProcessEndDate(Instant processEndDate) {
+    public void setProcessEndDate(Date processEndDate) {
         this.processEndDate = processEndDate;
     }
 

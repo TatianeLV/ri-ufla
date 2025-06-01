@@ -12,20 +12,19 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
-import java.time.LocalDateTime;
-import java.time.ZoneOffset;
-import java.time.format.DateTimeFormatter;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.dspace.core.Constants;
 import org.dspace.services.ConfigurationService;
 import org.dspace.services.model.Event;
 import org.dspace.utils.DSpace;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
- * Serialize {@link UsageEvent} data to a file as Tab delimited.
- * In {@code dspace.cfg} specify the path to the file as the value of
+ * Serialize {@link UsageEvent} data to a file as Tab delimited. In dspace.cfg
+ * specify the path to the file as the value of
  * {@code usageEvent.tabFileLogger.file}.  If that path is not absolute, it
  * will be interpreted as relative to the directory named in {@code log.dir}.
  * If no name is configured, it defaults to "usage-events.tsv".  If the file is
@@ -39,12 +38,14 @@ public class TabFileUsageEventListener
     /**
      * log category.
      */
-    private static final Logger errorLog = LogManager.getLogger();
+    private static final Logger errorLog = LoggerFactory
+        .getLogger(TabFileUsageEventListener.class);
 
     /**
      * ISO 8601 Basic string format for record timestamps.
      */
-    private static final DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyyMMdd'T'HHmmssSSS");
+    private static final SimpleDateFormat dateFormat = new SimpleDateFormat(
+        "yyyyMMdd'T'HHmmssSSS");
 
     /**
      * File on which to write event records.
@@ -76,11 +77,11 @@ public class TabFileUsageEventListener
         try {
             eventLog = new PrintWriter(new OutputStreamWriter(
                 new FileOutputStream(logFile, true)));
-            errorLog.debug("Writing to {}", logFile::getAbsolutePath);
+            errorLog.debug("Writing to {}", logFile.getAbsolutePath());
         } catch (FileNotFoundException e) {
             errorLog.error("{} cannot open file, will not log events:  {}",
-                           TabFileUsageEventListener.class::getName,
-                           e::getMessage);
+                           TabFileUsageEventListener.class.getName(),
+                           e.getMessage());
             throw new IllegalArgumentException("Cannot open event log file", e);
         }
 
@@ -103,7 +104,9 @@ public class TabFileUsageEventListener
             init();
         }
 
-        errorLog.debug("got: {}", event::toString);
+        if (errorLog.isDebugEnabled()) {
+            errorLog.debug("got: {}", event.toString());
+        }
 
         if (!(event instanceof UsageEvent)) {
             return;
@@ -115,7 +118,7 @@ public class TabFileUsageEventListener
 
         UsageEvent ue = (UsageEvent) event;
 
-        eventLog.append(dateFormat.format(LocalDateTime.now(ZoneOffset.UTC)))
+        eventLog.append(dateFormat.format(new Date()))
                 .append('\t').append(ue.getName()) // event type
                 .append('\t').append(Constants.typeText[ue.getObject().getType()])
                 .append('\t').append(ue.getObject().getID().toString())

@@ -10,14 +10,13 @@ package org.dspace.storage.bitstore;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.SQLException;
-import java.time.Instant;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import javax.annotation.Nullable;
 
-import jakarta.annotation.Nullable;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections4.MapUtils;
 import org.apache.logging.log4j.LogManager;
@@ -92,11 +91,6 @@ public class BitstreamStorageServiceImpl implements BitstreamStorageService, Ini
     }
 
     @Override
-    public void setIncomingExternal(int incoming) {
-        this.incoming = incoming;
-    }
-
-    @Override
     public void afterPropertiesSet() throws Exception {
         for (Map.Entry<Integer, BitStoreService> storeEntry : stores.entrySet()) {
             if (storeEntry.getValue().isEnabled() && !storeEntry.getValue().isInitialized()) {
@@ -154,7 +148,7 @@ public class BitstreamStorageServiceImpl implements BitstreamStorageService, Ini
      * @param assetstore    The assetstore number for the bitstream to be
      *                      registered
      * @param bitstreamPath The relative path of the bitstream to be registered.
-     *                      The path is relative to the path of this assetstore.
+     *                      The path is relative to the path of ths assetstore.
      * @return The ID of the registered bitstream
      * @throws SQLException If a problem occurs accessing the RDBMS
      * @throws IOException  if IO error
@@ -230,7 +224,7 @@ public class BitstreamStorageServiceImpl implements BitstreamStorageService, Ini
         int cleanedBitstreamCount = 0;
 
         int deletedBitstreamCount = bitstreamService.countDeletedBitstreams(context);
-        System.out.println("Found " + deletedBitstreamCount + " deleted bitstream to cleanup");
+        System.out.println("Found " + deletedBitstreamCount + " deleted bistream to cleanup");
 
         try {
             context.turnOffAuthorisationSystem();
@@ -484,7 +478,7 @@ public class BitstreamStorageServiceImpl implements BitstreamStorageService, Ini
      * @return True if this file is too recent to be deleted
      */
     protected boolean isRecent(Long lastModified) {
-        long now = Instant.now().toEpochMilli();
+        long now = new java.util.Date().getTime();
 
         if (lastModified >= now) {
             return true;

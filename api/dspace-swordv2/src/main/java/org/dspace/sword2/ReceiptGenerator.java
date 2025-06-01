@@ -8,7 +8,9 @@
 package org.dspace.sword2;
 
 import java.sql.SQLException;
-import java.time.ZonedDateTime;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,7 +28,6 @@ import org.dspace.core.Constants;
 import org.dspace.core.Context;
 import org.dspace.services.ConfigurationService;
 import org.dspace.services.factory.DSpaceServicesFactory;
-import org.dspace.util.MultiFormatDateParser;
 import org.swordapp.server.DepositReceipt;
 import org.swordapp.server.SwordError;
 import org.swordapp.server.SwordServerException;
@@ -109,7 +110,7 @@ public class ReceiptGenerator {
         receipt.addEditMediaIRI(
             urlManager.getContentUrl(result.getItem()), "application/zip");
         receipt.setMediaFeedIRI(urlManager.getMediaFeedUrl(result.getItem()));
-        receipt.setLastModified(java.util.Date.from(result.getItem().getLastModified()));
+        receipt.setLastModified(result.getItem().getLastModified());
 
         if (mediaResourceLocation) {
             receipt.setLocation(urlManager.getContentUrl(result.getItem()));
@@ -201,7 +202,7 @@ public class ReceiptGenerator {
         receipt.addEditMediaIRI(
             urlManager.getContentUrl(item), "application/zip");
         receipt.setMediaFeedIRI(urlManager.getMediaFeedUrl(item));
-        receipt.setLastModified(java.util.Date.from(item.getLastModified()));
+        receipt.setLastModified(item.getLastModified());
 
         // add the category information to the sword entry
         this.addCategories(item, receipt);
@@ -283,8 +284,14 @@ public class ReceiptGenerator {
         List<MetadataValue> dcv = itemService.getMetadataByMetadataString(
             result.getItem(), "dc.date.issued");
         if (dcv != null && !dcv.isEmpty()) {
-            ZonedDateTime published = MultiFormatDateParser.parse(dcv.get(0).getValue());
-            receipt.getWrappedEntry().setPublished(java.util.Date.from(published.toInstant()));
+            try {
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                Date published = sdf.parse(dcv.get(0).getValue());
+                receipt.getWrappedEntry().setPublished(published);
+            } catch (ParseException e) {
+                // we tried, but never mind
+                log.warn("Couldn't add published date", e);
+            }
         }
     }
 
@@ -298,8 +305,14 @@ public class ReceiptGenerator {
         List<MetadataValue> dcv = itemService.getMetadataByMetadataString(
             item, "dc.date.issued");
         if (dcv != null && dcv.size() == 1) {
-            ZonedDateTime published = MultiFormatDateParser.parse(dcv.get(0).getValue());
-            receipt.getWrappedEntry().setPublished(java.util.Date.from(published.toInstant()));
+            try {
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                Date published = sdf.parse(dcv.get(0).getValue());
+                receipt.getWrappedEntry().setPublished(published);
+            } catch (ParseException e) {
+                // we tried, but never mind
+                log.warn("Couldn't add published date", e);
+            }
         }
     }
 
@@ -316,8 +329,14 @@ public class ReceiptGenerator {
         List<MetadataValue> dcv = itemService.getMetadataByMetadataString(
             result.getItem(), config);
         if (dcv != null && dcv.size() == 1) {
-            ZonedDateTime updated = MultiFormatDateParser.parse(dcv.get(0).getValue());
-            receipt.getWrappedEntry().setUpdated(java.util.Date.from(updated.toInstant()));
+            try {
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                Date updated = sdf.parse(dcv.get(0).getValue());
+                receipt.getWrappedEntry().setUpdated(updated);
+            } catch (ParseException e) {
+                // we tried, but never mind
+                log.warn("Couldn't add last updated date", e);
+            }
         }
     }
 
@@ -333,8 +352,14 @@ public class ReceiptGenerator {
         List<MetadataValue> dcv = itemService.getMetadataByMetadataString(
             item, config);
         if (dcv != null && dcv.size() == 1) {
-            ZonedDateTime updated = MultiFormatDateParser.parse(dcv.get(0).getValue());
-            receipt.getWrappedEntry().setUpdated(java.util.Date.from(updated.toInstant()));
+            try {
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                Date updated = sdf.parse(dcv.get(0).getValue());
+                receipt.getWrappedEntry().setUpdated(updated);
+            } catch (ParseException e) {
+                // we tried, but never mind
+                log.warn("Couldn't add last updated date", e);
+            }
         }
     }
 }

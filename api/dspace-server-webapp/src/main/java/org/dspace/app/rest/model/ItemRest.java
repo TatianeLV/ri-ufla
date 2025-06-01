@@ -7,7 +7,7 @@
  */
 package org.dspace.app.rest.model;
 
-import java.time.Instant;
+import java.util.Date;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -25,8 +25,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
     @LinkRest(name = ItemRest.RELATIONSHIPS, method = "getRelationships"),
     @LinkRest(name = ItemRest.VERSION, method = "getItemVersion"),
     @LinkRest(name = ItemRest.TEMPLATE_ITEM_OF, method = "getTemplateItemOf"),
-    @LinkRest(name = ItemRest.THUMBNAIL, method = "getThumbnail"),
-    @LinkRest(name = ItemRest.SUBMITTER, method = "getItemSubmitter")
+    @LinkRest(name = ItemRest.THUMBNAIL, method = "getThumbnail")
 })
 public class ItemRest extends DSpaceObjectRest {
     public static final String NAME = "item";
@@ -43,12 +42,10 @@ public class ItemRest extends DSpaceObjectRest {
     public static final String TEMPLATE_ITEM_OF = "templateItemOf";
     public static final String THUMBNAIL = "thumbnail";
 
-    public static final String SUBMITTER = "submitter";
-
     private boolean inArchive = false;
     private boolean discoverable = false;
     private boolean withdrawn = false;
-    private Instant lastModified = Instant.now();
+    private Date lastModified = new Date();
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private String entityType = null;
 
@@ -61,11 +58,6 @@ public class ItemRest extends DSpaceObjectRest {
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     public String getType() {
         return NAME;
-    }
-
-    @Override
-    public String getTypePlural() {
-        return PLURAL_NAME;
     }
 
     public boolean getInArchive() {
@@ -92,11 +84,11 @@ public class ItemRest extends DSpaceObjectRest {
         this.withdrawn = withdrawn;
     }
 
-    public Instant getLastModified() {
+    public Date getLastModified() {
         return lastModified;
     }
 
-    public void setLastModified(Instant lastModified) {
+    public void setLastModified(Date lastModified) {
         this.lastModified = lastModified;
     }
 

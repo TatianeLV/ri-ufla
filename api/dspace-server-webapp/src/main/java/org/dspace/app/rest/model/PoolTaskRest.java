@@ -48,11 +48,6 @@ public class PoolTaskRest extends BaseObjectRest<Integer> {
     }
 
     @Override
-    public String getTypePlural() {
-        return PLURAL_NAME;
-    }
-
-    @Override
     public Class getController() {
         return RestResourceController.class;
     }

@@ -7,7 +7,6 @@
  */
 package org.dspace.app.rest;
 
-import static org.dspace.app.rest.matcher.FacetEntryMatcher.defaultFacetMatchers;
 import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.is;
@@ -278,8 +277,8 @@ public class DiscoveryScopeBasedRestControllerIT extends AbstractControllerInteg
                    .andExpect(jsonPath("$.type", is("discover")))
                    .andExpect(jsonPath("$._links.self.href", containsString("api/discover/facets")))
                    .andExpect(jsonPath("$._embedded.facets", containsInAnyOrder(
-                           FacetEntryMatcher.authorFacet(),
-                           FacetEntryMatcher.matchFacet("parentcommunity1field", "text")))
+                           FacetEntryMatcher.authorFacet(false),
+                           FacetEntryMatcher.matchFacet(false, "parentcommunity1field", "text")))
                    );
 
         getClient().perform(get("/api/discover/facets/parentcommunity1field")
@@ -319,8 +318,8 @@ public class DiscoveryScopeBasedRestControllerIT extends AbstractControllerInteg
                    .andExpect(jsonPath("$.type", is("discover")))
                    .andExpect(jsonPath("$._links.self.href", containsString("api/discover/facets")))
                    .andExpect(jsonPath("$._embedded.facets", containsInAnyOrder(
-                           FacetEntryMatcher.authorFacet(),
-                           FacetEntryMatcher.matchFacet("subcommunity11field", "text")))
+                           FacetEntryMatcher.authorFacet(false),
+                           FacetEntryMatcher.matchFacet(false, "subcommunity11field", "text")))
                    );
 
         getClient().perform(get("/api/discover/facets/subcommunity11field")
@@ -351,8 +350,8 @@ public class DiscoveryScopeBasedRestControllerIT extends AbstractControllerInteg
                    .andExpect(jsonPath("$.type", is("discover")))
                    .andExpect(jsonPath("$._links.self.href", containsString("api/discover/facets")))
                    .andExpect(jsonPath("$._embedded.facets", containsInAnyOrder(
-                           FacetEntryMatcher.authorFacet(),
-                           FacetEntryMatcher.matchFacet("collection111field", "text")))
+                           FacetEntryMatcher.authorFacet(false),
+                           FacetEntryMatcher.matchFacet(false, "collection111field", "text")))
                    );
 
         getClient().perform(get("/api/discover/facets/collection111field")
@@ -382,8 +381,8 @@ public class DiscoveryScopeBasedRestControllerIT extends AbstractControllerInteg
                    .andExpect(jsonPath("$.type", is("discover")))
                    .andExpect(jsonPath("$._links.self.href", containsString("api/discover/facets")))
                    .andExpect(jsonPath("$._embedded.facets", containsInAnyOrder(
-                           FacetEntryMatcher.authorFacet(),
-                           FacetEntryMatcher.matchFacet("subcommunity11field", "text")))
+                           FacetEntryMatcher.authorFacet(false),
+                           FacetEntryMatcher.matchFacet(false, "subcommunity11field", "text")))
                    );
 
         getClient().perform(get("/api/discover/facets/subcommunity11field")
@@ -411,8 +410,8 @@ public class DiscoveryScopeBasedRestControllerIT extends AbstractControllerInteg
                    .andExpect(jsonPath("$.type", is("discover")))
                    .andExpect(jsonPath("$._links.self.href", containsString("api/discover/facets")))
                    .andExpect(jsonPath("$._embedded.facets", containsInAnyOrder(
-                           FacetEntryMatcher.authorFacet(),
-                           FacetEntryMatcher.matchFacet("parentcommunity1field", "text")))
+                           FacetEntryMatcher.authorFacet(false),
+                           FacetEntryMatcher.matchFacet(false, "parentcommunity1field", "text")))
                    );
 
         getClient().perform(get("/api/discover/facets/parentcommunity1field")
@@ -443,8 +442,8 @@ public class DiscoveryScopeBasedRestControllerIT extends AbstractControllerInteg
                    .andExpect(jsonPath("$.type", is("discover")))
                    .andExpect(jsonPath("$._links.self.href", containsString("api/discover/facets")))
                    .andExpect(jsonPath("$._embedded.facets", containsInAnyOrder(
-                           FacetEntryMatcher.authorFacet(),
-                           FacetEntryMatcher.matchFacet("collection121field", "text")))
+                           FacetEntryMatcher.authorFacet(false),
+                           FacetEntryMatcher.matchFacet(false, "collection121field", "text")))
                    );
 
         getClient().perform(get("/api/discover/facets/collection121field")
@@ -472,8 +471,8 @@ public class DiscoveryScopeBasedRestControllerIT extends AbstractControllerInteg
                    .andExpect(jsonPath("$.type", is("discover")))
                    .andExpect(jsonPath("$._links.self.href", containsString("api/discover/facets")))
                    .andExpect(jsonPath("$._embedded.facets", containsInAnyOrder(
-                           FacetEntryMatcher.authorFacet(),
-                           FacetEntryMatcher.matchFacet("parentcommunity1field", "text")))
+                           FacetEntryMatcher.authorFacet(false),
+                           FacetEntryMatcher.matchFacet(false, "parentcommunity1field", "text")))
                    );
 
         getClient().perform(get("/api/discover/facets/parentcommunity1field")
@@ -502,7 +501,13 @@ public class DiscoveryScopeBasedRestControllerIT extends AbstractControllerInteg
                    .andExpect(status().isOk())
                    .andExpect(jsonPath("$.type", is("discover")))
                    .andExpect(jsonPath("$._links.self.href", containsString("api/discover/facets")))
-                   .andExpect(jsonPath("$._embedded.facets", containsInAnyOrder(defaultFacetMatchers))
+                   .andExpect(jsonPath("$._embedded.facets", containsInAnyOrder(
+                                      FacetEntryMatcher.authorFacet(false),
+                                      FacetEntryMatcher.subjectFacet(false),
+                                      FacetEntryMatcher.dateIssuedFacet(false),
+                                      FacetEntryMatcher.hasContentInOriginalBundleFacet(false),
+                                      FacetEntryMatcher.entityTypeFacet(false)
+                              ))
                    );
     }
 
@@ -518,8 +523,8 @@ public class DiscoveryScopeBasedRestControllerIT extends AbstractControllerInteg
                    .andExpect(jsonPath("$.type", is("discover")))
                    .andExpect(jsonPath("$._links.self.href", containsString("api/discover/facets")))
                    .andExpect(jsonPath("$._embedded.facets", containsInAnyOrder(
-                           FacetEntryMatcher.authorFacet(),
-                           FacetEntryMatcher.matchFacet("subcommunity21field", "text")))
+                           FacetEntryMatcher.authorFacet(false),
+                           FacetEntryMatcher.matchFacet(false, "subcommunity21field", "text")))
                    );
 
         getClient().perform(get("/api/discover/facets/subcommunity21field")
@@ -550,8 +555,8 @@ public class DiscoveryScopeBasedRestControllerIT extends AbstractControllerInteg
                    .andExpect(jsonPath("$.type", is("discover")))
                    .andExpect(jsonPath("$._links.self.href", containsString("api/discover/facets")))
                    .andExpect(jsonPath("$._embedded.facets", containsInAnyOrder(
-                           FacetEntryMatcher.authorFacet(),
-                           FacetEntryMatcher.matchFacet("collection211field", "text")))
+                           FacetEntryMatcher.authorFacet(false),
+                           FacetEntryMatcher.matchFacet(false, "collection211field", "text")))
                    );
 
         getClient().perform(get("/api/discover/facets/collection211field")
@@ -581,8 +586,8 @@ public class DiscoveryScopeBasedRestControllerIT extends AbstractControllerInteg
                    .andExpect(jsonPath("$.type", is("discover")))
                    .andExpect(jsonPath("$._links.self.href", containsString("api/discover/facets")))
                    .andExpect(jsonPath("$._embedded.facets", containsInAnyOrder(
-                           FacetEntryMatcher.authorFacet(),
-                           FacetEntryMatcher.matchFacet("subcommunity21field", "text")))
+                           FacetEntryMatcher.authorFacet(false),
+                           FacetEntryMatcher.matchFacet(false, "subcommunity21field", "text")))
                    );
 
         getClient().perform(get("/api/discover/facets/subcommunity21field")
@@ -608,7 +613,13 @@ public class DiscoveryScopeBasedRestControllerIT extends AbstractControllerInteg
                    .andExpect(status().isOk())
                    .andExpect(jsonPath("$.type", is("discover")))
                    .andExpect(jsonPath("$._links.self.href", containsString("api/discover/facets")))
-                   .andExpect(jsonPath("$._embedded.facets", containsInAnyOrder(defaultFacetMatchers))
+                   .andExpect(jsonPath("$._embedded.facets", containsInAnyOrder(
+                                      FacetEntryMatcher.authorFacet(false),
+                                      FacetEntryMatcher.subjectFacet(false),
+                                      FacetEntryMatcher.dateIssuedFacet(false),
+                                      FacetEntryMatcher.hasContentInOriginalBundleFacet(false),
+                                      FacetEntryMatcher.entityTypeFacet(false)
+                              ))
                    );
     }
 
@@ -624,8 +635,8 @@ public class DiscoveryScopeBasedRestControllerIT extends AbstractControllerInteg
                    .andExpect(jsonPath("$.type", is("discover")))
                    .andExpect(jsonPath("$._links.self.href", containsString("api/discover/facets")))
                    .andExpect(jsonPath("$._embedded.facets", containsInAnyOrder(
-                           FacetEntryMatcher.authorFacet(),
-                           FacetEntryMatcher.matchFacet("collection221field", "text")))
+                           FacetEntryMatcher.authorFacet(false),
+                           FacetEntryMatcher.matchFacet(false, "collection221field", "text")))
                    );
 
         getClient().perform(get("/api/discover/facets/collection221field")
@@ -652,7 +663,13 @@ public class DiscoveryScopeBasedRestControllerIT extends AbstractControllerInteg
                    .andExpect(status().isOk())
                    .andExpect(jsonPath("$.type", is("discover")))
                    .andExpect(jsonPath("$._links.self.href", containsString("api/discover/facets")))
-                   .andExpect(jsonPath("$._embedded.facets", containsInAnyOrder(defaultFacetMatchers))
+                   .andExpect(jsonPath("$._embedded.facets", containsInAnyOrder(
+                                      FacetEntryMatcher.authorFacet(false),
+                                      FacetEntryMatcher.subjectFacet(false),
+                                      FacetEntryMatcher.dateIssuedFacet(false),
+                                      FacetEntryMatcher.hasContentInOriginalBundleFacet(false),
+                                      FacetEntryMatcher.entityTypeFacet(false)
+                              ))
                    );
     }
 

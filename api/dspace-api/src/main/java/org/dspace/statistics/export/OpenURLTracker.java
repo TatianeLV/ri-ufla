@@ -7,18 +7,19 @@
  */
 package org.dspace.statistics.export;
 
-import java.time.LocalDate;
+import java.util.Date;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.SequenceGenerator;
-import jakarta.persistence.Table;
-import org.dspace.core.HibernateProxyHelper;
 import org.dspace.core.ReloadableEntity;
-
+import org.hibernate.proxy.HibernateProxyHelper;
 
 /**
  * Class that represents an OpenURLTracker which tracks a failed transmission to IRUS
@@ -37,7 +38,8 @@ public class OpenURLTracker implements ReloadableEntity<Integer> {
     private String url;
 
     @Column(name = "uploaddate")
-    private LocalDate uploadDate;
+    @Temporal(TemporalType.DATE)
+    private Date uploadDate;
 
     protected OpenURLTracker() {
     }
@@ -71,7 +73,7 @@ public class OpenURLTracker implements ReloadableEntity<Integer> {
      * Returns the upload date
      * @return upload date
      */
-    public LocalDate getUploadDate() {
+    public Date getUploadDate() {
         return uploadDate;
     }
 
@@ -79,7 +81,7 @@ public class OpenURLTracker implements ReloadableEntity<Integer> {
      * Set the upload date
      * @param uploadDate
      */
-    public void setUploadDate(LocalDate uploadDate) {
+    public void setUploadDate(Date uploadDate) {
         this.uploadDate = uploadDate;
     }
 

@@ -12,7 +12,6 @@ import static org.junit.Assert.fail;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
-import java.time.ZoneOffset;
 import java.util.Properties;
 import java.util.TimeZone;
 
@@ -83,10 +82,8 @@ public class AbstractDSpaceTest {
     @BeforeClass
     public static void initKernel() {
         try {
-            // All tests should assume UTC timezone by default (unless overridden in the test itself)
-            // This ensures that Spring doesn't attempt to change the timezone of dates that are read from the
-            // database (via Hibernate). We store all dates in the database as UTC.
-            TimeZone.setDefault(TimeZone.getTimeZone(ZoneOffset.UTC));
+            //set a standard time zone for the tests
+            TimeZone.setDefault(TimeZone.getTimeZone("Europe/Dublin"));
 
             //load the properties of the tests
             testProps = new Properties();

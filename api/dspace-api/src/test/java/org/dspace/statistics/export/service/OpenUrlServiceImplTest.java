@@ -9,6 +9,7 @@ package org.dspace.statistics.export.service;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.closeTo;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
@@ -20,19 +21,21 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.net.HttpURLConnection;
 import java.sql.SQLException;
-import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 
+import org.apache.http.HttpResponse;
 import org.apache.http.StatusLine;
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.client.HttpClient;
 import org.dspace.core.Context;
 import org.dspace.statistics.export.OpenURLTracker;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
@@ -52,7 +55,7 @@ public class OpenUrlServiceImplTest {
     private FailedOpenURLTrackerService failedOpenURLTrackerService;
 
     @Mock
-    private CloseableHttpClient httpClient;
+    private HttpClient httpClient;
 
     @Before
     public void setUp() throws Exception {
@@ -71,11 +74,11 @@ public class OpenUrlServiceImplTest {
      * @param statusCode the http status code to use in the mock.
      * @return a mocked http response.
      */
-    protected CloseableHttpResponse createMockHttpResponse(int statusCode) {
+    protected HttpResponse createMockHttpResponse(int statusCode) {
         StatusLine statusLine = mock(StatusLine.class);
         when(statusLine.getStatusCode()).thenReturn(statusCode);
 
-        CloseableHttpResponse httpResponse = mock(CloseableHttpResponse.class);
+        HttpResponse httpResponse = mock(HttpResponse.class);
         when(httpResponse.getStatusLine()).thenReturn(statusLine);
 
         return httpResponse;
@@ -169,8 +172,13 @@ public class OpenUrlServiceImplTest {
 
         verify(tracker1).setUrl(failedUrl);
 
-        // Verify setUploadDate is set to today
-        verify(tracker1).setUploadDate(LocalDate.now());
+        // NOTE: verify that setUploadDate received a timestamp whose value is no less than 5 seconds from now
+        ArgumentCaptor<Date> dateArgCaptor = ArgumentCaptor.forClass(Date.class);
+        verify(tracker1).setUploadDate(dateArgCaptor.capture());
+        assertThat(
+            new BigDecimal(dateArgCaptor.getValue().getTime()),
+            closeTo(new BigDecimal(new Date().getTime()), new BigDecimal(5000))
+        );
     }
 
     /**

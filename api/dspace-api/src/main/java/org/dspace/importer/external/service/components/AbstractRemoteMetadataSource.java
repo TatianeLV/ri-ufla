@@ -8,15 +8,14 @@
 
 package org.dspace.importer.external.service.components;
 
-import java.time.Instant;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.Callable;
 import java.util.concurrent.locks.ReentrantLock;
+import javax.annotation.Resource;
 
-import jakarta.annotation.Resource;
 import org.apache.logging.log4j.Logger;
 import org.dspace.importer.external.exception.MetadataSourceException;
 import org.dspace.importer.external.exception.SourceExceptionHandler;
@@ -159,7 +158,7 @@ public abstract class AbstractRemoteMetadataSource {
             try {
                 lock.lock();
                 this.error = null;
-                long time = Instant.now().toEpochMilli() - lastRequest;
+                long time = System.currentTimeMillis() - lastRequest;
                 if ((time) < interRequestTime) {
                     Thread.sleep(interRequestTime - time);
                 }
@@ -168,9 +167,9 @@ public abstract class AbstractRemoteMetadataSource {
                 } catch (Exception e) {
                     throwSourceException(retry, e, operationId);
                 }
-                log.debug("Operation {} started. Calling {}", operationId, callable.getClass().getName());
+                log.info("operation " + operationId + " started");
                 T response = callable.call();
-                log.debug("Operation {} successful", operationId);
+                log.info("operation " + operationId + " successful");
                 return response;
             } catch (Exception e) {
                 this.error = e;
@@ -181,11 +180,10 @@ public abstract class AbstractRemoteMetadataSource {
 
                 // No MetadataSourceException has interrupted the loop
                 retry++;
-                log.warn("Error in calling {} in operation {} {} {}, retrying!", callable.getClass().getName(),
-                         operationId, retry, warning, e);
+                log.warn("Error in trying operation " + operationId + " " + retry + " " + warning + ", retrying !", e);
 
             } finally {
-                this.lastRequest = Instant.now().toEpochMilli();
+                this.lastRequest = System.currentTimeMillis();
                 lock.unlock();
             }
 

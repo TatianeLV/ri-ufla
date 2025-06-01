@@ -22,7 +22,6 @@ import org.dspace.app.rest.RestResourceController;
 })
 public class WorkflowItemRest extends AInprogressSubmissionRest {
     public static final String NAME = "workflowitem";
-    public static final String PLURAL_NAME = "workflowitems";
     public static final String CATEGORY = RestAddressableModel.WORKFLOW;
 
     public static final String STEP = "step";
@@ -40,11 +39,6 @@ public class WorkflowItemRest extends AInprogressSubmissionRest {
     @Override
     public String getType() {
         return NAME;
-    }
-
-    @Override
-    public String getTypePlural() {
-        return PLURAL_NAME;
     }
 
     @Override

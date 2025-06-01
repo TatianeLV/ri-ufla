@@ -103,10 +103,6 @@ public class RelationshipRestRepositoryIT extends AbstractEntityIntegrationTest 
 
     @Autowired
     MockSolrSearchCore mockSolrSearchCore;
-
-    @Autowired
-    private ObjectMapper mapper;
-
     protected Community parentCommunity;
     protected Community child1;
 
@@ -176,6 +172,7 @@ public class RelationshipRestRepositoryIT extends AbstractEntityIntegrationTest 
                              .withAuthor("Smith, Maria")
                              .withPersonIdentifierLastName("Smith")
                              .withPersonIdentifierFirstName("Maria")
+                             .withMetadata("dspace", "entity", "type", "Person")
                              .build();
 
         author3 = ItemBuilder.createItem(context, col1)
@@ -652,7 +649,7 @@ public class RelationshipRestRepositoryIT extends AbstractEntityIntegrationTest 
 
         Map<String, String> map = new HashMap<>();
         map.put("leftwardValue", leftwardValue);
-        String json = mapper.writeValueAsString(map);
+        String json = new ObjectMapper().writeValueAsString(map);
 
         // Add leftwardValue
         getClient(token).perform(put("/api/core/relationships/" + idRef)
@@ -712,7 +709,7 @@ public class RelationshipRestRepositoryIT extends AbstractEntityIntegrationTest 
         Map<String, String> map = new HashMap<>();
         map.put("leftwardValue", leftwardValue);
         map.put("rightwardValue", rightwardValue);
-        String json = mapper.writeValueAsString(map);
+        String json = new ObjectMapper().writeValueAsString(map);
 
         // Add leftwardValue and rightwardValue
         getClient(token).perform(put("/api/core/relationships/" + idRef)
@@ -1038,11 +1035,11 @@ public class RelationshipRestRepositoryIT extends AbstractEntityIntegrationTest 
         list = itemService.getMetadata(publication1, "dc", "contributor", Item.ANY, Item.ANY);
         assertEquals(10, list.size()); //same size as authors
         list = itemService.getMetadata(publication1, "dc", Item.ANY, Item.ANY, Item.ANY);
-        assertEquals(15, list.size()); //also includes title, 3 date fields, uri
+        assertEquals(16, list.size()); //also includes title, 4 date fields, uri
         list = itemService.getMetadata(publication1, Item.ANY, Item.ANY, Item.ANY, Item.ANY);
         // also includes type, 3 relation.isAuthorOfPublication and 3 relation.isAuthorOfPublication.latestForDiscovery
         // values
-        assertEquals(22, list.size());
+        assertEquals(23, list.size());
 
         } finally {
             RelationshipBuilder.deleteRelationship(idRef1.get());
@@ -2308,7 +2305,7 @@ public class RelationshipRestRepositoryIT extends AbstractEntityIntegrationTest 
         ;
 
         // Perform a GET request to the searchByLabel endpoint, asking for Relationships of type isOrgUnitOfPerson
-        // We do not specify a DSO param, which means ALL relationships of type isOrgUnitOfPerson should be returned
+        // We do not specificy a DSO param, which means ALL relationships of type isOrgUnitOfPerson should be returned
         // Which is what we're checking for, both the first relationship and the one with a different author
         // should be returned
         getClient().perform(get("/api/core/relationships/search/byLabel")
@@ -2645,6 +2642,7 @@ public class RelationshipRestRepositoryIT extends AbstractEntityIntegrationTest 
                                               .andExpect(status().isCreated())
                                               .andReturn();
 
+        ObjectMapper mapper = new ObjectMapper();
         String content = mvcResult.getResponse().getContentAsString();
         Map<String, Object> map = mapper.readValue(content, Map.class);
         String id = String.valueOf(map.get("id"));
@@ -2692,6 +2690,7 @@ public class RelationshipRestRepositoryIT extends AbstractEntityIntegrationTest 
                 .andExpect(status().isCreated())
                 .andReturn();
 
+            ObjectMapper mapper = new ObjectMapper();
             String content = mvcResult.getResponse().getContentAsString();
             Map<String, Object> map = mapper.readValue(content, Map.class);
             String id = String.valueOf(map.get("id"));
@@ -2704,7 +2703,7 @@ public class RelationshipRestRepositoryIT extends AbstractEntityIntegrationTest 
 
             getClient(token).perform(patch("/api/core/items/" + publication1.getID())
                                          .content(getPatchContent(ops))
-                                         .contentType(jakarta.ws.rs.core.MediaType.APPLICATION_JSON_PATCH_JSON));
+                                         .contentType(javax.ws.rs.core.MediaType.APPLICATION_JSON_PATCH_JSON));
 
             // Add another relationship
             mvcResult = getClient(token)
@@ -3308,7 +3307,7 @@ public class RelationshipRestRepositoryIT extends AbstractEntityIntegrationTest 
     }
 
     @Test
-    public void findByItemsAndTypeEmptyResponseTest() throws Exception {
+    public void findByItemsAndTypeEmptyResponceTest() throws Exception {
 
         context.turnOffAuthorisationSystem();
 

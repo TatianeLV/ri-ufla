@@ -9,7 +9,7 @@ package org.dspace.identifier;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.time.Instant;
+import java.util.Date;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -37,6 +37,7 @@ import org.dspace.versioning.service.VersionHistoryService;
 import org.dspace.versioning.service.VersioningService;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 /**
  * @author Fabio Bolognesi (fabio at atmire dot com)
@@ -44,6 +45,7 @@ import org.springframework.beans.factory.annotation.Autowired;
  * @author Ben Bosman (ben at atmire dot com)
  * @author Pascal-Nicolas Becker (dspace at pascal dash becker dot de)
  */
+@Component
 public class VersionedHandleIdentifierProvider extends IdentifierProvider implements InitializingBean {
     /**
      * log4j category
@@ -127,7 +129,7 @@ public class VersionedHandleIdentifierProvider extends IdentifierProvider implem
                 try {
                     versionNumber = Integer.valueOf(versionHandleMatcher.group(1));
                 } catch (NumberFormatException ex) {
-                    throw new IllegalStateException("Cannot detect the integer value of a digit.", ex);
+                    throw new IllegalStateException("Cannot detect the interger value of a digit.", ex);
                 }
 
                 // get history
@@ -148,7 +150,7 @@ public class VersionedHandleIdentifierProvider extends IdentifierProvider implem
                     try {
                         versionHistoryService.getVersion(context, history, item);
                     } catch (SQLException ex) {
-                        throw new RuntimeException("Problem with the database connection occurred.", ex);
+                        throw new RuntimeException("Problem with the database connection occurd.", ex);
                     }
 
                     // did we found a version?
@@ -184,11 +186,11 @@ public class VersionedHandleIdentifierProvider extends IdentifierProvider implem
                     } catch (SQLException | IOException ex) {
                         throw new RuntimeException("Unable to restore a versioned "
                                                        + "handle as there was a problem in creating a "
-                                                       + "necessary item version: ", ex);
+                                                       + "neccessary item version: ", ex);
                     } catch (AuthorizeException ex) {
                         throw new RuntimeException("Unable to restore a versioned "
                                                        + "handle as the current user was not allowed to "
-                                                       + "create a necessary item version: ", ex);
+                                                       + "create a neccessary item version: ", ex);
                     }
                     return;
                 }
@@ -242,7 +244,7 @@ public class VersionedHandleIdentifierProvider extends IdentifierProvider implem
         Version version = versionHistoryService.getVersion(context, vh, item);
         if (version == null) {
             version = versionService
-                .createNewVersion(context, vh, item, "Restoring from AIP Service", Instant.now(), versionNumber);
+                .createNewVersion(context, vh, item, "Restoring from AIP Service", new Date(), versionNumber);
         }
         versionHistoryService.update(context, vh);
     }

@@ -7,18 +7,20 @@
  */
 package org.dspace.checker;
 
-import java.time.Instant;
+import java.util.Date;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.SequenceGenerator;
-import jakarta.persistence.Table;
 import org.dspace.content.Bitstream;
 import org.dspace.core.Context;
 import org.dspace.core.ReloadableEntity;
@@ -48,11 +50,13 @@ public class ChecksumHistory implements ReloadableEntity<Long> {
     @JoinColumn(name = "bitstream_id")
     private Bitstream bitstream;
 
+    @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "process_start_date", nullable = false)
-    private Instant processStartDate;
+    private Date processStartDate;
 
+    @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "process_end_date", nullable = false)
-    private Instant processEndDate;
+    private Date processEndDate;
 
     @Column(name = "checksum_expected", nullable = false)
     private String checksumExpected;
@@ -126,8 +130,8 @@ public class ChecksumHistory implements ReloadableEntity<Long> {
      *
      * @return Returns the processEndDate.
      */
-    public Instant getProcessEndDate() {
-        return processEndDate;
+    public Date getProcessEndDate() {
+        return processEndDate == null ? null : new Date(processEndDate.getTime());
     }
 
     /**
@@ -135,8 +139,8 @@ public class ChecksumHistory implements ReloadableEntity<Long> {
      *
      * @param processEndDate The processEndDate to set.
      */
-    public void setProcessEndDate(Instant processEndDate) {
-        this.processEndDate = processEndDate;
+    public void setProcessEndDate(Date processEndDate) {
+        this.processEndDate = (processEndDate == null ? null : new Date(processEndDate.getTime()));
     }
 
     /**
@@ -145,8 +149,8 @@ public class ChecksumHistory implements ReloadableEntity<Long> {
      *
      * @return Returns the processStartDate.
      */
-    public Instant getProcessStartDate() {
-        return processStartDate;
+    public Date getProcessStartDate() {
+        return processStartDate == null ? null : new Date(processStartDate.getTime());
     }
 
     /**
@@ -155,8 +159,8 @@ public class ChecksumHistory implements ReloadableEntity<Long> {
      *
      * @param processStartDate The processStartDate to set.
      */
-    public void setProcessStartDate(Instant processStartDate) {
-        this.processStartDate = processStartDate;
+    public void setProcessStartDate(Date processStartDate) {
+        this.processStartDate = (processStartDate == null ? null : new Date(processStartDate.getTime()));
     }
 
     /**

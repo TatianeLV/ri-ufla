@@ -7,7 +7,7 @@
  */
 package org.dspace.app.rest.model;
 
-import java.time.Instant;
+import java.util.Date;
 
 import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -20,9 +20,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class HarvestedCollectionRest extends BaseObjectRest<Integer> {
 
-    public static final String NAME = "harvestedcollection";
-    public static final String PLURAL_NAME = "harvestedcollections";
-    public static final String CATEGORY = RestModel.CORE;
+    public static final String NAME = "collections";
+    public static final String CATEGORY = "core";
 
     @JsonProperty("harvest_type")
     private HarvestTypeEnum harvestType;
@@ -43,10 +42,10 @@ public class HarvestedCollectionRest extends BaseObjectRest<Integer> {
     private HarvestStatusEnum harvestStatus;
 
     @JsonProperty("harvest_start_time")
-    private Instant harvestStartTime;
+    private Date harvestStartTime;
 
     @JsonProperty("last_harvested")
-    private Instant lastHarvested;
+    private Date lastHarvested;
 
     private HarvesterMetadataRest metadata_configs;
 
@@ -69,11 +68,6 @@ public class HarvestedCollectionRest extends BaseObjectRest<Integer> {
     @JsonIgnore
     public String getType() {
         return NAME;
-    }
-
-    @Override
-    public String getTypePlural() {
-        return PLURAL_NAME;
     }
 
     @JsonIgnore
@@ -146,19 +140,19 @@ public class HarvestedCollectionRest extends BaseObjectRest<Integer> {
         this.harvestStatus = harvestStatus;
     }
 
-    public Instant getHarvestStartTime() {
+    public Date getHarvestStartTime() {
         return harvestStartTime;
     }
 
-    public void setHarvestStartTime(Instant harvestStartTime) {
+    public void setHarvestStartTime(Date harvestStartTime) {
         this.harvestStartTime = harvestStartTime;
     }
 
-    public Instant getLastHarvested() {
+    public Date getLastHarvested() {
         return lastHarvested;
     }
 
-    public void setLastHarvested(Instant lastHarvested) {
+    public void setLastHarvested(Date lastHarvested) {
         this.lastHarvested = lastHarvested;
     }
 

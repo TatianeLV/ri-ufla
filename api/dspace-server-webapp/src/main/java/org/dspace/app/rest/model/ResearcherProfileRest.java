@@ -28,7 +28,6 @@ public class ResearcherProfileRest extends BaseObjectRest<UUID> {
     private static final long serialVersionUID = 1L;
     public static final String CATEGORY = RestModel.EPERSON;
     public static final String NAME = "profile";
-    public static final String PLURAL_NAME = "profiles";
 
     public static final String ITEM = "item";
     public static final String EPERSON = "eperson";
@@ -68,11 +67,6 @@ public class ResearcherProfileRest extends BaseObjectRest<UUID> {
     @Override
     public String getType() {
         return NAME;
-    }
-
-    @Override
-    public String getTypePlural() {
-        return PLURAL_NAME;
     }
 
     @Override

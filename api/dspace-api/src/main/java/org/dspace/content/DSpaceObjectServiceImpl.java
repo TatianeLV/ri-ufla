@@ -187,11 +187,11 @@ public abstract class DSpaceObjectServiceImpl<T extends DSpaceObject> implements
                                            String authority) {
         List<MetadataValue> metadata = getMetadata(dso, schema, element, qualifier, lang);
         List<MetadataValue> result = new ArrayList<>(metadata);
-        if (!Item.ANY.equals(authority)) {
+        if (!authority.equals(Item.ANY)) {
             Iterator<MetadataValue> iterator = result.iterator();
             while (iterator.hasNext()) {
                 MetadataValue metadataValue = iterator.next();
-                if (!StringUtils.equals(authority, metadataValue.getAuthority())) {
+                if (!authority.equals(metadataValue.getAuthority())) {
                     iterator.remove();
                 }
             }
@@ -323,7 +323,7 @@ public abstract class DSpaceObjectServiceImpl<T extends DSpaceObject> implements
                     }
                 }
                 metadataValue.setValue(String.valueOf(dcvalue));
-                //An update here isn't needed, this is persisted upon the merge of the owning object
+                //An update here isn't needed, this is persited upon the merge of the owning object
 //            metadataValueService.update(context, metadataValue);
                 dso.addDetails(metadataField.toString());
             }
@@ -509,7 +509,7 @@ public abstract class DSpaceObjectServiceImpl<T extends DSpaceObject> implements
         MetadataField metadataField = metadataValue.getMetadataField();
         MetadataSchema metadataSchema = metadataField.getMetadataSchema();
         // We will attempt to disprove a match - if we can't we have a match
-        if (!Item.ANY.equals(element) && !StringUtils.equals(element, metadataField.getElement())) {
+        if (!element.equals(Item.ANY) && !element.equals(metadataField.getElement())) {
             // Elements do not match, no wildcard
             return false;
         }
@@ -520,9 +520,9 @@ public abstract class DSpaceObjectServiceImpl<T extends DSpaceObject> implements
                 // Value is qualified, so no match
                 return false;
             }
-        } else if (!Item.ANY.equals(qualifier)) {
+        } else if (!qualifier.equals(Item.ANY)) {
             // Not a wildcard, so qualifier must match exactly
-            if (!StringUtils.equals(qualifier, metadataField.getQualifier())) {
+            if (!qualifier.equals(metadataField.getQualifier())) {
                 return false;
             }
         }
@@ -533,15 +533,15 @@ public abstract class DSpaceObjectServiceImpl<T extends DSpaceObject> implements
                 // Value is qualified, so no match
                 return false;
             }
-        } else if (!Item.ANY.equals(language)) {
+        } else if (!language.equals(Item.ANY)) {
             // Not a wildcard, so language must match exactly
-            if (!StringUtils.equals(language, metadataValue.getLanguage())) {
+            if (!language.equals(metadataValue.getLanguage())) {
                 return false;
             }
         }
 
-        if (!Item.ANY.equals(schema)) {
-            if (!StringUtils.equals(schema, metadataSchema.getName())) {
+        if (!schema.equals(Item.ANY)) {
+            if (metadataSchema != null && !metadataSchema.getName().equals(schema)) {
                 // The namespace doesn't match
                 return false;
             }
@@ -656,7 +656,6 @@ public abstract class DSpaceObjectServiceImpl<T extends DSpaceObject> implements
                     // E.g. for an Author relationship,
                     //   the place should be updated using the same principle as dc.contributor.author.
                     StringUtils.startsWith(metadataValue.getAuthority(), Constants.VIRTUAL_AUTHORITY_PREFIX)
-                        && metadataValue instanceof RelationshipMetadataValue
                         && ((RelationshipMetadataValue) metadataValue).isUseForPlace()
                 ) {
                     int mvPlace = getMetadataValuePlace(fieldToLastPlace, metadataValue);

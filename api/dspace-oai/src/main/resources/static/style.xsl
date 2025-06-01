@@ -319,22 +319,20 @@
                             </div>
                         </div>
                     </div>
-                    <xsl:if test="oai:metadata">
-	                    <div class="card">
-	                        <a data-toggle="collapse">
-	                            <xsl:attribute name="href">#<xsl:value-of select="translate(oai:header/oai:identifier/text(), ':/.', '')"></xsl:value-of></xsl:attribute>
-	                            <div class="card-header">
-	                                <h5>Metadata</h5>
-	                            </div>
-	                        </a>
-	                        <div class="collapse">
-	                            <xsl:attribute name="id"><xsl:value-of select="translate(oai:header/oai:identifier/text(), ':/.', '')"></xsl:value-of></xsl:attribute>
-	                            <div class="card-body">
-	                                <xsl:apply-templates select="oai:metadata/*" />
-	                            </div>
-	                        </div>
-	                    </div>
-		    </xsl:if>
+                    <div class="card">
+                        <a data-toggle="collapse">
+                            <xsl:attribute name="href">#<xsl:value-of select="translate(oai:header/oai:identifier/text(), ':/.', '')"></xsl:value-of></xsl:attribute>
+                            <div class="card-header">
+                                <h5>Metadata</h5>
+                            </div>
+                        </a>
+                        <div class="collapse">
+                            <xsl:attribute name="id"><xsl:value-of select="translate(oai:header/oai:identifier/text(), ':/.', '')"></xsl:value-of></xsl:attribute>
+                            <div class="card-body">
+                                <xsl:apply-templates select="oai:metadata/*" />
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </xsl:for-each>
@@ -380,16 +378,14 @@
                                 </xsl:for-each>
                             </div>
                     </div>
-                    <xsl:if test="oai:metadata">
-	                    <div class="card">
-	                            <div class="card-header">
-	                                <h5>Metadata</h5>
-	                            </div>
-	                            <div class="card-body">
-	                                <xsl:apply-templates select="oai:metadata/*" />
-	                            </div>
-	                    </div>
-                    </xsl:if>
+                    <div class="card">
+                            <div class="card-header">
+                                <h5>Metadata</h5>
+                            </div>
+                            <div class="card-body">
+                                <xsl:apply-templates select="oai:metadata/*" />
+                            </div>
+                    </div>
                 </div>
             </div>
         </xsl:for-each>

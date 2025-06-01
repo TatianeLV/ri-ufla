@@ -30,13 +30,12 @@ import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.URL;
 import java.sql.SQLException;
-import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.ZoneOffset;
-import java.time.format.DateTimeFormatter;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.Enumeration;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -47,6 +46,7 @@ import java.util.TreeMap;
 import java.util.UUID;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
+import javax.mail.MessagingException;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -56,7 +56,6 @@ import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 
-import jakarta.mail.MessagingException;
 import org.apache.commons.collections4.ComparatorUtils;
 import org.apache.commons.io.FileDeleteStrategy;
 import org.apache.commons.io.FileUtils;
@@ -2040,8 +2039,8 @@ public class ItemImportServiceImpl implements ItemImportService, InitializingBea
      */
     protected String generateRandomFilename(boolean hidden) {
         String filename = String.format("%s", RandomStringUtils.randomAlphanumeric(8));
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd_HHmm");
-        String datePart = formatter.format(LocalDateTime.now(ZoneOffset.UTC));
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmm");
+        String datePart = sdf.format(new Date());
         filename = datePart + "_" + filename;
 
         return filename;
@@ -2103,7 +2102,8 @@ public class ItemImportServiceImpl implements ItemImportService, InitializingBea
                         "org.dspace.app.batchitemimport.work.dir") + File.separator + "batchuploads" + File.separator
                         + context
                         .getCurrentUser()
-                        .getID() + File.separator + (isResume ? theResumeDir : Instant.now().toEpochMilli());
+                        .getID() + File.separator + (isResume ? theResumeDir : (new GregorianCalendar())
+                        .getTimeInMillis());
                     File importDirFile = new File(importDir);
                     if (!importDirFile.exists()) {
                         boolean success = importDirFile.mkdirs();
@@ -2210,7 +2210,7 @@ public class ItemImportServiceImpl implements ItemImportService, InitializingBea
                         emailErrorMessage(eperson, exceptionString);
                         throw new Exception(e.getMessage());
                     } catch (Exception e2) {
-                        // won't throw here
+                        // wont throw here
                     }
                 } finally {
                     // Make sure the database connection gets closed in all conditions.

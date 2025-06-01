@@ -17,7 +17,6 @@ import java.io.OutputStreamWriter;
 import java.io.PrintStream;
 import java.io.Writer;
 import java.sql.SQLException;
-import java.time.Instant;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -25,8 +24,6 @@ import java.util.UUID;
 
 import org.apache.commons.cli.ParseException;
 import org.apache.commons.io.output.NullOutputStream;
-import org.dspace.app.util.DSpaceObjectUtilsImpl;
-import org.dspace.app.util.service.DSpaceObjectUtils;
 import org.dspace.authorize.AuthorizeException;
 import org.dspace.content.DSpaceObject;
 import org.dspace.content.factory.ContentServiceFactory;
@@ -38,7 +35,6 @@ import org.dspace.eperson.service.EPersonService;
 import org.dspace.handle.factory.HandleServiceFactory;
 import org.dspace.handle.service.HandleService;
 import org.dspace.scripts.DSpaceRunnable;
-import org.dspace.services.factory.DSpaceServicesFactory;
 import org.dspace.utils.DSpace;
 
 /**
@@ -49,9 +45,7 @@ import org.dspace.utils.DSpace;
 public class Curation extends DSpaceRunnable<CurationScriptConfiguration> {
 
     protected EPersonService ePersonService = EPersonServiceFactory.getInstance().getEPersonService();
-    protected DSpaceObjectUtils dspaceObjectUtils = DSpaceServicesFactory.getInstance().getServiceManager()
-            .getServiceByName(DSpaceObjectUtilsImpl.class.getName(), DSpaceObjectUtilsImpl.class);
-    HandleService handleService = HandleServiceFactory.getInstance().getHandleService();
+
     protected Context context;
     private CurationClientOptions curationClientOptions;
 
@@ -75,7 +69,7 @@ public class Curation extends DSpaceRunnable<CurationScriptConfiguration> {
 
         // load curation tasks
         if (curationClientOptions == CurationClientOptions.TASK) {
-            long start = Instant.now().toEpochMilli();
+            long start = System.currentTimeMillis();
             handleCurationTask(curator);
             this.endScript(start);
         }
@@ -150,7 +144,7 @@ public class Curation extends DSpaceRunnable<CurationScriptConfiguration> {
      */
     private long runQueue(TaskQueue queue, Curator curator) throws SQLException, AuthorizeException, IOException {
         // use current time as our reader 'ticket'
-        long ticket = Instant.now().toEpochMilli();
+        long ticket = System.currentTimeMillis();
         Iterator<TaskQueueEntry> entryIter = queue.dequeue(this.queue, ticket).iterator();
         while (entryIter.hasNext()) {
             TaskQueueEntry entry = entryIter.next();
@@ -176,7 +170,7 @@ public class Curation extends DSpaceRunnable<CurationScriptConfiguration> {
     private void endScript(long timeRun) throws SQLException {
         context.complete();
         if (verbose) {
-            long elapsed = Instant.now().toEpochMilli() - timeRun;
+            long elapsed = System.currentTimeMillis() - timeRun;
             this.handler.logInfo("Ending curation. Elapsed time: " + elapsed);
         }
     }
@@ -351,29 +345,9 @@ public class Curation extends DSpaceRunnable<CurationScriptConfiguration> {
 
         if (this.commandLine.hasOption('i')) {
             this.id = this.commandLine.getOptionValue('i').toLowerCase();
-            DSpaceObject dso;
             if (!this.id.equalsIgnoreCase("all")) {
-                // First, try to parse the id as a UUID. If that fails, treat it as a handle.
-                UUID uuid = null;
-                try {
-                    uuid = UUID.fromString(id);
-                } catch (Exception e) {
-                    // It's not a UUID, proceed to treat it as a handle.
-                }
-                if (uuid != null) {
-                    try {
-                        dso = dspaceObjectUtils.findDSpaceObject(context, uuid);
-                        if (dso != null) {
-                            // We already resolved an object, return early
-                            return;
-                        }
-                    } catch (SQLException e) {
-                        String error = "SQLException trying to find dso with uuid " + uuid;
-                        super.handler.logError(error);
-                        throw new RuntimeException(error, e);
-                    }
-                }
-                // If we get here, the id is not a UUID, so we assume it's a handle.
+                HandleService handleService = HandleServiceFactory.getInstance().getHandleService();
+                DSpaceObject dso;
                 try {
                     dso = handleService.resolveToObject(this.context, id);
                 } catch (SQLException e) {

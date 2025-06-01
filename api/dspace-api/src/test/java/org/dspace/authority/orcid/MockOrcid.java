@@ -26,47 +26,25 @@ import org.mockito.stubbing.Answer;
  */
 public class MockOrcid extends Orcidv3SolrAuthorityImpl {
 
-    OrcidRestConnector orcidRestConnector;
-
     @Override
     public void init() {
-        initializeAccessToken();
-        orcidRestConnector = Mockito.mock(OrcidRestConnector.class);
-    }
-
-    /**
-     * Call this to set up mocking for any test classes that need it. We don't set it in init()
-     * or other AbstractIntegrationTest implementations will complain of unnecessary Mockito stubbing
-     */
-    public void setupNoResultsSearch() {
+        OrcidRestConnector orcidRestConnector = Mockito.mock(OrcidRestConnector.class);
         when(orcidRestConnector.get(ArgumentMatchers.startsWith("search?"), ArgumentMatchers.any()))
-                .thenAnswer(new Answer<InputStream>() {
-                    @Override
-                    public InputStream answer(InvocationOnMock invocation) {
-                        return this.getClass().getResourceAsStream("orcid-search-noresults.xml");
-                    }
-                });
-    }
-    /**
-     * Call this to set up mocking for any test classes that need it. We don't set it in init()
-     * or other AbstractIntegrationTest implementations will complain of unnecessary Mockito stubbing
-     */
-    public void setupSingleSearch() {
+        .thenAnswer(new Answer<InputStream>() {
+                @Override
+                public InputStream answer(InvocationOnMock invocation) {
+                    return this.getClass().getResourceAsStream("orcid-search-noresults.xml");
+                }
+            });
         when(orcidRestConnector.get(ArgumentMatchers.startsWith("search?q=Bollini"), ArgumentMatchers.any()))
-                .thenAnswer(new Answer<InputStream>() {
+            .thenAnswer(new Answer<InputStream>() {
                     @Override
                     public InputStream answer(InvocationOnMock invocation) {
                         return this.getClass().getResourceAsStream("orcid-search.xml");
                     }
                 });
-    }
-    /**
-     * Call this to set up mocking for any test classes that need it. We don't set it in init()
-     * or other AbstractIntegrationTest implementations will complain of unnecessary Mockito stubbing
-     */
-    public void setupSearchWithResults() {
         when(orcidRestConnector.get(ArgumentMatchers.endsWith("/person"), ArgumentMatchers.any()))
-                .thenAnswer(new Answer<InputStream>() {
+            .thenAnswer(new Answer<InputStream>() {
                     @Override
                     public InputStream answer(InvocationOnMock invocation) {
                         return this.getClass().getResourceAsStream("orcid-person-record.xml");
@@ -76,10 +54,4 @@ public class MockOrcid extends Orcidv3SolrAuthorityImpl {
         setOrcidRestConnector(orcidRestConnector);
     }
 
-    @Override
-    public void initializeAccessToken() {
-        if (getAccessToken() == null) {
-            setAccessToken("mock-access-token");
-        }
-    }
 }

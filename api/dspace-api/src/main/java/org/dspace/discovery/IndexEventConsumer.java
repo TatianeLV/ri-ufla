@@ -73,22 +73,17 @@ public class IndexEventConsumer implements Consumer {
 
         int st = event.getSubjectType();
         if (!(st == Constants.ITEM || st == Constants.BUNDLE
-            || st == Constants.COLLECTION || st == Constants.COMMUNITY || st == Constants.SITE
-            || st == Constants.LDN_MESSAGE)) {
+            || st == Constants.COLLECTION || st == Constants.COMMUNITY || st == Constants.SITE)) {
             log
                 .warn("IndexConsumer should not have been given this kind of Subject in an event, skipping: "
                           + event.toString());
             return;
         }
 
-        DSpaceObject subject = null;
-        DSpaceObject object = null;
-        try {
-            subject = event.getSubject(ctx);
-            object = event.getObject(ctx);
-        } catch (Exception e) {
-            log.warn("Could not find the related DSpace Object for event subject: " + st);
-        }
+        DSpaceObject subject = event.getSubject(ctx);
+
+        DSpaceObject object = event.getObject(ctx);
+
 
         // If event subject is a Bundle and event was Add or Remove,
         // transform the event to be a Modify on the owning Item.
@@ -115,7 +110,7 @@ public class IndexEventConsumer implements Consumer {
             case Event.MODIFY:
             case Event.MODIFY_METADATA:
                 if (subject == null) {
-                    if (st == Constants.SITE || st == Constants.LDN_MESSAGE) {
+                    if (st == Constants.SITE) {
                         // Update the indexable objects of type in event.detail of objects with ids in event.identifiers
                         for (String id : event.getIdentifiers()) {
                             IndexFactory indexableObjectService = IndexObjectFactoryFactory.getInstance().

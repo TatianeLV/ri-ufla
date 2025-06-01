@@ -7,7 +7,7 @@
  */
 package org.dspace.servicemanager;
 
-import java.time.Instant;
+import java.util.Date;
 import java.util.List;
 import javax.management.Attribute;
 import javax.management.AttributeList;
@@ -23,8 +23,6 @@ import javax.management.modelmbean.ModelMBeanAttributeInfo;
 import javax.management.modelmbean.ModelMBeanInfoSupport;
 import javax.management.modelmbean.ModelMBeanOperationInfo;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.dspace.kernel.DSpaceKernel;
 import org.dspace.kernel.DSpaceKernelManager;
 import org.dspace.kernel.ServiceManager;
@@ -32,13 +30,15 @@ import org.dspace.servicemanager.config.DSpaceConfigurationService;
 import org.dspace.services.ConfigurationService;
 import org.dspace.services.KernelStartupCallbackService;
 import org.dspace.services.factory.DSpaceServicesFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * This is the kernel implementation which starts up the core of DSpace,
  * registers the mbean, and initializes the DSpace object.
  * It also loads up the configuration.  Sets a JRE shutdown hook.
  * <p>
- * Note that this does not start itself and calling the constructor does
+ * Note that this does not start itself and calling the constuctor does
  * not actually start it up either. It has to be explicitly started by
  * calling the start method so something in the system needs to do that.
  * If the bean is already started then calling start on it again has no
@@ -50,7 +50,7 @@ import org.dspace.services.factory.DSpaceServicesFactory;
  */
 public final class DSpaceKernelImpl implements DSpaceKernel, DynamicMBean {
 
-    private static final Logger log = LogManager.getLogger();
+    private static Logger log = LoggerFactory.getLogger(DSpaceKernelImpl.class);
 
     /**
      * Creates a DSpace Kernel, does not do any checks though.
@@ -75,7 +75,7 @@ public final class DSpaceKernelImpl implements DSpaceKernel, DynamicMBean {
             synchronized (lock) {
                 // No shutdown hook registered yet
                 this.shutdownHook = new Thread() {
-                    @Override public void run() {
+                    public void run() {
                         doDestroy();
                     }
                 };
@@ -86,14 +86,12 @@ public final class DSpaceKernelImpl implements DSpaceKernel, DynamicMBean {
 
     private ConfigurationService configurationService;
 
-    @Override
     public ConfigurationService getConfigurationService() {
         return configurationService;
     }
 
     private ServiceManagerSystem serviceManagerSystem;
 
-    @Override
     public ServiceManager getServiceManager() {
         return serviceManagerSystem;
     }
@@ -101,7 +99,6 @@ public final class DSpaceKernelImpl implements DSpaceKernel, DynamicMBean {
     /* (non-Javadoc)
      * @see org.dspace.kernel.DSpaceKernel#getMBeanName()
      */
-    @Override
     public String getMBeanName() {
         return mBeanName;
     }
@@ -109,7 +106,6 @@ public final class DSpaceKernelImpl implements DSpaceKernel, DynamicMBean {
     /* (non-Javadoc)
      * @see org.dspace.kernel.DSpaceKernel#isRunning()
      */
-    @Override
     public boolean isRunning() {
         synchronized (lock) {
             return running;
@@ -119,7 +115,6 @@ public final class DSpaceKernelImpl implements DSpaceKernel, DynamicMBean {
     /* (non-Javadoc)
      * @see org.dspace.kernel.CommonLifecycle#getManagedBean()
      */
-    @Override
     public DSpaceKernel getManagedBean() {
         synchronized (lock) {
             return kernel;
@@ -129,7 +124,6 @@ public final class DSpaceKernelImpl implements DSpaceKernel, DynamicMBean {
     /* (non-Javadoc)
      * @see org.dspace.kernel.CommonLifecycle#start()
      */
-    @Override
     public void start() {
         start(null);
     }
@@ -147,8 +141,8 @@ public final class DSpaceKernelImpl implements DSpaceKernel, DynamicMBean {
         }
 
         synchronized (lock) {
-            lastLoadDate = Instant.now();
-            long startTime = lastLoadDate.toEpochMilli();
+            lastLoadDate = new Date();
+            long startTime = System.currentTimeMillis();
 
             // create the configuration service and get the configuration
             DSpaceConfigurationService dsConfigService = new DSpaceConfigurationService(dspaceHome);
@@ -161,7 +155,7 @@ public final class DSpaceKernelImpl implements DSpaceKernel, DynamicMBean {
             // initialize the static
 //            DSpace.initialize(serviceManagerSystem);
 
-            loadTime = Instant.now().toEpochMilli() - startTime;
+            loadTime = System.currentTimeMillis() - startTime;
 
             kernel = this;
             running = true;
@@ -176,14 +170,12 @@ public final class DSpaceKernelImpl implements DSpaceKernel, DynamicMBean {
             // add in the shutdown hook
             registerShutdownHook();
         }
-        log.info("DSpace kernel startup completed in {} ms and registered as MBean: {}",
-                loadTime, mBeanName);
+        log.info("DSpace kernel startup completed in " + loadTime + " ms and registered as MBean: " + mBeanName);
     }
 
     /* (non-Javadoc)
      * @see org.dspace.kernel.CommonLifecycle#stop()
      */
-    @Override
     public void stop() {
         if (!running) {
             //log.warn("Kernel ("+this+") is already stopped");
@@ -259,8 +251,7 @@ public final class DSpaceKernelImpl implements DSpaceKernel, DynamicMBean {
         try {
             doDestroy();
         } catch (Exception e) {
-            log.error("WARN Failure attempting to cleanup the DSpace kernel: {}",
-                    e.getMessage(), e);
+            log.error("WARN Failure attempting to cleanup the DSpace kernel: " + e.getMessage(), e);
         }
         super.finalize();
     }
@@ -274,15 +265,15 @@ public final class DSpaceKernelImpl implements DSpaceKernel, DynamicMBean {
 
     // MBEAN methods
 
-    private Instant lastLoadDate;
+    private Date lastLoadDate;
 
     /**
-     * Time that this kernel was started, as an Instant
+     * Time that this kernel was started, as a java.util.Date.
      *
      * @return date object
      **/
-    public Instant getLastLoadDate() {
-        return lastLoadDate;
+    public Date getLastLoadDate() {
+        return new Date(lastLoadDate.getTime());
     }
 
     private long loadTime;
@@ -296,13 +287,11 @@ public final class DSpaceKernelImpl implements DSpaceKernel, DynamicMBean {
         return loadTime;
     }
 
-    @Override
     public Object invoke(String actionName, Object[] params, String[] signature)
         throws MBeanException, ReflectionException {
         return this;
     }
 
-    @Override
     public MBeanInfo getMBeanInfo() {
         Descriptor lastLoadDateDesc = new DescriptorSupport(new String[] {"name=LastLoadDate",
             "descriptorType=attribute", "default=0", "displayName=Last Load Date",
@@ -312,7 +301,7 @@ public final class DSpaceKernelImpl implements DSpaceKernel, DynamicMBean {
             "getMethod=getLoadTime"});
 
         ModelMBeanAttributeInfo[] mmbai = new ModelMBeanAttributeInfo[2];
-        mmbai[0] = new ModelMBeanAttributeInfo("LastLoadDate", "java.time.Instant", "Last Load Date",
+        mmbai[0] = new ModelMBeanAttributeInfo("LastLoadDate", "java.util.Date", "Last Load Date",
                                                true, false, false, lastLoadDateDesc);
 
         mmbai[1] = new ModelMBeanAttributeInfo("LastLoadTime", "java.lang.Long", "Last Load Time",
@@ -330,7 +319,6 @@ public final class DSpaceKernelImpl implements DSpaceKernel, DynamicMBean {
         return new ModelMBeanInfoSupport(this.getClass().getName(), "DSpace Kernel", mmbai, null, mmboi, null);
     }
 
-    @Override
     public Object getAttribute(String attribute)
         throws AttributeNotFoundException, MBeanException, ReflectionException {
         if ("LastLoadDate".equals(attribute)) {
@@ -341,19 +329,16 @@ public final class DSpaceKernelImpl implements DSpaceKernel, DynamicMBean {
         throw new AttributeNotFoundException("invalid attribute: " + attribute);
     }
 
-    @Override
     public AttributeList getAttributes(String[] attributes) {
         // TODO Auto-generated method stub
         return null;
     }
 
-    @Override
     public void setAttribute(Attribute attribute) throws AttributeNotFoundException,
         InvalidAttributeValueException, MBeanException, ReflectionException {
         throw new InvalidAttributeValueException("Cannot set attribute: " + attribute);
     }
 
-    @Override
     public AttributeList setAttributes(AttributeList attributes) {
         // TODO Auto-generated method stub
         return null;

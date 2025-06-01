@@ -22,18 +22,16 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import java.io.InputStream;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicReference;
+import javax.ws.rs.core.MediaType;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import jakarta.ws.rs.core.MediaType;
-import org.apache.commons.codec.CharEncoding;
-import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.dspace.app.rest.matcher.ResourcePolicyMatcher;
 import org.dspace.app.rest.model.ResourcePolicyRest;
@@ -45,14 +43,12 @@ import org.dspace.app.rest.test.AbstractControllerIntegrationTest;
 import org.dspace.authorize.ResourcePolicy;
 import org.dspace.authorize.service.AuthorizeService;
 import org.dspace.authorize.service.ResourcePolicyService;
-import org.dspace.builder.BitstreamBuilder;
 import org.dspace.builder.CollectionBuilder;
 import org.dspace.builder.CommunityBuilder;
 import org.dspace.builder.EPersonBuilder;
 import org.dspace.builder.GroupBuilder;
 import org.dspace.builder.ItemBuilder;
 import org.dspace.builder.ResourcePolicyBuilder;
-import org.dspace.content.Bitstream;
 import org.dspace.content.Collection;
 import org.dspace.content.Community;
 import org.dspace.content.Item;
@@ -77,9 +73,6 @@ public class ResourcePolicyRestRepositoryIT extends AbstractControllerIntegratio
 
     @Autowired
     ResourcePolicyService resourcePolicyService;
-
-    @Autowired
-    private ObjectMapper mapper;
 
     @Test
     public void findAllTest() throws Exception {
@@ -190,7 +183,7 @@ public class ResourcePolicyRestRepositoryIT extends AbstractControllerIntegratio
     public void findOneNotFoundTest() throws Exception {
 
         String authToken = getAuthToken(admin.getEmail(), password);
-        getClient(authToken).perform(get("/api/authz/resourcepolicies/" + UUID.randomUUID()))
+        getClient(authToken).perform(get("/api/authz/resourcepolicies/" + UUID.randomUUID().toString()))
             .andExpect(status().isNotFound());
     }
 
@@ -1015,6 +1008,7 @@ public class ResourcePolicyRestRepositoryIT extends AbstractControllerIntegratio
 
             context.restoreAuthSystemState();
 
+            ObjectMapper mapper = new ObjectMapper();
             ResourcePolicyRest resourcePolicyRest = new ResourcePolicyRest();
 
             resourcePolicyRest.setPolicyType(ResourcePolicy.TYPE_SUBMISSION);
@@ -1073,6 +1067,7 @@ public class ResourcePolicyRestRepositoryIT extends AbstractControllerIntegratio
 
             context.restoreAuthSystemState();
 
+            ObjectMapper mapper = new ObjectMapper();
             ResourcePolicyRest resourcePolicyRest = new ResourcePolicyRest();
 
             resourcePolicyRest.setPolicyType(ResourcePolicy.TYPE_SUBMISSION);
@@ -1120,6 +1115,7 @@ public class ResourcePolicyRestRepositoryIT extends AbstractControllerIntegratio
 
         context.restoreAuthSystemState();
 
+        ObjectMapper mapper = new ObjectMapper();
         ResourcePolicyRest resourcePolicyRest = new ResourcePolicyRest();
 
         resourcePolicyRest.setPolicyType(ResourcePolicy.TYPE_SUBMISSION);
@@ -1156,6 +1152,7 @@ public class ResourcePolicyRestRepositoryIT extends AbstractControllerIntegratio
 
         context.restoreAuthSystemState();
 
+        ObjectMapper mapper = new ObjectMapper();
         ResourcePolicyRest resourcePolicyRest = new ResourcePolicyRest();
 
         resourcePolicyRest.setPolicyType(ResourcePolicy.TYPE_SUBMISSION);
@@ -1193,6 +1190,7 @@ public class ResourcePolicyRestRepositoryIT extends AbstractControllerIntegratio
 
         context.restoreAuthSystemState();
 
+        ObjectMapper mapper = new ObjectMapper();
         ResourcePolicyRest resourcePolicyRest = new ResourcePolicyRest();
 
         resourcePolicyRest.setPolicyType(ResourcePolicy.TYPE_SUBMISSION);
@@ -1215,376 +1213,6 @@ public class ResourcePolicyRestRepositoryIT extends AbstractControllerIntegratio
             .andExpect(jsonPath("$._links.self.href",
                 Matchers.containsString("api/authz/resourcepolicies/search/resource")))
             .andExpect(jsonPath("$.page.totalElements", is(0)));
-    }
-
-    @Test
-    public void createPolicyByCollectionAdminTest() throws Exception {
-        context.turnOffAuthorisationSystem();
-        EPerson colAdmin = EPersonBuilder.createEPerson(context)
-                                         .withEmail("colAdmin@mail.test")
-                                         .withPassword(password)
-                                         .build();
-
-        EPerson colAdmin2 = EPersonBuilder.createEPerson(context)
-                                          .withEmail("colAdmin2@mail.test")
-                                          .withPassword(password)
-                                          .build();
-
-        EPerson submitter = EPersonBuilder.createEPerson(context)
-                                          .withEmail("colSubmitter@mail.test")
-                                          .withPassword(password)
-                                          .build();
-
-        Community community = CommunityBuilder.createCommunity(context)
-                                              .withName("My top commynity")
-                                              .build();
-
-        Collection collection = CollectionBuilder.createCollection(context, community)
-                                                 .withName("My collection")
-                                                 .withAdminGroup(colAdmin)
-                                                 .withSubmitterGroup(submitter)
-                                                 .withEntityType("Publication")
-                                                 .build();
-
-        CollectionBuilder.createCollection(context, community)
-                         .withName("My Second Collection")
-                         .withAdminGroup(colAdmin2)
-                         .withSubmitterGroup(submitter)
-                         .withEntityType("Publication")
-                         .build();
-
-        Item publication = ItemBuilder.createItem(context, collection)
-                                      .withTitle("Public item")
-                                      .build();
-
-        //Add a bitstream to a publication
-        Bitstream bitstream = null;
-        try (InputStream is = IOUtils.toInputStream("ThisIsSomeDummyText", CharEncoding.UTF_8)) {
-            bitstream = BitstreamBuilder.createBitstream(context, publication, is)
-                                        .withName("Bitstream")
-                                        .withDescription("description")
-                                        .withMimeType("text/plain")
-                                        .build();
-        }
-        context.restoreAuthSystemState();
-
-        ResourcePolicyRest resourcePolicyRest = new ResourcePolicyRest();
-        resourcePolicyRest.setPolicyType(ResourcePolicy.TYPE_CUSTOM);
-        resourcePolicyRest.setAction(Constants.actionText[Constants.WRITE]);
-        resourcePolicyRest.setName("Test for collection admin");
-
-        String authcolAdminToken = getAuthToken(colAdmin.getEmail(), password);
-        String authcolAdmin2Token = getAuthToken(colAdmin2.getEmail(), password);
-        String authSubmitterToken = getAuthToken(submitter.getEmail(), password);
-        AtomicReference<Integer> idRef = new AtomicReference<Integer>();
-
-        try {
-            // submitter can't create policy
-            getClient(authSubmitterToken).perform(post("/api/authz/resourcepolicies")
-                                         .content(new ObjectMapper().writeValueAsBytes(resourcePolicyRest))
-                                         .param("resource", bitstream.getID().toString())
-                                         .param("eperson", submitter.getID().toString())
-                                         .param("projections", "full")
-                                         .contentType(contentType))
-                                         .andExpect(status().isForbidden());
-
-            // other collection admin can't create policy for other collection
-            getClient(authcolAdmin2Token).perform(post("/api/authz/resourcepolicies")
-                                         .content(new ObjectMapper().writeValueAsBytes(resourcePolicyRest))
-                                         .param("resource", bitstream.getID().toString())
-                                         .param("eperson", submitter.getID().toString())
-                                         .param("projections", "full")
-                                         .contentType(contentType))
-                                         .andExpect(status().isForbidden());
-
-            // create policy for submitter by collection admin
-            getClient(authcolAdminToken).perform(post("/api/authz/resourcepolicies")
-                                        .content(new ObjectMapper().writeValueAsBytes(resourcePolicyRest))
-                                        .param("resource", bitstream.getID().toString())
-                                        .param("eperson", submitter.getID().toString())
-                                        .param("projections", "full")
-                                        .contentType(contentType))
-                    .andExpect(status().isCreated())
-                    .andExpect(content().contentType(contentType))
-                    .andExpect(jsonPath("$", ResourcePolicyMatcher.matchFullEmbeds()))
-                    .andExpect(jsonPath("$", Matchers.allOf(
-                            hasJsonPath("$.name", is(resourcePolicyRest.getName())),
-                            hasJsonPath("$.description", is(resourcePolicyRest.getDescription())),
-                            hasJsonPath("$.policyType", is(resourcePolicyRest.getPolicyType())),
-                            hasJsonPath("$.action", is(resourcePolicyRest.getAction())),
-                            hasJsonPath("$.startDate", is(resourcePolicyRest.getStartDate())),
-                            hasJsonPath("$.endDate", is(resourcePolicyRest.getEndDate())),
-                            hasJsonPath("$.type", is(resourcePolicyRest.getType())))))
-                    .andDo(result -> idRef.set(read(result.getResponse().getContentAsString(), "$.id")));
-
-            // submitter can see own policy
-            getClient(authSubmitterToken).perform(get("/api/authz/resourcepolicies/" + idRef.get()))
-                                         .andExpect(status().isOk())
-                                         .andExpect(content().contentType(contentType))
-                                         .andExpect(jsonPath("$._links.self.href",
-                                             Matchers.containsString("/api/authz/resourcepolicies/" + idRef.get())));
-
-            // collection admin can see that policy
-            getClient(authcolAdminToken).perform(get("/api/authz/resourcepolicies/" + idRef.get()))
-                                        .andExpect(status().isOk())
-                                        .andExpect(content().contentType(contentType))
-                                        .andExpect(jsonPath("$._links.self.href",
-                                            Matchers.containsString("/api/authz/resourcepolicies/" + idRef.get())));
-        } finally {
-            ResourcePolicyBuilder.delete(idRef.get());
-        }
-    }
-
-    @Test
-    public void createPolicyBySubCommunityAdminTest() throws Exception {
-        context.turnOffAuthorisationSystem();
-        EPerson comAdmin = EPersonBuilder.createEPerson(context)
-                                         .withEmail("comAdmin@mail.test")
-                                         .withPassword(password)
-                                         .build();
-
-        EPerson comAdmin2 = EPersonBuilder.createEPerson(context)
-                                          .withEmail("comAdmin2@mail.test")
-                                          .withPassword(password)
-                                          .build();
-
-        EPerson submitter = EPersonBuilder.createEPerson(context)
-                                          .withEmail("colSubmitter@mail.test")
-                                          .withPassword(password)
-                                          .build();
-
-        Community community = CommunityBuilder.createSubCommunity(context, parentCommunity)
-                                              .withName("My First Commynity")
-                                              .withAdminGroup(comAdmin)
-                                              .build();
-
-        Community community2 = CommunityBuilder.createSubCommunity(context, parentCommunity)
-                                               .withName("My Second Commynity")
-                                               .withAdminGroup(comAdmin2)
-                                               .build();
-
-        Collection collection = CollectionBuilder.createCollection(context, community)
-                                                 .withName("My collection")
-                                                 .withSubmitterGroup(submitter)
-                                                 .withEntityType("Publication")
-                                                 .build();
-
-        CollectionBuilder.createCollection(context, community2)
-                         .withName("My Second Collection")
-                         .withSubmitterGroup(submitter)
-                         .withEntityType("Publication")
-                         .build();
-
-        Item publication = ItemBuilder.createItem(context, collection)
-                                      .withTitle("Public item")
-                                      .build();
-
-        context.restoreAuthSystemState();
-
-        ResourcePolicyRest resourcePolicyRest = new ResourcePolicyRest();
-        resourcePolicyRest.setPolicyType(ResourcePolicy.TYPE_CUSTOM);
-        resourcePolicyRest.setAction(Constants.actionText[Constants.WRITE]);
-        resourcePolicyRest.setName("Test for collection admin");
-
-        String authcomAdminToken = getAuthToken(comAdmin.getEmail(), password);
-        String authcomAdmin2Token = getAuthToken(comAdmin2.getEmail(), password);
-        String authSubmitterToken = getAuthToken(submitter.getEmail(), password);
-        AtomicReference<Integer> idRef = new AtomicReference<Integer>();
-
-        try {
-            // submitter can't create policy
-            getClient(authSubmitterToken).perform(post("/api/authz/resourcepolicies")
-                                         .content(new ObjectMapper().writeValueAsBytes(resourcePolicyRest))
-                                         .param("resource", publication.getID().toString())
-                                         .param("eperson", submitter.getID().toString())
-                                         .param("projections", "full")
-                                         .contentType(contentType))
-                                         .andExpect(status().isForbidden());
-
-            // other Community admin can't create policy for collections into other Community
-            getClient(authcomAdmin2Token).perform(post("/api/authz/resourcepolicies")
-                                         .content(new ObjectMapper().writeValueAsBytes(resourcePolicyRest))
-                                         .param("resource", publication.getID().toString())
-                                         .param("eperson", submitter.getID().toString())
-                                         .param("projections", "full")
-                                         .contentType(contentType))
-                                         .andExpect(status().isForbidden());
-
-            // create policy for submitter by Community admin
-            getClient(authcomAdminToken).perform(post("/api/authz/resourcepolicies")
-                                        .content(new ObjectMapper().writeValueAsBytes(resourcePolicyRest))
-                                        .param("resource", publication.getID().toString())
-                                        .param("eperson", submitter.getID().toString())
-                                        .param("projections", "full")
-                                        .contentType(contentType))
-                    .andExpect(status().isCreated())
-                    .andExpect(content().contentType(contentType))
-                    .andExpect(jsonPath("$", ResourcePolicyMatcher.matchFullEmbeds()))
-                    .andExpect(jsonPath("$", Matchers.allOf(
-                            hasJsonPath("$.name", is(resourcePolicyRest.getName())),
-                            hasJsonPath("$.description", is(resourcePolicyRest.getDescription())),
-                            hasJsonPath("$.policyType", is(resourcePolicyRest.getPolicyType())),
-                            hasJsonPath("$.action", is(resourcePolicyRest.getAction())),
-                            hasJsonPath("$.startDate", is(resourcePolicyRest.getStartDate())),
-                            hasJsonPath("$.endDate", is(resourcePolicyRest.getEndDate())),
-                            hasJsonPath("$.type", is(resourcePolicyRest.getType())))))
-                    .andDo(result -> idRef.set(read(result.getResponse().getContentAsString(), "$.id")));
-
-            // submitter can see own policy
-            getClient(authSubmitterToken).perform(get("/api/authz/resourcepolicies/" + idRef.get()))
-                                         .andExpect(status().isOk())
-                                         .andExpect(content().contentType(contentType))
-                                         .andExpect(jsonPath("$._links.self.href",
-                                             Matchers.containsString("/api/authz/resourcepolicies/" + idRef.get())));
-
-            // community admin can see policies of own collections/items
-            getClient(authcomAdminToken).perform(get("/api/authz/resourcepolicies/" + idRef.get()))
-                                        .andExpect(status().isOk())
-                                        .andExpect(content().contentType(contentType))
-                                        .andExpect(jsonPath("$._links.self.href",
-                                            Matchers.containsString("/api/authz/resourcepolicies/" + idRef.get())));
-
-            // Other community admin can't see policies of other community's collections/items
-            getClient(authcomAdmin2Token).perform(get("/api/authz/resourcepolicies/" + idRef.get()))
-                                         .andExpect(status().isForbidden());
-        } finally {
-            ResourcePolicyBuilder.delete(idRef.get());
-        }
-    }
-
-    @Test
-    public void createPolicyByCommunityAdminTest() throws Exception {
-        context.turnOffAuthorisationSystem();
-        EPerson rootComAdmin = EPersonBuilder.createEPerson(context)
-                                             .withEmail("rootComAdmin@mail.test")
-                                             .withPassword(password)
-                                             .build();
-
-        EPerson submitter = EPersonBuilder.createEPerson(context)
-                                          .withEmail("colSubmitter@mail.test")
-                                          .withPassword(password)
-                                          .build();
-
-        Community rootCommunity = CommunityBuilder.createCommunity(context)
-                                                  .withName("Root Community")
-                                                  .withAdminGroup(rootComAdmin)
-                                                  .build();
-
-        Community community = CommunityBuilder.createSubCommunity(context, rootCommunity)
-                                              .withName("My First Commynity")
-                                              .build();
-
-        Community community2 = CommunityBuilder.createSubCommunity(context, rootCommunity)
-                                               .withName("My Second Commynity")
-                                               .build();
-
-        Collection collection = CollectionBuilder.createCollection(context, community)
-                                                 .withName("My collection")
-                                                 .withSubmitterGroup(submitter)
-                                                 .withEntityType("Publication")
-                                                 .build();
-
-        CollectionBuilder.createCollection(context, community2)
-                         .withName("My Second Collection")
-                         .withSubmitterGroup(submitter)
-                         .withEntityType("Publication")
-                         .build();
-
-        Item publication = ItemBuilder.createItem(context, collection)
-                                      .withTitle("Public item")
-                                      .build();
-
-        Collection collection2 = CollectionBuilder.createCollection(context, community)
-                                                  .withName("My Second Collection")
-                                                  .withSubmitterGroup(submitter)
-                                                  .withEntityType("Publication")
-                                                  .build();
-
-        Item publication2 = ItemBuilder.createItem(context, collection2)
-                                       .withTitle("Item of second collection")
-                                       .build();
-
-        //Add a bitstream to a publication
-        Bitstream bitstream = null;
-        try (InputStream is = IOUtils.toInputStream("ThisIsSomeDummyText", CharEncoding.UTF_8)) {
-            bitstream = BitstreamBuilder.createBitstream(context, publication2, is)
-                    .withName("Bitstream")
-                    .withDescription("description")
-                    .withMimeType("text/plain")
-                    .build();
-        }
-
-        context.restoreAuthSystemState();
-
-        ResourcePolicyRest resourcePolicyRest = new ResourcePolicyRest();
-        resourcePolicyRest.setPolicyType(ResourcePolicy.TYPE_CUSTOM);
-        resourcePolicyRest.setAction(Constants.actionText[Constants.WRITE]);
-        resourcePolicyRest.setName("Test for collection admin");
-
-        ResourcePolicyRest resourcePolicyRest2 = new ResourcePolicyRest();
-        resourcePolicyRest2.setPolicyType(ResourcePolicy.TYPE_CUSTOM);
-        resourcePolicyRest2.setAction(Constants.actionText[Constants.WRITE]);
-        resourcePolicyRest2.setName("Test for root community admin");
-
-        String authSubmitterToken = getAuthToken(submitter.getEmail(), password);
-        String authRootAdminToken = getAuthToken(rootComAdmin.getEmail(), password);
-
-        AtomicReference<Integer> idRef = new AtomicReference<Integer>();
-        AtomicReference<Integer> idRef2 = new AtomicReference<Integer>();
-        try {
-            // create policy for submitter by root Community admin
-            getClient(authRootAdminToken).perform(post("/api/authz/resourcepolicies")
-                                         .content(new ObjectMapper().writeValueAsBytes(resourcePolicyRest))
-                                         .param("resource", publication.getID().toString())
-                                         .param("eperson", submitter.getID().toString())
-                                         .contentType(contentType))
-                    .andExpect(status().isCreated())
-                    .andExpect(content().contentType(contentType))
-                    .andExpect(jsonPath("$", ResourcePolicyMatcher.matchFullEmbeds()))
-                    .andExpect(jsonPath("$", Matchers.allOf(
-                            hasJsonPath("$.name", is(resourcePolicyRest.getName())),
-                            hasJsonPath("$.description", is(resourcePolicyRest.getDescription())),
-                            hasJsonPath("$.policyType", is(resourcePolicyRest.getPolicyType())),
-                            hasJsonPath("$.action", is(resourcePolicyRest.getAction())),
-                            hasJsonPath("$.startDate", is(resourcePolicyRest.getStartDate())),
-                            hasJsonPath("$.endDate", is(resourcePolicyRest.getEndDate())),
-                            hasJsonPath("$.type", is(resourcePolicyRest.getType())))))
-                    .andDo(result -> idRef.set(read(result.getResponse().getContentAsString(), "$.id")));
-
-            // create policy for submitter by root Community admin
-            getClient(authRootAdminToken).perform(post("/api/authz/resourcepolicies")
-                                         .content(new ObjectMapper().writeValueAsBytes(resourcePolicyRest))
-                                         .param("resource", bitstream.getID().toString())
-                                         .param("eperson", submitter.getID().toString())
-                                         .contentType(contentType))
-                    .andExpect(status().isCreated())
-                    .andExpect(content().contentType(contentType))
-                    .andExpect(jsonPath("$", ResourcePolicyMatcher.matchFullEmbeds()))
-                    .andExpect(jsonPath("$", Matchers.allOf(
-                            hasJsonPath("$.name", is(resourcePolicyRest.getName())),
-                            hasJsonPath("$.description", is(resourcePolicyRest.getDescription())),
-                            hasJsonPath("$.policyType", is(resourcePolicyRest.getPolicyType())),
-                            hasJsonPath("$.action", is(resourcePolicyRest.getAction())),
-                            hasJsonPath("$.startDate", is(resourcePolicyRest.getStartDate())),
-                            hasJsonPath("$.endDate", is(resourcePolicyRest.getEndDate())),
-                            hasJsonPath("$.type", is(resourcePolicyRest.getType())))))
-                    .andDo(result -> idRef2.set(read(result.getResponse().getContentAsString(), "$.id")));
-
-            getClient(authSubmitterToken).perform(get("/api/authz/resourcepolicies/" + idRef.get()))
-                                         .andExpect(status().isOk())
-                                         .andExpect(content().contentType(contentType))
-                                         .andExpect(jsonPath("$._links.self.href",
-                                             Matchers.containsString("/api/authz/resourcepolicies/" + idRef.get())));
-
-            getClient(authSubmitterToken).perform(get("/api/authz/resourcepolicies/" + idRef2.get()))
-                                         .andExpect(status().isOk())
-                                         .andExpect(content().contentType(contentType))
-                                         .andExpect(jsonPath("$._links.self.href",
-                                             Matchers.containsString("/api/authz/resourcepolicies/" + idRef2.get())));
-        } finally {
-            ResourcePolicyBuilder.delete(idRef.get());
-            ResourcePolicyBuilder.delete(idRef2.get());
-        }
     }
 
     @Test
@@ -1681,174 +1309,6 @@ public class ResourcePolicyRestRepositoryIT extends AbstractControllerIntegratio
     }
 
     @Test
-    public void deletePolicyByCollectionAdminTest() throws Exception {
-        context.turnOffAuthorisationSystem();
-        EPerson colAdmin = EPersonBuilder.createEPerson(context)
-                .withEmail("colAdmin@mail.test")
-                .withPassword(password)
-                .build();
-
-        EPerson colAdmin2 = EPersonBuilder.createEPerson(context)
-                .withEmail("colAdmin2@mail.test")
-                .withPassword(password)
-                .build();
-
-        EPerson submitter = EPersonBuilder.createEPerson(context)
-                .withEmail("colSubmitter@mail.test")
-                .withPassword(password)
-                .build();
-
-        Community community = CommunityBuilder.createCommunity(context)
-                .withName("My top commynity")
-                .build();
-
-        Collection collection = CollectionBuilder.createCollection(context, community)
-                .withName("My collection")
-                .withAdminGroup(colAdmin)
-                .withSubmitterGroup(submitter)
-                .withEntityType("Publication")
-                .build();
-
-        CollectionBuilder.createCollection(context, community)
-                .withName("My Second Collection")
-                .withAdminGroup(colAdmin2)
-                .withSubmitterGroup(submitter)
-                .withEntityType("Publication")
-                .build();
-
-        Item publication = ItemBuilder.createItem(context, collection)
-                .withTitle("Public item")
-                .build();
-
-        //Add a bitstream to a publication
-        Bitstream bitstream = null;
-        try (InputStream is = IOUtils.toInputStream("ThisIsSomeDummyText", CharEncoding.UTF_8)) {
-            bitstream = BitstreamBuilder.createBitstream(context, publication, is)
-                    .withName("Bitstream")
-                    .withDescription("description")
-                    .withMimeType("text/plain")
-                    .build();
-        }
-
-        context.restoreAuthSystemState();
-
-        String adminToken = getAuthToken(admin.getEmail(), password);
-        String authcolAdminToken = getAuthToken(colAdmin.getEmail(), password);
-        String authcolAdmin2Token = getAuthToken(colAdmin2.getEmail(), password);
-        String authSubmitterToken = getAuthToken(submitter.getEmail(), password);
-
-        ResourcePolicy rp = ResourcePolicyBuilder.createResourcePolicy(context, submitter, null)
-                                                 .withDspaceObject(bitstream)
-                                                 .withAction(Constants.READ)
-                                                 .withPolicyType(ResourcePolicy.TYPE_CUSTOM)
-                                                 .build();
-
-        // submitter can't delete own policy
-        getClient(authSubmitterToken).perform(delete("/api/authz/resourcepolicies/" + rp.getID()))
-                                     .andExpect(status().isForbidden());
-
-        // check that policy wasn't deleted
-        getClient(adminToken).perform(get("/api/authz/resourcepolicies/" + rp.getID()))
-                             .andExpect(status().isOk())
-                             .andExpect(content().contentType(contentType))
-                             .andExpect(jsonPath("$._links.self.href",
-                                 Matchers.containsString("/api/authz/resourcepolicies/" + rp.getID())));
-
-        // other collection admin can't delete policy that belong to items of other collections
-        getClient(authcolAdmin2Token).perform(delete("/api/authz/resourcepolicies/" + rp.getID()))
-                                     .andExpect(status().isForbidden());
-
-        // check that policy wasn't deleted
-        getClient(adminToken).perform(get("/api/authz/resourcepolicies/" + rp.getID()))
-                             .andExpect(status().isOk())
-                             .andExpect(content().contentType(contentType))
-                             .andExpect(jsonPath("$._links.self.href",
-                                 Matchers.containsString("/api/authz/resourcepolicies/" + rp.getID())));
-
-        // delete policy for submitter by collection admin
-        getClient(authcolAdminToken).perform(delete("/api/authz/resourcepolicies/" + rp.getID()))
-                                    .andExpect(status().isNoContent());
-
-        getClient(adminToken).perform(get("/api/authz/resourcepolicies/" + rp.getID()))
-                             .andExpect(status().isNotFound());
-    }
-
-    @Test
-    public void deletePolicyBySubCommunityAdminTest() throws Exception {
-        context.turnOffAuthorisationSystem();
-        EPerson comAdmin = EPersonBuilder.createEPerson(context)
-                                         .withEmail("comAdmin@mail.test")
-                                         .withPassword(password)
-                                         .build();
-
-        EPerson comAdmin2 = EPersonBuilder.createEPerson(context)
-                                          .withEmail("comAdmin2@mail.test")
-                                          .withPassword(password)
-                                          .build();
-
-        EPerson submitter = EPersonBuilder.createEPerson(context)
-                                          .withEmail("colSubmitter@mail.test")
-                                          .withPassword(password)
-                                          .build();
-
-        Community community = CommunityBuilder.createSubCommunity(context, parentCommunity)
-                                              .withName("My First Commynity")
-                                              .withAdminGroup(comAdmin)
-                                              .build();
-
-        Community community2 = CommunityBuilder.createSubCommunity(context, parentCommunity)
-                                               .withName("My Second Commynity")
-                                               .withAdminGroup(comAdmin2)
-                                               .build();
-
-        Collection collection = CollectionBuilder.createCollection(context, community)
-                                                 .withName("My collection")
-                                                 .withSubmitterGroup(submitter)
-                                                 .withEntityType("Publication")
-                                                 .build();
-
-        CollectionBuilder.createCollection(context, community2)
-                         .withName("My Second Collection")
-                         .withSubmitterGroup(submitter)
-                         .withEntityType("Publication")
-                         .build();
-
-        Item publication = ItemBuilder.createItem(context, collection)
-                                      .withTitle("Public item")
-                                      .build();
-
-        context.restoreAuthSystemState();
-
-        ResourcePolicy rp = ResourcePolicyBuilder.createResourcePolicy(context, submitter, null)
-                                                 .withDspaceObject(publication)
-                                                 .withAction(Constants.WRITE)
-                                                 .withPolicyType(ResourcePolicy.TYPE_CUSTOM)
-                                                 .build();
-
-        String adminToken = getAuthToken(admin.getEmail(), password);
-        String authcomAdminToken = getAuthToken(comAdmin.getEmail(), password);
-        String authcomAdmin2Token = getAuthToken(comAdmin2.getEmail(), password);
-
-        // other Community admin can't delete policy of other Community
-        getClient(authcomAdmin2Token).perform(delete("/api/authz/resourcepolicies/" + rp.getID()))
-                                     .andExpect(status().isForbidden());
-
-        getClient(adminToken).perform(get("/api/authz/resourcepolicies/" + rp.getID()))
-                             .andExpect(status().isOk())
-                             .andExpect(content().contentType(contentType))
-                             .andExpect(jsonPath("$._links.self.href",
-                                 Matchers.containsString("/api/authz/resourcepolicies/" + rp.getID())));
-
-        // Community admin can delete policy
-        getClient(authcomAdminToken).perform(delete("/api/authz/resourcepolicies/" + rp.getID()))
-                                    .andExpect(status().isNoContent());
-
-        // submitter can see own policy
-        getClient(adminToken).perform(get("/api/authz/resourcepolicies/" + rp.getID()))
-                             .andExpect(status().isNotFound());
-    }
-
-    @Test
     public void patchReplaceStartDateTest() throws Exception {
         context.turnOffAuthorisationSystem();
 
@@ -1867,21 +1327,32 @@ public class ResourcePolicyRestRepositoryIT extends AbstractControllerIntegratio
             .withTitle("Public item")
             .build();
 
-        LocalDate date = LocalDate.of(2019, 10, 31);
+        Calendar calendar = Calendar.getInstance();
+
+        calendar.set(Calendar.YEAR, 2019);
+        calendar.set(Calendar.MONTH, 9);
+        calendar.set(Calendar.DATE, 31);
+
+        Date data = calendar.getTime();
 
         ResourcePolicy resourcePolicy = ResourcePolicyBuilder.createResourcePolicy(context, null,
                    EPersonServiceFactory.getInstance().getGroupService().findByName(context, Group.ANONYMOUS))
             .withAction(Constants.READ)
             .withDspaceObject(publicItem1)
-            .withStartDate(date)
+            .withStartDate(data)
             .withPolicyType(ResourcePolicy.TYPE_CUSTOM)
             .build();
 
         context.restoreAuthSystemState();
 
-        DateTimeFormatter formatDate = DateTimeFormatter.ISO_LOCAL_DATE;
+        Calendar newCalendar = Calendar.getInstance();
+        SimpleDateFormat formatDate = new SimpleDateFormat("yyyy-MM-dd");
 
-        LocalDate newDate = LocalDate.of(2020, 1, 1);
+        newCalendar.set(Calendar.YEAR, 2020);
+        newCalendar.set(Calendar.MONTH, 0);
+        newCalendar.set(Calendar.DATE, 1);
+
+        Date newDate = newCalendar.getTime();
 
         List<Operation> ops = new ArrayList<Operation>();
         ReplaceOperation replaceOperation = new ReplaceOperation("/startDate", formatDate.format(newDate));
@@ -1926,7 +1397,13 @@ public class ResourcePolicyRestRepositoryIT extends AbstractControllerIntegratio
                                       .withTitle("Public item")
                                       .build();
 
-        LocalDate date = LocalDate.of(2019, 10, 31);
+        Calendar calendar = Calendar.getInstance();
+
+        calendar.set(Calendar.YEAR, 2019);
+        calendar.set(Calendar.MONTH, 9);
+        calendar.set(Calendar.DATE, 31);
+
+        Date date = calendar.getTime();
 
         ResourcePolicy resourcePolicy = ResourcePolicyBuilder.createResourcePolicy(context, null,
                            EPersonServiceFactory.getInstance().getGroupService().findByName(context, Group.ANONYMOUS))
@@ -1938,8 +1415,14 @@ public class ResourcePolicyRestRepositoryIT extends AbstractControllerIntegratio
 
         context.restoreAuthSystemState();
 
-        DateTimeFormatter formatDate = DateTimeFormatter.ISO_LOCAL_DATE;
-        LocalDate newDate = LocalDate.of(2020, 1, 1);
+        Calendar newCalendar = Calendar.getInstance();
+        SimpleDateFormat formatDate = new SimpleDateFormat("yyyy-MM-dd");
+
+        newCalendar.set(Calendar.YEAR, 2020);
+        newCalendar.set(Calendar.MONTH, 0);
+        newCalendar.set(Calendar.DATE, 1);
+
+        Date newDate = newCalendar.getTime();
 
         List<Operation> ops = new ArrayList<Operation>();
         ReplaceOperation replaceOperation = new ReplaceOperation("/endDate", formatDate.format(newDate));
@@ -1993,8 +1476,14 @@ public class ResourcePolicyRestRepositoryIT extends AbstractControllerIntegratio
 
         context.restoreAuthSystemState();
 
-        DateTimeFormatter formatDate = DateTimeFormatter.ISO_LOCAL_DATE;
-        LocalDate newDate = LocalDate.of(2019, 10, 31);
+        Calendar newCalendar = Calendar.getInstance();
+        SimpleDateFormat formatDate = new SimpleDateFormat("yyyy-MM-dd");
+
+        newCalendar.set(Calendar.YEAR, 2019);
+        newCalendar.set(Calendar.MONTH, 9);
+        newCalendar.set(Calendar.DATE, 31);
+
+        Date newDate = newCalendar.getTime();
 
         List<Operation> ops = new ArrayList<Operation>();
         AddOperation addOperation = new AddOperation("/startDate", formatDate.format(newDate));
@@ -2050,8 +1539,9 @@ public class ResourcePolicyRestRepositoryIT extends AbstractControllerIntegratio
 
         context.restoreAuthSystemState();
 
-        DateTimeFormatter formatDate = DateTimeFormatter.ISO_LOCAL_DATE;
-        LocalDate newDate = LocalDate.now();
+        Calendar newCalendar = Calendar.getInstance();
+        SimpleDateFormat formatDate = new SimpleDateFormat("yyyy-MM-dd");
+        Date newDate = new Date();
 
         List<Operation> ops = new ArrayList<Operation>();
         AddOperation addOperation = new AddOperation("/endDate", formatDate.format(newDate));
@@ -2096,13 +1586,19 @@ public class ResourcePolicyRestRepositoryIT extends AbstractControllerIntegratio
             .withTitle("Public item")
             .build();
 
-        LocalDate date = LocalDate.of(2019, 10, 31);
+        Calendar calendar = Calendar.getInstance();
+
+        calendar.set(Calendar.YEAR, 2019);
+        calendar.set(Calendar.MONTH, 9);
+        calendar.set(Calendar.DATE, 31);
+
+        Date data = calendar.getTime();
 
         ResourcePolicy resourcePolicy = ResourcePolicyBuilder.createResourcePolicy(context, null,
                        EPersonServiceFactory.getInstance().getGroupService().findByName(context, Group.ANONYMOUS))
             .withAction(Constants.READ)
             .withDspaceObject(publicItem1)
-            .withStartDate(date)
+            .withStartDate(data)
             .withPolicyType(ResourcePolicy.TYPE_CUSTOM)
             .build();
 
@@ -2151,7 +1647,13 @@ public class ResourcePolicyRestRepositoryIT extends AbstractControllerIntegratio
             .withTitle("Public item")
             .build();
 
-        LocalDate date = LocalDate.of(2019, 10, 31);
+        Calendar calendar = Calendar.getInstance();
+
+        calendar.set(Calendar.YEAR, 2019);
+        calendar.set(Calendar.MONTH, 9);
+        calendar.set(Calendar.DATE, 31);
+
+        Date date = calendar.getTime();
 
         ResourcePolicy resourcePolicy = ResourcePolicyBuilder.createResourcePolicy(context, null,
                            EPersonServiceFactory.getInstance().getGroupService().findByName(context, Group.ANONYMOUS))
@@ -2165,7 +1667,7 @@ public class ResourcePolicyRestRepositoryIT extends AbstractControllerIntegratio
         context.restoreAuthSystemState();
 
         String wrongStartDate = "";
-        DateTimeFormatter formatDate = DateTimeFormatter.ISO_LOCAL_DATE;
+        SimpleDateFormat formatDate = new SimpleDateFormat("yyyy-MM-dd");
 
         List<Operation> ops = new ArrayList<Operation>();
         ReplaceOperation replaceOperation = new ReplaceOperation("/startDate", wrongStartDate);
@@ -2196,7 +1698,13 @@ public class ResourcePolicyRestRepositoryIT extends AbstractControllerIntegratio
 
         Item item = ItemBuilder.createItem(context, collection).build();
 
-        LocalDate date = LocalDate.of(2010, 6, 15);
+        Calendar calendar = Calendar.getInstance();
+
+        calendar.set(Calendar.YEAR, 2010);
+        calendar.set(Calendar.MONTH, 5);
+        calendar.set(Calendar.DATE, 15);
+
+        Date date = calendar.getTime();
 
         ResourcePolicy resourcePolicy = ResourcePolicyBuilder.createResourcePolicy(context, eperson, null)
             .withAction(Constants.WRITE)
@@ -2207,8 +1715,14 @@ public class ResourcePolicyRestRepositoryIT extends AbstractControllerIntegratio
 
         context.restoreAuthSystemState();
 
-        DateTimeFormatter formatDate = DateTimeFormatter.ISO_LOCAL_DATE;
-        LocalDate newDate = LocalDate.of(2021, 3, 21);
+        Calendar calendar2 = Calendar.getInstance();
+        SimpleDateFormat formatDate = new SimpleDateFormat("yyyy-MM-dd");
+
+        calendar2.set(Calendar.YEAR, 2021);
+        calendar2.set(Calendar.MONTH, 2);
+        calendar2.set(Calendar.DATE, 21);
+
+        Date newDate = calendar2.getTime();
 
         List<Operation> ops = new ArrayList<Operation>();
         ReplaceOperation replaceOperation = new ReplaceOperation("/startDate", formatDate.format(newDate));
@@ -2246,7 +1760,13 @@ public class ResourcePolicyRestRepositoryIT extends AbstractControllerIntegratio
             .withTitle("Public item")
             .build();
 
-        LocalDate date = LocalDate.of(2019, 10, 31);
+        Calendar calendar = Calendar.getInstance();
+
+        calendar.set(Calendar.YEAR, 2019);
+        calendar.set(Calendar.MONTH, 9);
+        calendar.set(Calendar.DATE, 31);
+
+        Date date = calendar.getTime();
 
         ResourcePolicy resourcePolicy = ResourcePolicyBuilder.createResourcePolicy(context, null,
                        EPersonServiceFactory.getInstance().getGroupService().findByName(context, Group.ANONYMOUS))
@@ -2258,11 +1778,17 @@ public class ResourcePolicyRestRepositoryIT extends AbstractControllerIntegratio
 
         context.restoreAuthSystemState();
 
-        DateTimeFormatter formatDate = DateTimeFormatter.ISO_LOCAL_DATE;
-        LocalDate newDate = LocalDate.of(2020, 1, 1);
+        Calendar calendar2 = Calendar.getInstance();
+        SimpleDateFormat formatDate = new SimpleDateFormat("yyyy-MM-dd");
+
+        calendar2.set(Calendar.YEAR, 2020);
+        calendar2.set(Calendar.MONTH, 0);
+        calendar2.set(Calendar.DATE, 1);
+
+        Date newData = calendar2.getTime();
 
         List<Operation> ops = new ArrayList<Operation>();
-        ReplaceOperation replaceOperation = new ReplaceOperation("/startDate", formatDate.format(newDate));
+        ReplaceOperation replaceOperation = new ReplaceOperation("/startDate", formatDate.format(newData));
         ops.add(replaceOperation);
         String patchBody = getPatchContent(ops);
 
@@ -2292,11 +1818,17 @@ public class ResourcePolicyRestRepositoryIT extends AbstractControllerIntegratio
 
         context.restoreAuthSystemState();
 
-        DateTimeFormatter formatDate = DateTimeFormatter.ISO_LOCAL_DATE;
-        LocalDate newDate = LocalDate.of(2020, 1, 1);
+        Calendar calendar2 = Calendar.getInstance();
+        SimpleDateFormat formatDate = new SimpleDateFormat("yyyy-MM-dd");
+
+        calendar2.set(Calendar.YEAR, 2020);
+        calendar2.set(Calendar.MONTH, 0);
+        calendar2.set(Calendar.DATE, 1);
+
+        Date newData = calendar2.getTime();
 
         List<Operation> ops = new ArrayList<Operation>();
-        ReplaceOperation replaceOperation = new ReplaceOperation("/startDate", formatDate.format(newDate));
+        ReplaceOperation replaceOperation = new ReplaceOperation("/startDate", formatDate.format(newData));
         ops.add(replaceOperation);
         String patchBody = getPatchContent(ops);
 
@@ -2326,8 +1858,21 @@ public class ResourcePolicyRestRepositoryIT extends AbstractControllerIntegratio
             .withTitle("Public item")
             .build();
 
-        LocalDate startDate = LocalDate.of(2019, 11, 21);
-        LocalDate endDate = LocalDate.of(2020, 11, 21);
+        Calendar calendarStartDate = Calendar.getInstance();
+
+        calendarStartDate.set(Calendar.YEAR, 2019);
+        calendarStartDate.set(Calendar.MONTH, 10);
+        calendarStartDate.set(Calendar.DATE, 21);
+
+        Date startDate = calendarStartDate.getTime();
+
+        Calendar calendarEndDate = Calendar.getInstance();
+
+        calendarEndDate.set(Calendar.YEAR, 2020);
+        calendarEndDate.set(Calendar.MONTH, 10);
+        calendarEndDate.set(Calendar.DATE, 21);
+
+        Date endDate = calendarEndDate.getTime();
 
         ResourcePolicy resourcePolicy = ResourcePolicyBuilder.createResourcePolicy(context, eperson1, null)
             .withAction(Constants.READ)
@@ -2339,8 +1884,14 @@ public class ResourcePolicyRestRepositoryIT extends AbstractControllerIntegratio
 
         context.restoreAuthSystemState();
 
-        DateTimeFormatter formatDate = DateTimeFormatter.ISO_LOCAL_DATE;
-        LocalDate newEndDate = LocalDate.of(2018, 11, 21);
+        Calendar newEndDateCalendar = Calendar.getInstance();
+        SimpleDateFormat formatDate = new SimpleDateFormat("yyyy-MM-dd");
+
+        newEndDateCalendar.set(Calendar.YEAR, 2018);
+        newEndDateCalendar.set(Calendar.MONTH, 10);
+        newEndDateCalendar.set(Calendar.DATE, 21);
+
+        Date newEndDate = newEndDateCalendar.getTime();
 
         List<Operation> ops = new ArrayList<Operation>();
         ReplaceOperation replaceOperation = new ReplaceOperation("/endDate", formatDate.format(newEndDate));
@@ -3427,8 +2978,21 @@ public class ResourcePolicyRestRepositoryIT extends AbstractControllerIntegratio
             .withTitle("Public item")
             .build();
 
-        LocalDate startDate = LocalDate.of(2017, 1, 1);
-        LocalDate endDate = LocalDate.of(2022, 12, 31);
+        Calendar calendarStartDate = Calendar.getInstance();
+
+        calendarStartDate.set(Calendar.YEAR, 2017);
+        calendarStartDate.set(Calendar.MONTH, 0);
+        calendarStartDate.set(Calendar.DATE, 1);
+
+        Date startDate = calendarStartDate.getTime();
+
+        Calendar calendarEndDate = Calendar.getInstance();
+
+        calendarEndDate.set(Calendar.YEAR, 2022);
+        calendarEndDate.set(Calendar.MONTH, 11);
+        calendarEndDate.set(Calendar.DATE, 31);
+
+        Date endDate = calendarEndDate.getTime();
 
         ResourcePolicy resourcePolicy = ResourcePolicyBuilder.createResourcePolicy(context, null,
                        EPersonServiceFactory.getInstance().getGroupService().findByName(context, Group.ANONYMOUS))
@@ -3455,9 +3019,13 @@ public class ResourcePolicyRestRepositoryIT extends AbstractControllerIntegratio
         ReplaceOperation replaceNameOperation = new ReplaceOperation("/name", newName);
         ops.add(replaceNameOperation);
 
-        DateTimeFormatter formatDate = DateTimeFormatter.ISO_LOCAL_DATE;
-        LocalDate newStartDate = LocalDate.of(2018, 2, 1);
+        SimpleDateFormat formatDate = new SimpleDateFormat("yyyy-MM-dd");
+        Calendar calendarNewStartDate = Calendar.getInstance();
+        calendarNewStartDate.set(Calendar.YEAR, 2018);
+        calendarNewStartDate.set(Calendar.MONTH, 1);
+        calendarNewStartDate.set(Calendar.DATE, 1);
 
+        Date newStartDate = calendarNewStartDate.getTime();
         ReplaceOperation replaceStartDateOperation = new ReplaceOperation("/startDate",
             formatDate.format(newStartDate));
         ops.add(replaceStartDateOperation);
@@ -3508,7 +3076,13 @@ public class ResourcePolicyRestRepositoryIT extends AbstractControllerIntegratio
             .withTitle("Public item")
             .build();
 
-        LocalDate endDate = LocalDate.of(2022, 12, 31);
+        Calendar calendarEndDate = Calendar.getInstance();
+
+        calendarEndDate.set(Calendar.YEAR, 2022);
+        calendarEndDate.set(Calendar.MONTH, 11);
+        calendarEndDate.set(Calendar.DATE, 31);
+
+        Date endDate = calendarEndDate.getTime();
 
         ResourcePolicy resourcePolicy = ResourcePolicyBuilder.createResourcePolicy(context, null,
                        EPersonServiceFactory.getInstance().getGroupService().findByName(context, Group.ANONYMOUS))
@@ -3527,9 +3101,13 @@ public class ResourcePolicyRestRepositoryIT extends AbstractControllerIntegratio
         ReplaceOperation replaceNameOperation = new ReplaceOperation("/name", newName);
         ops.add(replaceNameOperation);
 
-        DateTimeFormatter formatDate = DateTimeFormatter.ISO_LOCAL_DATE;
-        LocalDate newStartDate = LocalDate.of(2018, 2, 1);
+        SimpleDateFormat formatDate = new SimpleDateFormat("yyyy-MM-dd");
+        Calendar calendarNewStartDate = Calendar.getInstance();
+        calendarNewStartDate.set(Calendar.YEAR, 2018);
+        calendarNewStartDate.set(Calendar.MONTH, 1);
+        calendarNewStartDate.set(Calendar.DATE, 1);
 
+        Date newStartDate = calendarNewStartDate.getTime();
         ReplaceOperation replaceStartDateOperation = new ReplaceOperation("/startDate",
             formatDate.format(newStartDate));
         ops.add(replaceStartDateOperation);

@@ -7,7 +7,8 @@
  */
 package org.dspace.app.rest.security.jwt;
 
-import java.time.Instant;
+import java.util.Date;
+import javax.servlet.http.HttpServletRequest;
 
 import com.nimbusds.jose.JOSEException;
 import com.nimbusds.jose.JWSVerifier;
@@ -15,7 +16,6 @@ import com.nimbusds.jose.crypto.MACVerifier;
 import com.nimbusds.jwt.JWTClaimsSet;
 import com.nimbusds.jwt.SignedJWT;
 import com.nimbusds.jwt.util.DateUtils;
-import jakarta.servlet.http.HttpServletRequest;
 import org.apache.commons.lang3.StringUtils;
 import org.dspace.core.Context;
 import org.dspace.eperson.EPerson;
@@ -48,11 +48,11 @@ public class ShortLivedJWTTokenHandler extends JWTTokenHandler {
             JWSVerifier verifier = new MACVerifier(buildSigningKey(ePerson));
 
             //If token is valid and not expired return eperson in token
-            java.util.Date expirationTime = jwtClaimsSet.getExpirationTime();
+            Date expirationTime = jwtClaimsSet.getExpirationTime();
             return signedJWT.verify(verifier)
                 && expirationTime != null
                 //Ensure expiration timestamp is after the current time
-                && DateUtils.isAfter(expirationTime, java.util.Date.from(Instant.now()), 0);
+                && DateUtils.isAfter(expirationTime, new Date(), 0);
         }
     }
 
@@ -63,7 +63,7 @@ public class ShortLivedJWTTokenHandler extends JWTTokenHandler {
      * @return EPerson object of current user, with an updated session salt
      */
     @Override
-    protected EPerson updateSessionSalt(final Context context, final Instant previousLoginDate) {
+    protected EPerson updateSessionSalt(final Context context, final Date previousLoginDate) {
         return context.getCurrentUser();
     }
 

@@ -7,7 +7,7 @@
  */
 package org.dspace.app.rest.model;
 
-import java.time.Instant;
+import java.util.Date;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import org.dspace.app.rest.RestResourceController;
@@ -22,7 +22,6 @@ import org.dspace.app.rest.RestResourceController;
 public class VersionRest extends BaseObjectRest<Integer> {
 
     public static final String NAME = "version";
-    public static final String PLURAL_NAME = "versions";
     public static final String CATEGORY = RestAddressableModel.VERSIONING;
 
     public static final String VERSION_HISTORY = "versionhistory";
@@ -30,7 +29,7 @@ public class VersionRest extends BaseObjectRest<Integer> {
 
     private Integer id;
     private Integer version;
-    private Instant created;
+    private Date created;
     private String summary;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -74,7 +73,7 @@ public class VersionRest extends BaseObjectRest<Integer> {
      * Generic getter for the created
      * @return the created value of this VersionRest
      */
-    public Instant getCreated() {
+    public Date getCreated() {
         return created;
     }
 
@@ -82,7 +81,7 @@ public class VersionRest extends BaseObjectRest<Integer> {
      * Generic setter for the created
      * @param created   The created to be set on this VersionRest
      */
-    public void setCreated(Instant created) {
+    public void setCreated(Date created) {
         this.created = created;
     }
 
@@ -131,10 +130,5 @@ public class VersionRest extends BaseObjectRest<Integer> {
     @Override
     public String getType() {
         return NAME;
-    }
-
-    @Override
-    public String getTypePlural() {
-        return PLURAL_NAME;
     }
 }

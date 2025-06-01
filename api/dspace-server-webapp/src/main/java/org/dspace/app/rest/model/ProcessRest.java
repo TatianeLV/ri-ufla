@@ -7,7 +7,7 @@
  */
 package org.dspace.app.rest.model;
 
-import java.time.Instant;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -46,17 +46,11 @@ public class ProcessRest extends BaseObjectRest<Integer> {
         return NAME;
     }
 
-    @Override
-    public String getTypePlural() {
-        return PLURAL_NAME;
-    }
-
     private String scriptName;
     private UUID userId;
     private Integer processId;
-    private Instant startTime;
-    private Instant endTime;
-    private Instant creationTime;
+    private Date startTime;
+    private Date endTime;
     private ProcessStatus processStatus;
     @JsonProperty(value = "parameters")
     private List<ParameterValueRest> parameterRestList;
@@ -93,20 +87,12 @@ public class ProcessRest extends BaseObjectRest<Integer> {
         this.parameterRestList = parameterRestList;
     }
 
-    public Instant getStartTime() {
+    public Date getStartTime() {
         return startTime;
     }
 
-    public void setStartTime(Instant startTime) {
+    public void setStartTime(Date startTime) {
         this.startTime = startTime;
-    }
-
-    public Instant getCreationTime() {
-        return creationTime;
-    }
-
-    public void setCreationTime(Instant creationTime) {
-        this.creationTime = creationTime;
     }
 
     public String getScriptName() {
@@ -117,11 +103,11 @@ public class ProcessRest extends BaseObjectRest<Integer> {
         this.scriptName = scriptName;
     }
 
-    public Instant getEndTime() {
+    public Date getEndTime() {
         return endTime;
     }
 
-    public void setEndTime(Instant endTime) {
+    public void setEndTime(Date endTime) {
         this.endTime = endTime;
     }
 

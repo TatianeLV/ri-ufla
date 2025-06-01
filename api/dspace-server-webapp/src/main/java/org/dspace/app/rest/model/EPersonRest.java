@@ -7,7 +7,7 @@
  */
 package org.dspace.app.rest.model;
 
-import java.time.Instant;
+import java.util.Date;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
@@ -24,14 +24,13 @@ import org.dspace.app.rest.RestResourceController;
 })
 public class EPersonRest extends DSpaceObjectRest {
     public static final String NAME = "eperson";
-    public static final String PLURAL_NAME = "epersons";
     public static final String CATEGORY = RestAddressableModel.EPERSON;
 
     public static final String GROUPS = "groups";
 
     private String netid;
 
-    private Instant lastActive;
+    private Date lastActive;
 
     private boolean canLogIn;
 
@@ -50,11 +49,6 @@ public class EPersonRest extends DSpaceObjectRest {
         return NAME;
     }
 
-    @Override
-    public String getTypePlural() {
-        return PLURAL_NAME;
-    }
-
     public String getNetid() {
         return netid;
     }
@@ -63,11 +57,11 @@ public class EPersonRest extends DSpaceObjectRest {
         this.netid = netid;
     }
 
-    public Instant getLastActive() {
+    public Date getLastActive() {
         return lastActive;
     }
 
-    public void setLastActive(Instant lastActive) {
+    public void setLastActive(Date lastActive) {
         this.lastActive = lastActive;
     }
 

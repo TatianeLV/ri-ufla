@@ -16,7 +16,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import java.util.List;
 import java.util.UUID;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.dspace.app.rest.matcher.MetadataMatcher;
 import org.dspace.app.rest.matcher.SiteMatcher;
 import org.dspace.app.rest.model.patch.Operation;
@@ -37,9 +36,6 @@ public class SiteRestRepositoryIT extends AbstractControllerIntegrationTest {
 
     @Autowired
     private SiteService siteService;
-
-    @Autowired
-    private ObjectMapper mapper;
 
     @Test
     public void findAll() throws Exception {
@@ -137,7 +133,7 @@ public class SiteRestRepositoryIT extends AbstractControllerIntegrationTest {
         getClient(token)
             .perform(patch("/api/core/sites/" + site.getID())
             .content(requestBody)
-            .contentType(jakarta.ws.rs.core.MediaType.APPLICATION_JSON_PATCH_JSON))
+            .contentType(javax.ws.rs.core.MediaType.APPLICATION_JSON_PATCH_JSON))
             .andExpect(status().isOk())
             .andExpect(
                  jsonPath("$.metadata",
@@ -168,6 +164,6 @@ public class SiteRestRepositoryIT extends AbstractControllerIntegrationTest {
         context.restoreAuthSystemState();
         String token = getAuthToken(asUser.getEmail(), password);
 
-        new MetadataPatchSuite(mapper).runWith(getClient(token), "/api/core/sites/" + site.getID(), expectedStatus);
+        new MetadataPatchSuite().runWith(getClient(token), "/api/core/sites/" + site.getID(), expectedStatus);
     }
 }

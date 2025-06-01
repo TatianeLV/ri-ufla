@@ -8,15 +8,13 @@
 package org.dspace.authenticate;
 
 import java.sql.SQLException;
-import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+import javax.servlet.http.HttpServletRequest;
 
-import jakarta.servlet.http.HttpServletRequest;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.dspace.authenticate.service.AuthenticationService;
 import org.dspace.authorize.AuthorizeException;
 import org.dspace.core.Context;
@@ -24,6 +22,8 @@ import org.dspace.core.factory.CoreServiceFactory;
 import org.dspace.eperson.EPerson;
 import org.dspace.eperson.Group;
 import org.dspace.eperson.service.EPersonService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
@@ -49,14 +49,15 @@ import org.springframework.beans.factory.annotation.Autowired;
  * specified first (in the configuration) thus getting highest priority.
  *
  * @author Larry Stone
+ * @version $Revision$
  * @see AuthenticationMethod
  */
 public class AuthenticationServiceImpl implements AuthenticationService {
 
     /**
-     * Logging category
+     * SLF4J logging category
      */
-    private final Logger log = LogManager.getLogger();
+    private final Logger log = (Logger) LoggerFactory.getLogger(AuthenticationServiceImpl.class);
 
     @Autowired(required = true)
     protected EPersonService ePersonService;
@@ -120,11 +121,10 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         return bestRet;
     }
 
-    @Override
     public void updateLastActiveDate(Context context) {
         EPerson me = context.getCurrentUser();
         if (me != null) {
-            me.setLastActive(Instant.now());
+            me.setLastActive(new Date());
             try {
                 ePersonService.update(context, me);
             } catch (SQLException ex) {

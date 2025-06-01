@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+import javax.el.MethodNotFoundException;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.http.client.methods.CloseableHttpResponse;
@@ -134,7 +135,7 @@ public class CrossRefImportMetadataSourceServiceIT extends AbstractLiveImportInt
         }
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test(expected = MethodNotFoundException.class)
     public void crossRefImportMetadataFindMatchingRecordsTest() throws Exception {
         context.turnOffAuthorisationSystem();
         parentCommunity = CommunityBuilder.createCommunity(context)
@@ -162,8 +163,7 @@ public class CrossRefImportMetadataSourceServiceIT extends AbstractLiveImportInt
                 "State of Awareness of Freshers’ Groups Chortkiv State"
                 + " Medical College of Prevention of Iodine Deficiency Diseases");
         MetadatumDTO author = createMetadatumDTO("dc", "contributor", "author", "Senyuk, L.V.");
-        // is expected the dc.type to be mapped from journal-article to Article
-        MetadatumDTO type = createMetadatumDTO("dc", "type", null, "Article");
+        MetadatumDTO type = createMetadatumDTO("dc", "type", null, "journal-article");
         MetadatumDTO date = createMetadatumDTO("dc", "date", "issued", "2016-05-19");
         MetadatumDTO ispartof = createMetadatumDTO("dc", "relation", "ispartof",
                                    "Ukraïnsʹkij žurnal medicini, bìologìï ta sportu");
@@ -192,8 +192,7 @@ public class CrossRefImportMetadataSourceServiceIT extends AbstractLiveImportInt
         MetadatumDTO title2 = createMetadatumDTO("dc", "title", null,
                 "Ischemic Heart Disease and Role of Nurse of Cardiology Department");
         MetadatumDTO author2 = createMetadatumDTO("dc", "contributor", "author", "Kozak, K. І.");
-        // is expected the dc.type to be mapped from journal-article to Article
-        MetadatumDTO type2 = createMetadatumDTO("dc", "type", null, "Article");
+        MetadatumDTO type2 = createMetadatumDTO("dc", "type", null, "journal-article");
         MetadatumDTO date2 = createMetadatumDTO("dc", "date", "issued", "2016-05-19");
         MetadatumDTO ispartof2 = createMetadatumDTO("dc", "relation", "ispartof",
                                      "Ukraïnsʹkij žurnal medicini, bìologìï ta sportu");

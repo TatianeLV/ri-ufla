@@ -9,15 +9,16 @@
 package org.dspace.app.util;
 
 import java.sql.SQLException;
-import java.time.Instant;
+import java.sql.Timestamp;
+import java.util.Date;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.dspace.app.util.factory.UtilServiceFactory;
 import org.dspace.app.util.service.WebAppService;
 import org.dspace.core.Context;
 import org.dspace.services.ConfigurationService;
 import org.dspace.services.factory.DSpaceServicesFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Represent a DSpace application while it is running.  This helps us report
@@ -28,13 +29,14 @@ import org.dspace.services.factory.DSpaceServicesFactory;
  */
 abstract public class AbstractDSpaceWebapp
     implements DSpaceWebappMXBean {
-    private static final Logger log = LogManager.getLogger();
+    private static final Logger log = LoggerFactory.getLogger(AbstractDSpaceWebapp.class);
 
     protected final WebAppService webAppService = UtilServiceFactory.getInstance().getWebAppService();
 
+
     protected String kind;
 
-    protected Instant started;
+    protected Date started;
 
     protected String url;
 
@@ -54,7 +56,7 @@ abstract public class AbstractDSpaceWebapp
     public AbstractDSpaceWebapp(String kind) {
         this.kind = kind;
 
-        started = Instant.now();
+        started = new Date();
 
         ConfigurationService configurationService
                 = DSpaceServicesFactory.getInstance().getConfigurationService();
@@ -69,9 +71,10 @@ abstract public class AbstractDSpaceWebapp
      */
     public void register() {
         // Create the database entry
+        Timestamp now = new Timestamp(started.getTime());
         try {
             Context context = new Context();
-            webApp = webAppService.create(context, kind, url, started, isUI() ? 1 : 0);
+            webApp = webAppService.create(context, kind, url, now, isUI() ? 1 : 0);
             context.complete();
         } catch (SQLException e) {
             log.error("Failed to record startup in Webapp table.", e);

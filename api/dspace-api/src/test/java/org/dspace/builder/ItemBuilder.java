@@ -13,7 +13,6 @@ import static org.dspace.content.authority.Choices.CF_ACCEPTED;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.time.Period;
 import java.util.UUID;
 
 import org.dspace.authorize.AuthorizeException;
@@ -186,10 +185,6 @@ public class ItemBuilder extends AbstractDSpaceObjectBuilder<Item> {
         return addMetadataValue(item, "iiif", "image", "height", String.valueOf(i));
     }
 
-    public ItemBuilder withDSpaceObjectOwner(String name, String authority) {
-        return addMetadataValue(item, "dspace", "object", "owner", null, name, authority, 600);
-    }
-
     public ItemBuilder withMetadata(final String schema, final String element, final String qualifier,
         final String value) {
         return addMetadataValue(item, schema, element, qualifier, value);
@@ -286,8 +281,8 @@ public class ItemBuilder extends AbstractDSpaceObjectBuilder<Item> {
     }
 
     /**
-     * Withdraw the item under build. Please note that the Context must be
-     * logged in to avoid NPE during the creation of the provenance metadata.
+     * Withdrawn the item under build. Please note that an user need to be loggedin the context to avoid NPE during the
+     * creation of the provenance metadata
      *
      * @return the ItemBuilder
      */
@@ -296,13 +291,7 @@ public class ItemBuilder extends AbstractDSpaceObjectBuilder<Item> {
         return this;
     }
 
-    /**
-     * Set an embargo to end after some time from "now".
-     *
-     * @param embargoPeriod embargo starting "now", for this long.
-     * @return the ItemBuilder.
-     */
-    public ItemBuilder withEmbargoPeriod(Period embargoPeriod) {
+    public ItemBuilder withEmbargoPeriod(String embargoPeriod) {
         return setEmbargo(embargoPeriod, item);
     }
 

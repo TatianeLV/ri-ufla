@@ -7,8 +7,8 @@
  */
 package org.dspace.app.rest;
 
-import static jakarta.servlet.http.HttpServletResponse.SC_NOT_FOUND;
-import static jakarta.servlet.http.HttpServletResponse.SC_OK;
+import static javax.servlet.http.HttpServletResponse.SC_NOT_FOUND;
+import static javax.servlet.http.HttpServletResponse.SC_OK;
 import static org.dspace.app.rest.matcher.MetadataMatcher.matchMetadata;
 import static org.dspace.app.rest.matcher.MetadataMatcher.matchMetadataDoesNotExist;
 import static org.dspace.app.rest.repository.patch.operation.BitstreamRemoveOperation.OPERATION_PATH_BITSTREAM_REMOVE;
@@ -16,8 +16,6 @@ import static org.dspace.core.Constants.WRITE;
 import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
-import static org.hamcrest.Matchers.notNullValue;
-import static org.hamcrest.Matchers.nullValue;
 import static org.junit.Assert.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -27,14 +25,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.io.InputStream;
-import java.time.Period;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.UUID;
+import javax.ws.rs.core.MediaType;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import jakarta.ws.rs.core.MediaType;
 import org.apache.commons.codec.CharEncoding;
 import org.apache.commons.io.IOUtils;
 import org.dspace.app.rest.matcher.BitstreamFormatMatcher;
@@ -102,9 +98,6 @@ public class BitstreamRestRepositoryIT extends AbstractControllerIntegrationTest
 
     @Autowired
     CommunityService communityService;
-
-    @Autowired
-    private ObjectMapper mapper;
 
     @Test
     public void findAllTest() throws Exception {
@@ -318,7 +311,7 @@ public class BitstreamRestRepositoryIT extends AbstractControllerIntegrationTest
                 .withName("Test Embargoed Bitstream")
                 .withDescription("This bitstream is embargoed")
                 .withMimeType("text/plain")
-                .withEmbargoPeriod(Period.ofMonths(3))
+                .withEmbargoPeriod("3 months")
                 .build();
         }
         context.restoreAuthSystemState();
@@ -371,7 +364,7 @@ public class BitstreamRestRepositoryIT extends AbstractControllerIntegrationTest
                 .withName("Test Embargoed Bitstream")
                 .withDescription("This bitstream is embargoed")
                 .withMimeType(bitstreamFormat.getMIMEType())
-                .withEmbargoPeriod(Period.ofMonths(3))
+                .withEmbargoPeriod("3 months")
                 .build();
         }
         context.restoreAuthSystemState();
@@ -525,7 +518,7 @@ public class BitstreamRestRepositoryIT extends AbstractControllerIntegrationTest
                 .withName("Test Embargoed Bitstream")
                 .withDescription("This bitstream is embargoed")
                 .withMimeType("text/plain")
-                .withEmbargoPeriod(Period.ofMonths(3))
+                .withEmbargoPeriod("3 months")
                 .build();
         }
 
@@ -585,7 +578,7 @@ public class BitstreamRestRepositoryIT extends AbstractControllerIntegrationTest
                 .withName("Test Embargoed Bitstream")
                 .withDescription("This bitstream is embargoed")
                 .withMimeType(bitstreamFormat.getMIMEType())
-                .withEmbargoPeriod(Period.ofMonths(3))
+                .withEmbargoPeriod("3 months")
                 .build();
         }
 
@@ -646,7 +639,7 @@ public class BitstreamRestRepositoryIT extends AbstractControllerIntegrationTest
                 .withName("Test Embargoed Bitstream")
                 .withDescription("This bitstream is embargoed")
                 .withMimeType("text/plain")
-                .withEmbargoPeriod(Period.ofMonths(3))
+                .withEmbargoPeriod("3 months")
                 .build();
         }
 
@@ -709,7 +702,7 @@ public class BitstreamRestRepositoryIT extends AbstractControllerIntegrationTest
                 .withName("Test Embargoed Bitstream")
                 .withDescription("This bitstream is embargoed")
                 .withMimeType(bitstreamFormat.getMIMEType())
-                .withEmbargoPeriod(Period.ofMonths(3))
+                .withEmbargoPeriod("3 months")
                 .build();
         }
 
@@ -776,7 +769,7 @@ public class BitstreamRestRepositoryIT extends AbstractControllerIntegrationTest
                 .withName("Test Embargoed Bitstream")
                 .withDescription("This bitstream is embargoed")
                 .withMimeType("text/plain")
-                .withEmbargoPeriod(Period.ofMonths(3))
+                .withEmbargoPeriod("3 months")
                 .build();
         }
 
@@ -834,7 +827,7 @@ public class BitstreamRestRepositoryIT extends AbstractControllerIntegrationTest
                 .withName("Test Embargoed Bitstream")
                 .withDescription("This bitstream is embargoed")
                 .withMimeType("text/plain")
-                .withEmbargoPeriod(Period.ofMonths(3))
+                .withEmbargoPeriod("3 months")
                 .build();
         }
 
@@ -1250,7 +1243,7 @@ public class BitstreamRestRepositoryIT extends AbstractControllerIntegrationTest
         context.restoreAuthSystemState();
         String token = getAuthToken(asUser.getEmail(), password);
 
-        new MetadataPatchSuite(mapper).runWith(getClient(token), "/api/core/bitstreams/"
+        new MetadataPatchSuite().runWith(getClient(token), "/api/core/bitstreams/"
                 + parentCommunity.getLogo().getID(), expectedStatus);
     }
 
@@ -1315,7 +1308,7 @@ public class BitstreamRestRepositoryIT extends AbstractControllerIntegrationTest
         getClient(token)
             .perform(patch("/api/core/bitstreams/" + bitstream.getID())
             .content(requestBody)
-            .contentType(jakarta.ws.rs.core.MediaType.APPLICATION_JSON_PATCH_JSON))
+            .contentType(javax.ws.rs.core.MediaType.APPLICATION_JSON_PATCH_JSON))
             .andExpect(status().isOk())
             .andExpect(
                  jsonPath("$.metadata",
@@ -1953,7 +1946,7 @@ public class BitstreamRestRepositoryIT extends AbstractControllerIntegrationTest
                                       .withTitle("Test")
                                       .withIssueDate("2010-10-17")
                                       .withAuthor("Smith, Donald")
-                                      .withEmbargoPeriod(Period.ofMonths(6))
+                                      .withEmbargoPeriod("6 months")
                                       .build();
 
         String bitstreamContent = "This is an archived bitstream";
@@ -2426,7 +2419,7 @@ public class BitstreamRestRepositoryIT extends AbstractControllerIntegrationTest
                 .withName("Test Embargoed Bitstream")
                 .withDescription("This bitstream is embargoed")
                 .withMimeType("text/plain")
-                .withEmbargoPeriod(Period.ofMonths(3))
+                .withEmbargoPeriod("3 months")
                 .build();
         }
 
@@ -2933,82 +2926,6 @@ public class BitstreamRestRepositoryIT extends AbstractControllerIntegrationTest
                                      .content(patchBody)
                                      .contentType(MediaType.APPLICATION_JSON_PATCH_JSON))
                         .andExpect(status().isNoContent());
-    }
-
-    @Test
-    public void findAccessStatusForBitstreamBadRequestTest() throws Exception {
-        getClient().perform(get("/api/core/bitstreams/{uuid}/accessStatus", "1"))
-                   .andExpect(status().isBadRequest());
-    }
-
-    @Test
-    public void findAccessStatusForItemNotFoundTest() throws Exception {
-        UUID fakeUUID = UUID.randomUUID();
-        getClient().perform(get("/api/core/items/{uuid}/accessStatus", fakeUUID))
-                   .andExpect(status().isNotFound());
-    }
-
-    @Test
-    public void findAccessStatusForBitstreamTest() throws Exception {
-        context.turnOffAuthorisationSystem();
-        parentCommunity = CommunityBuilder.createCommunity(context)
-                                          .withName("Parent Community")
-                                          .build();
-        Collection col1 = CollectionBuilder.createCollection(context, parentCommunity)
-                                           .withName("Collection 1")
-                                           .build();
-        Item publicItem1 = ItemBuilder.createItem(context, col1)
-                                           .withTitle("Test item 1")
-                                           .build();
-        String bitstreamContent = "ThisIsSomeDummyText";
-        Bitstream bitstream = null;
-        try (InputStream is = IOUtils.toInputStream(bitstreamContent, CharEncoding.UTF_8)) {
-            bitstream = BitstreamBuilder.createBitstream(context, publicItem1, is)
-                                        .withName("Bitstream")
-                                        .withDescription("Description")
-                                        .withMimeType("text/plain")
-                                        .build();
-        }
-        context.restoreAuthSystemState();
-
-        // Bitstream access status should still be accessible by anonymous request
-        getClient().perform(get("/api/core/bitstreams/" + bitstream.getID() + "/accessStatus"))
-            .andExpect(status().isOk())
-            .andExpect(jsonPath("$", HalMatcher.matchNoEmbeds()))
-            .andExpect(jsonPath("$.status", notNullValue()))
-            .andExpect(jsonPath("$.embargoDate", nullValue()));
-    }
-
-    @Test
-    public void findAccessStatusWithEmbargoDateForBitstreamTest() throws Exception {
-        context.turnOffAuthorisationSystem();
-        parentCommunity = CommunityBuilder.createCommunity(context)
-                                          .withName("Parent Community")
-                                          .build();
-        Collection col1 = CollectionBuilder.createCollection(context, parentCommunity)
-                                           .withName("Collection 1")
-                                           .build();
-        Item publicItem1 = ItemBuilder.createItem(context, col1)
-                                           .withTitle("Test item 1")
-                                           .build();
-        String bitstreamContent = "ThisIsSomeDummyText";
-        Bitstream bitstream = null;
-        try (InputStream is = IOUtils.toInputStream(bitstreamContent, CharEncoding.UTF_8)) {
-            bitstream = BitstreamBuilder.createBitstream(context, publicItem1, is)
-                                        .withName("Bitstream")
-                                        .withDescription("Description")
-                                        .withMimeType("text/plain")
-                                        .withEmbargoPeriod(Period.ofMonths(6))
-                                        .build();
-        }
-        context.restoreAuthSystemState();
-
-        // Bitstream access status should still be accessible by anonymous request
-        getClient().perform(get("/api/core/bitstreams/" + bitstream.getID() + "/accessStatus"))
-            .andExpect(status().isOk())
-            .andExpect(jsonPath("$", HalMatcher.matchNoEmbeds()))
-            .andExpect(jsonPath("$.status", notNullValue()))
-            .andExpect(jsonPath("$.embargoDate", notNullValue()));
     }
 
     public boolean bitstreamExists(String token, Bitstream ...bitstreams) throws Exception {

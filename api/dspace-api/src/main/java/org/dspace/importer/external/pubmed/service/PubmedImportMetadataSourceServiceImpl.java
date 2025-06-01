@@ -13,7 +13,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.StringReader;
-import java.time.Instant;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -235,10 +234,6 @@ public class PubmedImportMetadataSourceServiceImpl extends AbstractImportMetadat
 
         try {
             SAXBuilder saxBuilder = new SAXBuilder();
-            // Disallow external entities & entity expansion to protect against XXE attacks
-            // (NOTE: We receive errors if we disable all DTDs for PubMed, so this is the best we can do)
-            saxBuilder.setFeature("http://xml.org/sax/features/external-general-entities", false);
-            saxBuilder.setFeature("http://xml.org/sax/features/external-parameter-entities", false);
             Document document = saxBuilder.build(new StringReader(src));
             Element root = document.getRootElement();
 
@@ -298,13 +293,13 @@ public class PubmedImportMetadataSourceServiceImpl extends AbstractImportMetadat
             while (StringUtils.isBlank(response) && countAttempt <= attempt) {
                 countAttempt++;
 
-                long time = Instant.now().toEpochMilli() - lastRequest;
+                long time = System.currentTimeMillis() - lastRequest;
                 if ((time) < interRequestTime) {
                     Thread.sleep(interRequestTime - time);
                 }
 
                 response = liveImportClient.executeHttpGetRequest(1000, uriBuilder.toString(), params);
-                lastRequest = Instant.now().toEpochMilli();
+                lastRequest = System.currentTimeMillis();
             }
 
             if (StringUtils.isBlank(response)) {
@@ -328,13 +323,13 @@ public class PubmedImportMetadataSourceServiceImpl extends AbstractImportMetadat
             countAttempt = 0;
             while (StringUtils.isBlank(response2) && countAttempt <= attempt) {
                 countAttempt++;
-                long time = Instant.now().toEpochMilli() - lastRequest;
+                long time = System.currentTimeMillis() - lastRequest;
                 if ((time) < interRequestTime) {
                     Thread.sleep(interRequestTime - time);
                 }
                 response2 = liveImportClient.executeHttpGetRequest(1000, uriBuilder2.toString(), params2);
 
-                lastRequest = Instant.now().toEpochMilli();
+                lastRequest = System.currentTimeMillis();
             }
 
             if (StringUtils.isBlank(response2)) {
@@ -441,13 +436,13 @@ public class PubmedImportMetadataSourceServiceImpl extends AbstractImportMetadat
             int countAttempt = 0;
             while (StringUtils.isBlank(response) && countAttempt <= attempt) {
                 countAttempt++;
-                long time = Instant.now().toEpochMilli() - lastRequest;
+                long time = System.currentTimeMillis() - lastRequest;
                 if ((time) < interRequestTime) {
                     Thread.sleep(interRequestTime - time);
                 }
 
                 response = liveImportClient.executeHttpGetRequest(1000, uriBuilder.toString(), params);
-                lastRequest = Instant.now().toEpochMilli();
+                lastRequest = System.currentTimeMillis();
             }
 
             if (StringUtils.isBlank(response)) {
@@ -470,12 +465,12 @@ public class PubmedImportMetadataSourceServiceImpl extends AbstractImportMetadat
             countAttempt = 0;
             while (StringUtils.isBlank(response2) && countAttempt <= attempt) {
                 countAttempt++;
-                long time = Instant.now().toEpochMilli() - lastRequest;
+                long time = System.currentTimeMillis() - lastRequest;
                 if ((time) < interRequestTime) {
                     Thread.sleep(interRequestTime - time);
                 }
                 response2 = liveImportClient.executeHttpGetRequest(1000, uriBuilder2.toString(), params2);
-                lastRequest = Instant.now().toEpochMilli();
+                lastRequest = System.currentTimeMillis();
             }
 
             if (StringUtils.isBlank(response2)) {

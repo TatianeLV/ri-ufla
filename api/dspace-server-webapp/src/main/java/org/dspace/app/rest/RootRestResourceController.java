@@ -7,7 +7,8 @@
  */
 package org.dspace.app.rest;
 
-import jakarta.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletRequest;
+
 import org.dspace.app.rest.converter.ConverterService;
 import org.dspace.app.rest.link.HalLinkService;
 import org.dspace.app.rest.model.hateoas.RootResource;

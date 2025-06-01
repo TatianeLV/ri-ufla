@@ -23,6 +23,7 @@ import org.dspace.authorize.service.AuthorizeService;
 import org.dspace.content.DSpaceObject;
 import org.dspace.content.Item;
 import org.dspace.core.Context;
+import org.dspace.discovery.DiscoverFacetField;
 import org.dspace.discovery.DiscoverQuery;
 import org.dspace.discovery.DiscoverQuery.SORT_ORDER;
 import org.dspace.discovery.DiscoverResult;
@@ -33,6 +34,7 @@ import org.dspace.discovery.SearchService;
 import org.dspace.discovery.SearchServiceException;
 import org.dspace.discovery.SearchUtils;
 import org.dspace.discovery.configuration.DiscoveryConfiguration;
+import org.dspace.discovery.configuration.DiscoveryConfigurationParameters;
 import org.dspace.discovery.indexobject.IndexableItem;
 import org.dspace.services.factory.DSpaceServicesFactory;
 
@@ -179,28 +181,32 @@ public class SolrBrowseDAO implements BrowseDAO {
             addLocationScopeFilter(query);
             addDefaultFilterQueries(query);
             if (distinct) {
-                // We use a json.facet query for metadata browsing because it allows us to limit the results
-                // while obtaining the total number of facet values with numBuckets:true and sort in reverse order
-                // Example of json.facet query:
-                // {"<fieldName>": {"type":"terms","field": "<fieldName>_filter", "limit":0, "offset":0,
-                // "sort":"index desc", "numBuckets":true, "prefix":"<startsWith>"}}
+                DiscoverFacetField dff;
+
+                // To get the number of distinct values we use the next "json.facet" query param
+                // {"entries_count": {"type":"terms","field": "<fieldName>_filter", "limit":0, "numBuckets":true}}"
                 ObjectNode jsonFacet = JsonNodeFactory.instance.objectNode();
-                ObjectNode entriesFacet = JsonNodeFactory.instance.objectNode();
-                entriesFacet.put("type", "terms");
-                entriesFacet.put("field", facetField + "_filter");
-                entriesFacet.put("limit", limit);
-                entriesFacet.put("offset", offset);
-                entriesFacet.put("numBuckets", true);
-                if (ascending) {
-                    entriesFacet.put("sort", "index");
-                } else {
-                    entriesFacet.put("sort", "index desc");
-                }
+                ObjectNode entriesCount = JsonNodeFactory.instance.objectNode();
+                entriesCount.put("type", "terms");
+                entriesCount.put("field", facetField + "_filter");
+                entriesCount.put("limit", 0);
+                entriesCount.put("numBuckets", true);
+                jsonFacet.set("entries_count", entriesCount);
+
                 if (StringUtils.isNotBlank(startsWith)) {
+                    dff = new DiscoverFacetField(facetField,
+                        DiscoveryConfigurationParameters.TYPE_TEXT, limit,
+                        DiscoveryConfigurationParameters.SORT.VALUE, startsWith, offset);
+
                     // Add the prefix to the json facet query
-                    entriesFacet.put("prefix", startsWith);
+                    entriesCount.put("prefix", startsWith);
+                } else {
+                    dff = new DiscoverFacetField(facetField,
+                        DiscoveryConfigurationParameters.TYPE_TEXT, limit,
+                        DiscoveryConfigurationParameters.SORT.VALUE, offset);
                 }
-                jsonFacet.set(facetField, entriesFacet);
+                query.addFacetField(dff);
+                query.setFacetMinCount(1);
                 query.setMaxResults(0);
                 query.addProperty("json.facet", jsonFacet.toString());
             } else {
@@ -276,15 +282,26 @@ public class SolrBrowseDAO implements BrowseDAO {
         DiscoverResult resp = getSolrResponse();
         List<FacetResult> facet = resp.getFacetResult(facetField);
         int count = doCountQuery();
+        int start = 0;
         int max = facet.size();
         List<String[]> result = new ArrayList<>();
-
-        for (int i = 0; i < max && i < count; i++) {
-            FacetResult c = facet.get(i);
-            String freq = showFrequencies ? String.valueOf(c.getCount())
-                : "";
-            result.add(new String[] {c.getDisplayedValue(),
-                c.getAuthorityKey(), freq});
+        if (ascending) {
+            for (int i = start; i < (start + max) && i < count; i++) {
+                FacetResult c = facet.get(i);
+                String freq = showFrequencies ? String.valueOf(c.getCount())
+                    : "";
+                result.add(new String[] {c.getDisplayedValue(),
+                    c.getAuthorityKey(), freq});
+            }
+        } else {
+            for (int i = count - start - 1; i >= count - (start + max)
+                && i >= 0; i--) {
+                FacetResult c = facet.get(i);
+                String freq = showFrequencies ? String.valueOf(c.getCount())
+                    : "";
+                result.add(new String[] {c.getDisplayedValue(),
+                    c.getAuthorityKey(), freq});
+            }
         }
 
         return result;
@@ -345,9 +362,9 @@ public class SolrBrowseDAO implements BrowseDAO {
         }
 
         if (isAscending) {
-            query.setQuery("bi_" + column + "_sort" + ":[* TO \"" + value + "\"}");
+            query.setQuery("bi_" + column + "_sort" + ": [* TO \"" + value + "\"}");
         } else {
-            query.setQuery("bi_" + column + "_sort" + ":{\"" + value + "\" TO *]");
+            query.setQuery("bi_" + column + "_sort" + ": {\"" + value + "\" TO *]");
             query.addFilterQueries("-(bi_" + column + "_sort" + ":" + value + "*)");
         }
         DiscoverResult resp = null;

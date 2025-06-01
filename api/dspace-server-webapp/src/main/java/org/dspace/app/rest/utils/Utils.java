@@ -43,10 +43,10 @@ import java.util.Scanner;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.UUID;
+import javax.annotation.Nullable;
+import javax.servlet.ServletRequest;
+import javax.servlet.http.HttpServletRequest;
 
-import jakarta.annotation.Nullable;
-import jakarta.servlet.ServletRequest;
-import jakarta.servlet.http.HttpServletRequest;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -267,7 +267,8 @@ public class Utils {
      */
     public DSpaceRestRepository getResourceRepository(String apiCategory, String modelPlural)
             throws RepositoryNotFoundException {
-        return getResourceRepositoryByCategoryAndModel(apiCategory, modelPlural);
+        String model = makeSingular(modelPlural);
+        return getResourceRepositoryByCategoryAndModel(apiCategory, model);
     }
 
     /**
@@ -275,16 +276,16 @@ public class Utils {
      * as returned by the {@link RestAddressableModel#getType()} method
      *
      * @param apiCategory
-     * @param modelPlural
+     * @param modelSingular
      * @return the requested repository.
      * @throws RepositoryNotFoundException if no such repository can be found.
      */
-    public DSpaceRestRepository getResourceRepositoryByCategoryAndModel(String apiCategory, String modelPlural)
+    public DSpaceRestRepository getResourceRepositoryByCategoryAndModel(String apiCategory, String modelSingular)
             throws RepositoryNotFoundException {
         try {
-            return applicationContext.getBean(apiCategory + "." + modelPlural, DSpaceRestRepository.class);
+            return applicationContext.getBean(apiCategory + "." + modelSingular, DSpaceRestRepository.class);
         } catch (NoSuchBeanDefinitionException e) {
-            throw new RepositoryNotFoundException(apiCategory, modelPlural);
+            throw new RepositoryNotFoundException(apiCategory, modelSingular);
         }
     }
 
@@ -342,10 +343,11 @@ public class Utils {
      * @return
      */
     public LinkRestRepository getLinkResourceRepository(String apiCategory, String modelPlural, String rel) {
+        String model = makeSingular(modelPlural);
         try {
-            return applicationContext.getBean(apiCategory + "." + modelPlural + "." + rel, LinkRestRepository.class);
+            return applicationContext.getBean(apiCategory + "." + model + "." + rel, LinkRestRepository.class);
         } catch (NoSuchBeanDefinitionException e) {
-            throw new RepositoryNotFoundException(apiCategory, modelPlural);
+            throw new RepositoryNotFoundException(apiCategory, model);
         }
     }
 
@@ -740,7 +742,7 @@ public class Utils {
         }
         Projection projection = resource.getContent().getProjection();
         LinkRestRepository linkRepository = getLinkResourceRepository(resource.getContent().getCategory(),
-                resource.getContent().getTypePlural(), rel);
+                resource.getContent().getType(), rel);
         if (linkRepository.isEmbeddableRelation(resource.getContent(), rel)) {
             Method method = requireMethod(linkRepository.getClass(), linkRest.method());
             Object contentId = getContentIdForLinkMethod(resource.getContent(), method);
@@ -971,7 +973,7 @@ public class Utils {
     public Object getDSpaceAPIObjectFromRest(Context context, BaseObjectRest restObj)
             throws IllegalArgumentException, SQLException {
         DSpaceRestRepository repository = getResourceRepositoryByCategoryAndModel(restObj.getCategory(),
-                restObj.getTypePlural());
+                restObj.getType());
         Serializable pk = castToPKClass((ReloadableEntityObjectRepository) repository, restObj.getId().toString());
         return ((ReloadableEntityObjectRepository) repository).findDomainObjectByPk(context, pk);
     }

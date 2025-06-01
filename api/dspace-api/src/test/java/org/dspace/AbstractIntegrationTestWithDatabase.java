@@ -9,10 +9,7 @@ package org.dspace;
 
 import static org.junit.Assert.fail;
 
-import java.sql.Connection;
 import java.sql.SQLException;
-import java.sql.Statement;
-import javax.sql.DataSource;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -32,8 +29,6 @@ import org.dspace.eperson.factory.EPersonServiceFactory;
 import org.dspace.eperson.service.EPersonService;
 import org.dspace.eperson.service.GroupService;
 import org.dspace.kernel.ServiceManager;
-import org.dspace.qaevent.MockQAEventService;
-import org.dspace.qaevent.service.QAEventService;
 import org.dspace.services.factory.DSpaceServicesFactory;
 import org.dspace.statistics.MockSolrLoggerServiceImpl;
 import org.dspace.statistics.MockSolrStatisticsCore;
@@ -94,14 +89,6 @@ public class AbstractIntegrationTestWithDatabase extends AbstractDSpaceIntegrati
         try {
             // Update/Initialize the database to latest version (via Flyway)
             DatabaseUtils.updateDatabase();
-
-            // Register custom functions in the H2 database
-            DataSource dataSource = DSpaceServicesFactory.getInstance()
-                    .getServiceManager()
-                    .getServiceByName("dataSource", DataSource.class);
-            try (Connection c = dataSource.getConnection(); Statement stmt = c.createStatement()) {
-                stmt.execute("CREATE ALIAS IF NOT EXISTS matches FOR 'org.dspace.util.DSpaceH2Dialect.matches'");
-            }
         } catch (SQLException se) {
             log.error("Error initializing database", se);
             fail("Error initializing database: " + se.getMessage()
@@ -184,38 +171,25 @@ public class AbstractIntegrationTestWithDatabase extends AbstractDSpaceIntegrati
             AbstractBuilder.cleanupObjects();
             parentCommunity = null;
             cleanupContext();
-        } catch (Exception e) {
-            throw new RuntimeException("Error cleaning up builder objects & context object", e);
-        }
 
-        ServiceManager serviceManager = DSpaceServicesFactory.getInstance().getServiceManager();
+            ServiceManager serviceManager = DSpaceServicesFactory.getInstance().getServiceManager();
+            // Clear the search core.
+            MockSolrSearchCore searchService = serviceManager
+                    .getServiceByName(null, MockSolrSearchCore.class);
+            searchService.reset();
+            // Clear the statistics core.
+            serviceManager
+                    .getServiceByName(SolrStatisticsCore.class.getName(), MockSolrStatisticsCore.class)
+                    .reset();
 
-        // Clear the search core.
-        MockSolrSearchCore searchService = serviceManager
-                .getServiceByName(null, MockSolrSearchCore.class);
-        searchService.reset();
+            MockSolrLoggerServiceImpl statisticsService = serviceManager
+                    .getServiceByName("solrLoggerService", MockSolrLoggerServiceImpl.class);
+            statisticsService.reset();
 
-        // Clear the statistics core.
-        serviceManager
-                .getServiceByName(SolrStatisticsCore.class.getName(), MockSolrStatisticsCore.class)
-                .reset();
+            MockAuthoritySolrServiceImpl authorityService = serviceManager
+                    .getServiceByName(AuthoritySearchService.class.getName(), MockAuthoritySolrServiceImpl.class);
+            authorityService.reset();
 
-        // Reset the statistics logger service
-        MockSolrLoggerServiceImpl loggerService = serviceManager
-                .getServiceByName("solrLoggerService", MockSolrLoggerServiceImpl.class);
-        loggerService.reset();
-
-        // Clear the authority core
-        MockAuthoritySolrServiceImpl authorityService = serviceManager
-                .getServiceByName(AuthoritySearchService.class.getName(), MockAuthoritySolrServiceImpl.class);
-        authorityService.reset();
-
-        // Clear the QA events core
-        MockQAEventService qaEventService = serviceManager
-            .getServiceByName(QAEventService.class.getName(), MockQAEventService.class);
-        qaEventService.reset();
-
-        try {
             // Reload our ConfigurationService (to reset configs to defaults again)
             DSpaceServicesFactory.getInstance().getConfigurationService().reloadConfig();
 
@@ -224,7 +198,7 @@ public class AbstractIntegrationTestWithDatabase extends AbstractDSpaceIntegrati
             // NOTE: we explicitly do NOT destroy our default eperson & admin as they
             // are cached and reused for all tests. This speeds up all tests.
         } catch (Exception e) {
-            throw new RuntimeException("Error reloading configuration & resetting builders", e);
+            throw new RuntimeException(e);
         }
     }
 

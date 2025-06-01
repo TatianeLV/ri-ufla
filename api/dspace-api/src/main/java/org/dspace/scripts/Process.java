@@ -7,25 +7,28 @@
  */
 package org.dspace.scripts;
 
-import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.Lob;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.SequenceGenerator;
-import jakarta.persistence.Table;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.dspace.content.Bitstream;
@@ -33,7 +36,7 @@ import org.dspace.content.ProcessStatus;
 import org.dspace.core.ReloadableEntity;
 import org.dspace.eperson.EPerson;
 import org.dspace.eperson.Group;
-import org.hibernate.Length;
+import org.hibernate.annotations.Type;
 
 /**
  * This class is the DB Entity representation of the Process object to be stored in the Database
@@ -53,10 +56,12 @@ public class Process implements ReloadableEntity<Integer> {
     private EPerson ePerson;
 
     @Column(name = "start_time")
-    private Instant startTime;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date startTime;
 
     @Column(name = "finished_time")
-    private Instant finishedTime;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date finishedTime;
 
     @Column(name = "script", nullable = false)
     private String name;
@@ -65,7 +70,9 @@ public class Process implements ReloadableEntity<Integer> {
     @Enumerated(EnumType.STRING)
     private ProcessStatus processStatus;
 
-    @Column(name = "parameters", length = Length.LONG32)
+    @Lob
+    @Type(type = "org.hibernate.type.TextType")
+    @Column(name = "parameters")
     private String parameters;
 
     @ManyToMany(fetch = FetchType.LAZY)
@@ -88,7 +95,8 @@ public class Process implements ReloadableEntity<Integer> {
     private List<Group> groups;
 
     @Column(name = "creation_time", nullable = false)
-    private Instant creationTime;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date creationTime;
 
     public static final String BITSTREAM_TYPE_METADATAFIELD = "dspace.process.filetype";
     public static final String OUTPUT_TYPE = "script_output";
@@ -125,11 +133,11 @@ public class Process implements ReloadableEntity<Integer> {
      * This method returns the Start time for the Process. This reflects the time when the Process was actually started
      * @return  The start time for the Process
      */
-    public Instant getStartTime() {
+    public Date getStartTime() {
         return startTime;
     }
 
-    public void setStartTime(Instant startTime) {
+    public void setStartTime(Date startTime) {
         this.startTime = startTime;
     }
 
@@ -137,11 +145,11 @@ public class Process implements ReloadableEntity<Integer> {
      * This method returns the time that Process was finished
      * @return  The finished time for the Process
      */
-    public Instant getFinishedTime() {
+    public Date getFinishedTime() {
         return finishedTime;
     }
 
-    public void setFinishedTime(Instant finishedTime) {
+    public void setFinishedTime(Date finishedTime) {
         this.finishedTime = finishedTime;
     }
 
@@ -207,7 +215,7 @@ public class Process implements ReloadableEntity<Integer> {
         getBitstreams().add(bitstream);
     }
 
-    public void setCreationTime(Instant creationTime) {
+    public void setCreationTime(Date creationTime) {
         this.creationTime = creationTime;
     }
 
@@ -216,7 +224,7 @@ public class Process implements ReloadableEntity<Integer> {
      * the StartTime (for example if the Process was queued)
      * @return  The creation time of the Process
      */
-    public Instant getCreationTime() {
+    public Date getCreationTime() {
         return creationTime;
     }
 

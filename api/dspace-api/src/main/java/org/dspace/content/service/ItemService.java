@@ -10,7 +10,7 @@ package org.dspace.content.service;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.SQLException;
-import java.time.Instant;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.UUID;
@@ -23,10 +23,10 @@ import org.dspace.content.Collection;
 import org.dspace.content.Community;
 import org.dspace.content.EntityType;
 import org.dspace.content.Item;
+import org.dspace.content.MetadataField;
 import org.dspace.content.MetadataValue;
 import org.dspace.content.Thumbnail;
 import org.dspace.content.WorkspaceItem;
-import org.dspace.contentreport.QueryPredicate;
 import org.dspace.core.Context;
 import org.dspace.discovery.SearchServiceException;
 import org.dspace.eperson.EPerson;
@@ -42,7 +42,7 @@ import org.dspace.eperson.Group;
 public interface ItemService
         extends DSpaceObjectService<Item>, DSpaceObjectLegacySupportService<Item> {
 
-    Thumbnail getThumbnail(Context context, Item item, boolean requireOriginal) throws SQLException;
+    public Thumbnail getThumbnail(Context context, Item item, boolean requireOriginal) throws SQLException;
 
     /**
      * Create a new item, with a new internal ID. Authorization is done
@@ -54,7 +54,7 @@ public interface ItemService
      * @throws SQLException       if database error
      * @throws AuthorizeException if authorization error
      */
-    Item create(Context context, WorkspaceItem workspaceItem) throws SQLException, AuthorizeException;
+    public Item create(Context context, WorkspaceItem workspaceItem) throws SQLException, AuthorizeException;
 
     /**
      * Create a new item, with a provided ID. Authorisation is done
@@ -67,7 +67,7 @@ public interface ItemService
      * @throws SQLException if database error
      * @throws AuthorizeException if authorization error
      */
-    Item create(Context context, WorkspaceItem workspaceItem, UUID uuid) throws SQLException, AuthorizeException;
+    public Item create(Context context, WorkspaceItem workspaceItem, UUID uuid) throws SQLException, AuthorizeException;
 
     /**
      * Create an empty template item for this collection. If one already exists,
@@ -81,7 +81,7 @@ public interface ItemService
      * @throws SQLException       if database error
      * @throws AuthorizeException if authorization error
      */
-    Item createTemplateItem(Context context, Collection collection) throws SQLException, AuthorizeException;
+    public Item createTemplateItem(Context context, Collection collection) throws SQLException, AuthorizeException;
 
     /**
      * Populate the given item with all template item specified metadata.
@@ -103,7 +103,7 @@ public interface ItemService
      * @return an iterator over the items in the archive.
      * @throws SQLException if database error
      */
-    Iterator<Item> findAll(Context context) throws SQLException;
+    public Iterator<Item> findAll(Context context) throws SQLException;
 
     /**
      * Get all the items in the archive. Only items with the "in archive" flag
@@ -115,7 +115,7 @@ public interface ItemService
      * @return an iterator over the items in the archive.
      * @throws SQLException if database error
      */
-    Iterator<Item> findAll(Context context, Integer limit, Integer offset) throws SQLException;
+    public Iterator<Item> findAll(Context context, Integer limit, Integer offset) throws SQLException;
 
     /**
      * Get all "final" items in the archive, both archived ("in archive" flag) or
@@ -125,7 +125,8 @@ public interface ItemService
      * @return an iterator over the items in the archive.
      * @throws SQLException if database error
      */
-    @Deprecated Iterator<Item> findAllUnfiltered(Context context) throws SQLException;
+    @Deprecated
+    public Iterator<Item> findAllUnfiltered(Context context) throws SQLException;
 
     /**
      * Find all items that are:
@@ -138,7 +139,7 @@ public interface ItemService
      * @return iterator over all regular items.
      * @throws SQLException if database error.
      */
-    Iterator<Item> findAllRegularItems(Context context) throws SQLException;
+    public Iterator<Item> findAllRegularItems(Context context) throws SQLException;
 
     /**
      * Find all the items in the archive by a given submitter. The order is
@@ -149,7 +150,7 @@ public interface ItemService
      * @return an iterator over the items submitted by eperson
      * @throws SQLException if database error
      */
-    Iterator<Item> findBySubmitter(Context context, EPerson eperson)
+    public Iterator<Item> findBySubmitter(Context context, EPerson eperson)
         throws SQLException;
 
     /**
@@ -164,7 +165,7 @@ public interface ItemService
      * @return an iterator over the items submitted by eperson
      * @throws SQLException if database error
      */
-    Iterator<Item> findBySubmitter(Context context, EPerson eperson, boolean retrieveAllItems)
+    public Iterator<Item> findBySubmitter(Context context, EPerson eperson, boolean retrieveAllItems)
             throws SQLException;
 
     /**
@@ -176,7 +177,7 @@ public interface ItemService
      * @return an iterator over the items submitted by eperson
      * @throws SQLException if database error
      */
-    Iterator<Item> findBySubmitterDateSorted(Context context, EPerson eperson, Integer limit)
+    public Iterator<Item> findBySubmitterDateSorted(Context context, EPerson eperson, Integer limit)
         throws SQLException;
 
     /**
@@ -187,7 +188,7 @@ public interface ItemService
      * @return an iterator over the items in the collection.
      * @throws SQLException if database error
      */
-    Iterator<Item> findByCollection(Context context, Collection collection) throws SQLException;
+    public Iterator<Item> findByCollection(Context context, Collection collection) throws SQLException;
 
     /**
      * Get all the archived items in this collection. The order is indeterminate.
@@ -199,7 +200,7 @@ public interface ItemService
      * @return an iterator over the items in the collection.
      * @throws SQLException if database error
      */
-    Iterator<Item> findByCollection(Context context, Collection collection, Integer limit, Integer offset)
+    public Iterator<Item> findByCollection(Context context, Collection collection, Integer limit, Integer offset)
         throws SQLException;
 
     /**
@@ -212,7 +213,7 @@ public interface ItemService
      * @return an iterator over the items in the collection.
      * @throws SQLException if database error
      */
-    Iterator<Item> findByCollectionMapping(Context context, Collection collection, Integer limit, Integer offset)
+    public Iterator<Item> findByCollectionMapping(Context context, Collection collection, Integer limit, Integer offset)
             throws SQLException;
 
     /**
@@ -223,7 +224,7 @@ public interface ItemService
      * @return an iterator over the items in the collection.
      * @throws SQLException if database error
      */
-    int countByCollectionMapping(Context context, Collection collection) throws SQLException;
+    public int countByCollectionMapping(Context context, Collection collection) throws SQLException;
 
     /**
      * Get all the items (including private and withdrawn) in this collection. The order is indeterminate.
@@ -235,7 +236,7 @@ public interface ItemService
      * @param offset offset value
      * @throws SQLException if database error
      */
-    Iterator<Item> findAllByCollection(Context context, Collection collection, Integer limit, Integer offset)
+    public Iterator<Item> findAllByCollection(Context context, Collection collection, Integer limit, Integer offset)
         throws SQLException;
 
     /**
@@ -246,7 +247,7 @@ public interface ItemService
      * @return an iterator over the items in the collection.
      * @throws SQLException if database error
      */
-    Iterator<Item> findInArchiveOrWithdrawnDiscoverableModifiedSince(Context context, Instant since)
+    public Iterator<Item> findInArchiveOrWithdrawnDiscoverableModifiedSince(Context context, Date since)
         throws SQLException;
 
     /**
@@ -256,7 +257,7 @@ public interface ItemService
      * @return an iterator over the items in the collection.
      * @throws SQLException if database error
      */
-    Iterator<Item> findInArchiveOrWithdrawnNonDiscoverableModifiedSince(Context context, Instant since)
+    public Iterator<Item> findInArchiveOrWithdrawnNonDiscoverableModifiedSince(Context context, Date since)
         throws SQLException;
 
     /**
@@ -267,7 +268,7 @@ public interface ItemService
      * @return an iterator over the items in the collection.
      * @throws SQLException if database error
      */
-    Iterator<Item> findAllByCollection(Context context, Collection collection) throws SQLException;
+    public Iterator<Item> findAllByCollection(Context context, Collection collection) throws SQLException;
 
     /**
      * See whether this Item is contained by a given Collection.
@@ -277,7 +278,7 @@ public interface ItemService
      * @return true if {@code collection} contains this Item.
      * @throws SQLException if database error
      */
-    boolean isIn(Item item, Collection collection) throws SQLException;
+    public boolean isIn(Item item, Collection collection) throws SQLException;
 
     /**
      * Get the communities this item is in. Returns an unordered array of the
@@ -289,7 +290,7 @@ public interface ItemService
      * @return the communities this item is in.
      * @throws SQLException if database error
      */
-    List<Community> getCommunities(Context context, Item item) throws SQLException;
+    public List<Community> getCommunities(Context context, Item item) throws SQLException;
 
 
     /**
@@ -300,7 +301,7 @@ public interface ItemService
      * @return the bundles in an unordered array
      * @throws SQLException if database error
      */
-    List<Bundle> getBundles(Item item, String name) throws SQLException;
+    public List<Bundle> getBundles(Item item, String name) throws SQLException;
 
     /**
      * Add an existing bundle to this item. This has immediate effect.
@@ -311,7 +312,7 @@ public interface ItemService
      * @throws SQLException       if database error
      * @throws AuthorizeException if authorization error
      */
-    void addBundle(Context context, Item item, Bundle bundle) throws SQLException, AuthorizeException;
+    public void addBundle(Context context, Item item, Bundle bundle) throws SQLException, AuthorizeException;
 
     /**
      * Remove a bundle. This may result in the bundle being deleted, if the
@@ -324,7 +325,7 @@ public interface ItemService
      * @throws AuthorizeException if authorization error
      * @throws IOException        if IO error
      */
-    void removeBundle(Context context, Item item, Bundle bundle) throws SQLException, AuthorizeException,
+    public void removeBundle(Context context, Item item, Bundle bundle) throws SQLException, AuthorizeException,
         IOException;
 
     /**
@@ -337,7 +338,7 @@ public interface ItemService
      * @throws AuthorizeException if authorization error
      * @throws IOException        if IO error
      */
-    void removeAllBundles(Context context, Item item) throws AuthorizeException, SQLException, IOException;
+    public void removeAllBundles(Context context, Item item) throws AuthorizeException, SQLException, IOException;
 
     /**
      * Create a single bitstream in a new bundle. Provided as a convenience
@@ -352,7 +353,7 @@ public interface ItemService
      * @throws IOException        if IO error
      * @throws SQLException       if database error
      */
-    Bitstream createSingleBitstream(Context context, InputStream is, Item item, String name)
+    public Bitstream createSingleBitstream(Context context, InputStream is, Item item, String name)
         throws AuthorizeException, IOException, SQLException;
 
     /**
@@ -366,7 +367,7 @@ public interface ItemService
      * @throws IOException        if IO error
      * @throws SQLException       if database error
      */
-    Bitstream createSingleBitstream(Context context, InputStream is, Item item)
+    public Bitstream createSingleBitstream(Context context, InputStream is, Item item)
         throws AuthorizeException, IOException, SQLException;
 
     /**
@@ -379,7 +380,7 @@ public interface ItemService
      * @return non-internal bitstreams.
      * @throws SQLException if database error
      */
-    List<Bitstream> getNonInternalBitstreams(Context context, Item item) throws SQLException;
+    public List<Bitstream> getNonInternalBitstreams(Context context, Item item) throws SQLException;
 
     /**
      * Remove just the DSpace license from an item This is useful to update the
@@ -394,7 +395,7 @@ public interface ItemService
      * @throws AuthorizeException if authorization error
      * @throws IOException        if IO error
      */
-    void removeDSpaceLicense(Context context, Item item) throws SQLException, AuthorizeException,
+    public void removeDSpaceLicense(Context context, Item item) throws SQLException, AuthorizeException,
         IOException;
 
     /**
@@ -406,7 +407,7 @@ public interface ItemService
      * @throws AuthorizeException if authorization error
      * @throws IOException        if IO error
      */
-    void removeLicenses(Context context, Item item) throws SQLException, AuthorizeException, IOException;
+    public void removeLicenses(Context context, Item item) throws SQLException, AuthorizeException, IOException;
 
     /**
      * Withdraw the item from the archive. It is kept in place, and the content
@@ -417,7 +418,7 @@ public interface ItemService
      * @throws SQLException       if database error
      * @throws AuthorizeException if authorization error
      */
-    void withdraw(Context context, Item item) throws SQLException, AuthorizeException;
+    public void withdraw(Context context, Item item) throws SQLException, AuthorizeException;
 
 
     /**
@@ -428,7 +429,7 @@ public interface ItemService
      * @throws SQLException       if database error
      * @throws AuthorizeException if authorization error
      */
-    void reinstate(Context context, Item item) throws SQLException, AuthorizeException;
+    public void reinstate(Context context, Item item) throws SQLException, AuthorizeException;
 
     /**
      * Return true if this Collection 'owns' this item
@@ -437,7 +438,7 @@ public interface ItemService
      * @param collection Collection
      * @return true if this Collection owns this item
      */
-    boolean isOwningCollection(Item item, Collection collection);
+    public boolean isOwningCollection(Item item, Collection collection);
 
     /**
      * remove all of the policies for item and replace them with a new list of
@@ -451,7 +452,7 @@ public interface ItemService
      * @throws SQLException       if database error
      * @throws AuthorizeException if authorization error
      */
-    void replaceAllItemPolicies(Context context, Item item, List<ResourcePolicy> newpolicies)
+    public void replaceAllItemPolicies(Context context, Item item, List<ResourcePolicy> newpolicies)
         throws SQLException,
         AuthorizeException;
 
@@ -467,7 +468,7 @@ public interface ItemService
      * @throws SQLException       if database error
      * @throws AuthorizeException if authorization error
      */
-    void replaceAllBitstreamPolicies(Context context, Item item, List<ResourcePolicy> newpolicies)
+    public void replaceAllBitstreamPolicies(Context context, Item item, List<ResourcePolicy> newpolicies)
         throws SQLException, AuthorizeException;
 
 
@@ -481,7 +482,7 @@ public interface ItemService
      * @throws SQLException       if database error
      * @throws AuthorizeException if authorization error
      */
-    void removeGroupPolicies(Context context, Item item, Group group) throws SQLException, AuthorizeException;
+    public void removeGroupPolicies(Context context, Item item, Group group) throws SQLException, AuthorizeException;
 
     /**
      * Remove all policies on an item and its contents, and replace them with
@@ -496,7 +497,7 @@ public interface ItemService
      *                            draconian, but default policies must be enforced.
      * @throws AuthorizeException if authorization error
      */
-    void inheritCollectionDefaultPolicies(Context context, Item item, Collection collection)
+    public void inheritCollectionDefaultPolicies(Context context, Item item, Collection collection)
         throws java.sql.SQLException, AuthorizeException;
 
     /**
@@ -515,7 +516,7 @@ public interface ItemService
      *                            draconian, but default policies must be enforced.
      * @throws AuthorizeException if authorization error
      */
-    void inheritCollectionDefaultPolicies(Context context, Item item, Collection collection,
+    public void inheritCollectionDefaultPolicies(Context context, Item item, Collection collection,
                                                  boolean overrideItemReadPolicies)
         throws java.sql.SQLException, AuthorizeException;
 
@@ -528,14 +529,14 @@ public interface ItemService
      * already applied to the bundle/bitstream. Collection's policies are inherited
      * if there are no other policies defined or if the append mode is defined by
      * the configuration via the core.authorization.installitem.inheritance-read.append-mode property
-     *
+     * 
      * @param context             DSpace context object
      * @param item                Item to adjust policies on
      * @param collection          Collection
      * @throws SQLException       If database error
      * @throws AuthorizeException If authorization error
      */
-    void adjustBundleBitstreamPolicies(Context context, Item item, Collection collection)
+    public void adjustBundleBitstreamPolicies(Context context, Item item, Collection collection)
         throws SQLException, AuthorizeException;
 
     /**
@@ -556,7 +557,7 @@ public interface ItemService
      * @throws SQLException       If database error
      * @throws AuthorizeException If authorization error
      */
-    void adjustBundleBitstreamPolicies(Context context, Item item, Collection collection,
+    public void adjustBundleBitstreamPolicies(Context context, Item item, Collection collection,
                                               boolean replaceReadRPWithCollectionRP)
         throws SQLException, AuthorizeException;
 
@@ -577,7 +578,7 @@ public interface ItemService
      * @throws SQLException       If database error
      * @throws AuthorizeException If authorization error
      */
-    void adjustBitstreamPolicies(Context context, Item item, Collection collection, Bitstream bitstream)
+    public void adjustBitstreamPolicies(Context context, Item item, Collection collection, Bitstream bitstream)
         throws SQLException, AuthorizeException;
 
     /**
@@ -599,7 +600,7 @@ public interface ItemService
      * @throws SQLException       If database error
      * @throws AuthorizeException If authorization error
      */
-    void adjustBitstreamPolicies(Context context, Item item, Collection collection, Bitstream bitstream,
+    public void adjustBitstreamPolicies(Context context, Item item, Collection collection, Bitstream bitstream,
                                         boolean replaceReadRPWithCollectionRP)
         throws SQLException, AuthorizeException;
 
@@ -611,14 +612,14 @@ public interface ItemService
      * inherited as appropriate. Collection's policies are inherited if there are no
      * other policies defined or if the append mode is defined by the configuration
      * via the core.authorization.installitem.inheritance-read.append-mode property
-     *
+     * 
      * @param context              DSpace context object
      * @param item                 Item to adjust policies on
      * @param collection           Collection
      * @throws SQLException        If database error
      * @throws AuthorizeException  If authorization error
      */
-    void adjustItemPolicies(Context context, Item item, Collection collection)
+    public void adjustItemPolicies(Context context, Item item, Collection collection)
         throws SQLException, AuthorizeException;
 
     /**
@@ -637,7 +638,7 @@ public interface ItemService
      * @throws SQLException        If database error
      * @throws AuthorizeException  If authorization error
      */
-    void adjustItemPolicies(Context context, Item item, Collection collection,
+    public void adjustItemPolicies(Context context, Item item, Collection collection,
                                    boolean replaceReadRPWithCollectionRP)
         throws SQLException, AuthorizeException;
 
@@ -652,7 +653,7 @@ public interface ItemService
      * @throws AuthorizeException if authorization error
      * @throws IOException        if IO error
      */
-    void move(Context context, Item item, Collection from, Collection to)
+    public void move(Context context, Item item, Collection from, Collection to)
         throws SQLException, AuthorizeException, IOException;
 
     /**
@@ -667,7 +668,7 @@ public interface ItemService
      * @throws AuthorizeException if authorization error
      * @throws IOException        if IO error
      */
-    void move(Context context, Item item, Collection from, Collection to, boolean inheritDefaultPolicies)
+    public void move(Context context, Item item, Collection from, Collection to, boolean inheritDefaultPolicies)
         throws SQLException, AuthorizeException, IOException;
 
     /**
@@ -678,7 +679,7 @@ public interface ItemService
      * bitstreams inside
      * @throws SQLException if database error
      */
-    boolean hasUploadedFiles(Item item) throws SQLException;
+    public boolean hasUploadedFiles(Item item) throws SQLException;
 
     /**
      * Get the collections this item is not in.
@@ -688,7 +689,7 @@ public interface ItemService
      * @return the collections this item is not in, if any.
      * @throws SQLException if database error
      */
-    List<Collection> getCollectionsNotLinked(Context context, Item item) throws SQLException;
+    public List<Collection> getCollectionsNotLinked(Context context, Item item) throws SQLException;
 
     /**
      * return TRUE if context's user can edit item, false otherwise
@@ -698,7 +699,7 @@ public interface ItemService
      * @return boolean true = current user can edit item
      * @throws SQLException if database error
      */
-    boolean canEdit(Context context, Item item) throws java.sql.SQLException;
+    public boolean canEdit(Context context, Item item) throws java.sql.SQLException;
 
     /**
      * return TRUE if context's user can create new version of the item, false
@@ -709,7 +710,7 @@ public interface ItemService
      * @return boolean true = current user can create new version of the item
      * @throws SQLException if database error
      */
-    boolean canCreateNewVersion(Context context, Item item) throws SQLException;
+    public boolean canCreateNewVersion(Context context, Item item) throws SQLException;
 
     /**
      * Returns an iterator of in archive items possessing the passed metadata field, or only
@@ -724,7 +725,7 @@ public interface ItemService
      * @throws SQLException       if database error
      * @throws AuthorizeException if authorization error
      */
-    Iterator<Item> findArchivedByMetadataField(Context context, String schema,
+    public Iterator<Item> findArchivedByMetadataField(Context context, String schema,
                                                       String element, String qualifier,
                                                       String value) throws SQLException, AuthorizeException;
 
@@ -739,7 +740,7 @@ public interface ItemService
      * @throws SQLException       if database error
      * @throws AuthorizeException if authorization error
      */
-    Iterator<Item> findArchivedByMetadataField(Context context, String metadataField, String value)
+    public Iterator<Item> findArchivedByMetadataField(Context context, String metadataField, String value)
             throws SQLException, AuthorizeException;
 
     /**
@@ -756,41 +757,14 @@ public interface ItemService
      * @throws AuthorizeException if authorization error
      * @throws IOException        if IO error
      */
-    Iterator<Item> findByMetadataField(Context context,
+    public Iterator<Item> findByMetadataField(Context context,
                                               String schema, String element, String qualifier, String value)
         throws SQLException, AuthorizeException, IOException;
 
-    /**
-     * Returns a list of items that match the given predicates, within the
-     * specified collections, if any. This querying method is used by the
-     * Filtered Items report functionality.
-     * @param context DSpace context object
-     * @param queryPredicates metadata field predicates
-     * @param collectionUuids UUIDs of the collections to search
-     * @param offset position in the list to start returning items
-     * @param limit maximum number of items to return
-     * @return a list of matching items in the specified collections,
-     * or in any collection if no collection UUIDs are provided
-     * @throws SQLException if a database error occurs
-     */
-    List<Item> findByMetadataQuery(Context context, List<QueryPredicate> queryPredicates,
-            List<UUID> collectionUuids, long offset, int limit)
-            throws SQLException;
-
-    /**
-     * Returns the total number of items that match the given predicates, within the
-     * specified collections, if any. This querying method is used for pagination by the
-     * Filtered Items report functionality.
-     * @param context DSpace context object
-     * @param queryPredicates metadata field predicates
-     * @param collectionUuids UUIDs of the collections to search
-     * @return the total number of matching items in the specified collections,
-     * or in any collection if no collection UUIDs are provided
-     * @throws SQLException if a database error occurs
-     */
-    long countForMetadataQuery(Context context, List<QueryPredicate> queryPredicates,
-            List<UUID> collectionUuids)
-            throws SQLException;
+    public Iterator<Item> findByMetadataQuery(Context context, List<List<MetadataField>> listFieldList,
+                                              List<String> query_op, List<String> query_val, List<UUID> collectionUuids,
+                                              String regexClause, int offset, int limit)
+        throws SQLException, AuthorizeException, IOException;
 
     /**
      * Find all the items in the archive with a given authority key value
@@ -806,12 +780,12 @@ public interface ItemService
      * @throws AuthorizeException if authorization error
      * @throws IOException        if IO error
      */
-    Iterator<Item> findByAuthorityValue(Context context,
+    public Iterator<Item> findByAuthorityValue(Context context,
                                                String schema, String element, String qualifier, String value)
         throws SQLException, AuthorizeException;
 
 
-    Iterator<Item> findByMetadataFieldAuthority(Context context, String mdString, String authority)
+    public Iterator<Item> findByMetadataFieldAuthority(Context context, String mdString, String authority)
         throws SQLException, AuthorizeException;
 
     /**
@@ -823,7 +797,7 @@ public interface ItemService
      * @param item    item
      * @return true or false
      */
-    boolean isItemListedForUser(Context context, Item item);
+    public boolean isItemListedForUser(Context context, Item item);
 
     /**
      * counts items in the given collection
@@ -833,7 +807,7 @@ public interface ItemService
      * @return total items
      * @throws SQLException if database error
      */
-    int countItems(Context context, Collection collection) throws SQLException;
+    public int countItems(Context context, Collection collection) throws SQLException;
 
     /**
      * counts all items in the given collection including withdrawn items
@@ -843,7 +817,7 @@ public interface ItemService
      * @return total items
      * @throws SQLException if database error
      */
-    int countAllItems(Context context, Collection collection) throws SQLException;
+    public int countAllItems(Context context, Collection collection) throws SQLException;
 
     /**
      * Find all Items modified since a Date.
@@ -853,7 +827,7 @@ public interface ItemService
      * @return iterator over items
      * @throws SQLException if database error
      */
-    Iterator<Item> findByLastModifiedSince(Context context, Instant last)
+    public Iterator<Item> findByLastModifiedSince(Context context, Date last)
         throws SQLException;
 
     /**
@@ -864,7 +838,7 @@ public interface ItemService
      * @return total items
      * @throws SQLException if database error
      */
-    int countItems(Context context, Community community) throws SQLException;
+    public int countItems(Context context, Community community) throws SQLException;
 
     /**
      * counts all items in the given community including withdrawn
@@ -874,7 +848,7 @@ public interface ItemService
      * @return total items
      * @throws SQLException if database error
      */
-    int countAllItems(Context context, Community community) throws SQLException;
+    public int countAllItems(Context context, Community community) throws SQLException;
 
     /**
      * counts all items
@@ -921,7 +895,7 @@ public interface ItemService
       * @throws SQLException
       * @throws SearchServiceException
       */
-    List<Item> findItemsWithEdit(Context context, int offset, int limit)
+    public List<Item> findItemsWithEdit(Context context, int offset, int limit)
         throws SQLException, SearchServiceException;
 
     /**
@@ -931,7 +905,7 @@ public interface ItemService
     * @throws SQLException
     * @throws SearchServiceException
     */
-    int countItemsWithEdit(Context context) throws SQLException, SearchServiceException;
+    public int countItemsWithEdit(Context context) throws SQLException, SearchServiceException;
 
     /**
      * Check if the supplied item is an inprogress submission
@@ -991,7 +965,7 @@ public interface ItemService
      *                     relationships.
      * @return metadata fields that match the parameters
      */
-    List<MetadataValue> getMetadata(Item item, String schema, String element, String qualifier,
+    public List<MetadataValue> getMetadata(Item item, String schema, String element, String qualifier,
                                            String lang, boolean enableVirtualMetadata);
 
     /**
@@ -999,7 +973,7 @@ public interface ItemService
      * @param item the item.
      * @return the label of the entity type, taken from the item metadata, or null if not found.
      */
-    String getEntityTypeLabel(Item item);
+    public String getEntityTypeLabel(Item item);
 
     /**
      * Retrieve the entity type of the given item.
@@ -1007,7 +981,7 @@ public interface ItemService
      * @param item the item.
      * @return the entity type of the given item, or null if not found.
      */
-    EntityType getEntityType(Context context, Item item) throws SQLException;
+    public EntityType getEntityType(Context context, Item item) throws SQLException;
 
 
     /**

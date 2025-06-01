@@ -7,7 +7,7 @@
  */
 package org.dspace.app.rest.model;
 
-import java.time.Instant;
+import java.util.Date;
 import java.util.UUID;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -25,7 +25,6 @@ public class OrcidHistoryRest extends BaseObjectRest<Integer> {
 
     public static final String CATEGORY = RestModel.EPERSON;
     public static final String NAME = "orcidhistory";
-    public static final String PLURAL_NAME = "orcidhistories";
 
     private UUID profileItemId;
 
@@ -35,7 +34,7 @@ public class OrcidHistoryRest extends BaseObjectRest<Integer> {
 
     private String putCode;
 
-    private Instant timestamp;
+    private Date timestamp;
 
     private String responseMessage;
 
@@ -45,11 +44,6 @@ public class OrcidHistoryRest extends BaseObjectRest<Integer> {
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     public String getType() {
         return NAME;
-    }
-
-    @Override
-    public String getTypePlural() {
-        return PLURAL_NAME;
     }
 
     @Override
@@ -94,11 +88,11 @@ public class OrcidHistoryRest extends BaseObjectRest<Integer> {
         this.putCode = putCode;
     }
 
-    public Instant getTimestamp() {
+    public Date getTimestamp() {
         return timestamp;
     }
 
-    public void setTimestamp(Instant timestamp) {
+    public void setTimestamp(Date timestamp) {
         this.timestamp = timestamp;
     }
 

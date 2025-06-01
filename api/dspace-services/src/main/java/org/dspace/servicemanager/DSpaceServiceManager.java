@@ -11,7 +11,6 @@ import static org.apache.logging.log4j.Level.DEBUG;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -21,8 +20,8 @@ import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import javax.annotation.PreDestroy;
 
-import jakarta.annotation.PreDestroy;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -227,11 +226,16 @@ public final class DSpaceServiceManager implements ServiceManagerSystem {
 
         if (applicationContext != null) {
             try {
-                // This both closes the context and destroys all beans related to it
                 applicationContext.close();
             } catch (Exception e) {
                 // keep going anyway
                 log.warn("Exception closing ApplicationContext:  {}", e.getMessage(), e);
+            }
+            try {
+                applicationContext.destroy();
+            } catch (Exception e) {
+                // keep going anyway
+                log.warn("Exception destroying ApplicationContext:  {}", e.getMessage(), e);
             }
             applicationContext = null;
         }
@@ -258,7 +262,7 @@ public final class DSpaceServiceManager implements ServiceManagerSystem {
             }
         }
 
-        long startTime = Instant.now().toEpochMilli();
+        long startTime = System.currentTimeMillis();
         try {
             // have to put this at the top because otherwise initializing beans will die when they try to use the SMS
             this.running = true;
@@ -295,7 +299,7 @@ public final class DSpaceServiceManager implements ServiceManagerSystem {
             throw new RuntimeException(message, e);
         }
 
-        long totalTime = Instant.now().toEpochMilli() - startTime;
+        long totalTime = System.currentTimeMillis() - startTime;
         log.info("Service Manager started up in {} ms with {} services...",
                 totalTime, applicationContext.getBeanDefinitionCount());
     }
@@ -498,21 +502,6 @@ public final class DSpaceServiceManager implements ServiceManagerSystem {
         }
         Collections.sort(beanNames);
         return beanNames;
-    }
-
-    @Override
-    public <T> Map<String, T> getServicesWithNamesByType(Class<T> type) {
-        checkRunning();
-
-        if (type == null) {
-            throw new IllegalArgumentException("type cannot be null");
-        }
-
-        try {
-            return applicationContext.getBeansOfType(type, true, true);
-        } catch (BeansException e) {
-            throw new RuntimeException("Failed to get beans of type (" + type + "): " + e.getMessage(), e);
-        }
     }
 
     @Override

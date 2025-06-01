@@ -26,11 +26,10 @@
     <luceneMatchVersion>8.8.1</luceneMatchVersion>
 
     <!-- Include contributed libraries that we use in DSpace. -->
-    <!-- NOTE: When using Solr >=9.8, you MUST start Solr with `-Dsolr.config.lib.enabled=true` for this to work -->
-    <lib dir='${solr.install.dir}/modules/analysis-extras/lib/'
-         regex='icu4j-.*\.jar' />
-    <lib dir='${solr.install.dir}/modules/analysis-extras/lib/'
-         regex='lucene-analysis-icu-.*\.jar' />
+    <lib dir='${solr.install.dir}/contrib/analysis-extras/lib/'
+         regex='icu4j-.*\.jar'/>
+    <lib dir='${solr.install.dir}/contrib/analysis-extras/lucene-libs/'
+         regex='lucene-analyzers-icu-.*\.jar'/>
 
     <dataDir>${solr.data.dir:}</dataDir>
 

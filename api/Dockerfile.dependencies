@@ -2,9 +2,9 @@
 # The purpose of this image is to make the build for dspace/dspace run faster
 #
 
-# This Dockerfile uses JDK17 by default.
-# To build with other versions, use "--build-arg JDK_VERSION=[value]"
-ARG JDK_VERSION=17
+# This Dockerfile uses JDK11 by default, but has also been tested with JDK17.
+# To build with JDK17, use "--build-arg JDK_VERSION=17"
+ARG JDK_VERSION=11
 
 # Step 1 - Download all Dependencies
 FROM docker.io/maven:3-eclipse-temurin-${JDK_VERSION} AS build
@@ -49,10 +49,6 @@ ADD --chown=dspace dspace-oai/pom.xml /app/dspace-oai/
 # 'dspace-rdf' module POM
 RUN mkdir -p /app/dspace-rdf
 ADD --chown=dspace dspace-rdf/pom.xml /app/dspace-rdf/
-
-# 'dspace-saml2' module POM
-RUN mkdir -p /app/dspace-saml2
-ADD --chown=dspace dspace-saml2/pom.xml /app/dspace-saml2/
 
 # 'dspace-server-webapp' module POM
 RUN mkdir -p /app/dspace-server-webapp

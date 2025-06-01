@@ -8,8 +8,8 @@
 package org.dspace.sword2;
 
 import java.sql.SQLException;
-import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,11 +17,7 @@ import java.util.Map;
 import org.apache.commons.lang3.ArrayUtils;
 import org.dspace.content.Bitstream;
 import org.dspace.content.Bundle;
-import org.dspace.content.DCDate;
 import org.dspace.content.Item;
-import org.dspace.content.MetadataValue;
-import org.dspace.content.factory.ContentServiceFactory;
-import org.dspace.content.service.ItemService;
 import org.dspace.core.Context;
 import org.dspace.services.factory.DSpaceServicesFactory;
 import org.swordapp.server.OriginalDeposit;
@@ -31,9 +27,6 @@ import org.swordapp.server.Statement;
 public abstract class GenericStatementDisseminator
     implements SwordStatementDisseminator {
     protected SwordUrlManager urlManager;
-
-    protected ItemService itemService = ContentServiceFactory.getInstance()
-                                                             .getItemService();
 
     protected void populateStatement(Context context, Item item,
                                      Statement statement)
@@ -59,8 +52,8 @@ public abstract class GenericStatementDisseminator
             .getResourceParts(context, item, includeBundles);
         statement.setResources(resources);
 
-        Instant lastModified = this.getLastModified(context, item);
-        statement.setLastModified(java.util.Date.from(lastModified));
+        Date lastModified = this.getLastModified(context, item);
+        statement.setLastModified(lastModified);
     }
 
     protected List<OriginalDeposit> getOriginalDeposits(Context context,
@@ -85,7 +78,6 @@ public abstract class GenericStatementDisseminator
                                 bitstream));
                         deposit.setMediaType(bitstream
                                                  .getFormat(context).getMIMEType());
-                        deposit.setDepositedOn(java.util.Date.from(this.getDateOfDeposit(item)));
                         originalDeposits.add(deposit);
                     }
                 }
@@ -153,7 +145,7 @@ public abstract class GenericStatementDisseminator
         }
     }
 
-    protected Instant getLastModified(Context context, Item item) {
+    protected Date getLastModified(Context context, Item item) {
         return item.getLastModified();
     }
 
@@ -180,15 +172,5 @@ public abstract class GenericStatementDisseminator
             swordBundle = "SWORD";
         }
         return swordBundle;
-    }
-
-    private Instant getDateOfDeposit(Item item) {
-        List<MetadataValue> values = itemService.getMetadata(item, "dc", "date", "accessioned", Item.ANY);
-        Instant date = Instant.now();
-        if (values != null && values.size() > 0) {
-            String strDate = values.get(0).getValue();
-            date = new DCDate(strDate).toDate().toInstant();
-        }
-        return date;
     }
 }

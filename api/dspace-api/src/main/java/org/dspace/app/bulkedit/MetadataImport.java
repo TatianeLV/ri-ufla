@@ -20,10 +20,9 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
+import javax.annotation.Nullable;
 
-import jakarta.annotation.Nullable;
 import org.apache.commons.cli.ParseException;
-import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.Logger;
 import org.dspace.app.util.RelationshipUtils;
@@ -90,7 +89,7 @@ public class MetadataImport extends DSpaceRunnable<MetadataImportScriptConfigura
     /**
      * The authority controlled fields
      */
-    protected Set<String> authorityControlled;
+    protected static Set<String> authorityControlled;
 
     /**
      * The prefix of the authority controlled field
@@ -254,7 +253,7 @@ public class MetadataImport extends DSpaceRunnable<MetadataImportScriptConfigura
                 displayChanges(changes, true);
             }
 
-            // Finish off and tidy up
+            // Finsh off and tidy up
             c.restoreAuthSystemState();
             c.complete();
         } catch (Exception e) {
@@ -743,7 +742,10 @@ public class MetadataImport extends DSpaceRunnable<MetadataImportScriptConfigura
             if (value == null || !value.contains(csv.getAuthoritySeparator())) {
                 simplyCopyValue(value, dcv);
             } else {
-                resolveValueAndAuthority(value, dcv);
+                String[] parts = value.split(csv.getAuthoritySeparator());
+                dcv.setValue(parts[0]);
+                dcv.setAuthority(parts[1]);
+                dcv.setConfidence((parts.length > 2 ? Integer.valueOf(parts[2]) : Choices.CF_ACCEPTED));
             }
 
             // fromAuthority==null: with the current implementation metadata values from external authority sources
@@ -1160,7 +1162,10 @@ public class MetadataImport extends DSpaceRunnable<MetadataImportScriptConfigura
         } else if (value == null || !value.contains(csv.getAuthoritySeparator())) {
             simplyCopyValue(value, dcv);
         } else {
-            resolveValueAndAuthority(value, dcv);
+            String[] parts = value.split(csv.getEscapedAuthoritySeparator());
+            dcv.setValue(parts[0]);
+            dcv.setAuthority(parts[1]);
+            dcv.setConfidence((parts.length > 2 ? Integer.valueOf(parts[2]) : Choices.CF_ACCEPTED));
         }
         return dcv;
     }
@@ -1169,35 +1174,6 @@ public class MetadataImport extends DSpaceRunnable<MetadataImportScriptConfigura
         dcv.setValue(value);
         dcv.setAuthority(null);
         dcv.setConfidence(Choices.CF_UNSET);
-    }
-
-    private void resolveValueAndAuthority(String value, BulkEditMetadataValue dcv) {
-        // Cells with valid authority are composed of three parts ~ <value>, <authority>, <confidence>
-        // The value itself may also include the authority separator though
-        String[] parts = value.split(csv.getEscapedAuthoritySeparator());
-
-        // If we don't have enough parts, assume the whole string is the value
-        if (parts.length < 3) {
-            simplyCopyValue(value, dcv);
-            return;
-        }
-
-        try {
-            // The last part of the cell must be a confidence value (integer)
-            int confidence = Integer.parseInt(parts[parts.length - 1]);
-            String authority = parts[parts.length - 2];
-            String plainValue = String.join(
-                csv.getAuthoritySeparator(),
-                ArrayUtils.subarray(parts, 0, parts.length - 2)
-            );
-
-            dcv.setValue(plainValue);
-            dcv.setAuthority(authority);
-            dcv.setConfidence(confidence);
-        } catch (NumberFormatException e) {
-            // Otherwise assume the whole string is the value
-            simplyCopyValue(value, dcv);
-        }
     }
 
     /**
@@ -1392,10 +1368,10 @@ public class MetadataImport extends DSpaceRunnable<MetadataImportScriptConfigura
     /**
      * is the field is defined as authority controlled
      */
-    private boolean isAuthorityControlledField(String md) {
+    private static boolean isAuthorityControlledField(String md) {
         String mdf = md.contains(":") ? StringUtils.substringAfter(md, ":") : md;
         mdf = StringUtils.substringBefore(mdf, "[");
-        return authorityControlled.contains(mdf) || authorityControlled.contains(md);
+        return authorityControlled.contains(mdf);
     }
 
     /**
@@ -1677,7 +1653,7 @@ public class MetadataImport extends DSpaceRunnable<MetadataImportScriptConfigura
                                                   .getLabel();
                 } else {
                     // Target item may be archived; check there.
-                    // Add to errors if Relationship.type cannot be derived
+                    // Add to errors if Realtionship.type cannot be derived
                     Item targetItem = null;
                     if (itemService.find(c, UUID.fromString(targetUUID)) != null) {
                         targetItem = itemService.find(c, UUID.fromString(targetUUID));
@@ -1722,7 +1698,7 @@ public class MetadataImport extends DSpaceRunnable<MetadataImportScriptConfigura
                             validateTypesByTypeByTypeName(c, targetType, originType, typeName, originRow);
                         } else {
                             // Origin item may be archived; check there.
-                            // Add to errors if Relationship.type cannot be derived.
+                            // Add to errors if Realtionship.type cannot be derived.
                             Item originItem = null;
                             if (itemService.find(c, UUID.fromString(targetUUID)) != null) {
                                 DSpaceCSVLine dSpaceCSVLine = this.csv.getCSVLines()
@@ -1826,4 +1802,5 @@ public class MetadataImport extends DSpaceRunnable<MetadataImportScriptConfigura
                                                    String targetType, String originType, String originTypeName) {
         return RelationshipUtils.matchRelationshipType(relTypes, targetType, originType, originTypeName);
     }
+
 }

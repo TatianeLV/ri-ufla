@@ -11,13 +11,12 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.sql.SQLException;
-import java.time.ZoneOffset;
-import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
+import javax.servlet.http.HttpServletRequest;
 
-import jakarta.servlet.http.HttpServletRequest;
 import org.apache.commons.codec.CharEncoding;
 import org.apache.commons.lang3.StringUtils;
 import org.dspace.content.DCDate;
@@ -157,7 +156,7 @@ public abstract class ExportEventProcessor {
      * @return the current date as a string
      */
     protected String getCurrentDateString() {
-        return new DCDate(ZonedDateTime.now(ZoneOffset.UTC)).toString();
+        return new DCDate(new Date()).toString();
     }
 
     /**
