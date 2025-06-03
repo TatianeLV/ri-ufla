@@ -15,7 +15,6 @@ import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -38,10 +37,10 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicReference;
-import javax.servlet.http.Cookie;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
+import jakarta.servlet.http.Cookie;
 import org.dspace.app.requestitem.RequestItem;
 import org.dspace.app.requestitem.service.RequestItemService;
 import org.dspace.app.rest.converter.RequestItemConverter;
@@ -137,8 +136,6 @@ public class RequestItemRepositoryIT
     @Test
     public void testFindAll()
             throws Exception {
-        System.out.println("findAll");
-
         getClient().perform(get(URI_ROOT))
                 .andExpect(status().isMethodNotAllowed());
     }
@@ -151,8 +148,6 @@ public class RequestItemRepositoryIT
     @Test
     public void testFindOneAuthenticated()
             throws Exception {
-        System.out.println("findOne (authenticated)");
-
         // Create a request.
         RequestItem request = RequestItemBuilder
                 .createRequestItem(context, item, bitstream)
@@ -176,8 +171,6 @@ public class RequestItemRepositoryIT
     @Test
     public void testFindOneNotAuthenticated()
             throws Exception {
-        System.out.println("findOne (not authenticated)");
-
         // Create a request.
         RequestItem request = RequestItemBuilder
                 .createRequestItem(context, item, bitstream)
@@ -200,8 +193,6 @@ public class RequestItemRepositoryIT
     @Test
     public void testFindOneNonexistent()
             throws Exception {
-        System.out.println("findOne (nonexistent request)");
-
         String uri = URI_ROOT + "/impossible";
         getClient().perform(get(uri))
                 .andExpect(status().isNotFound());
@@ -217,8 +208,6 @@ public class RequestItemRepositoryIT
     @Test
     public void testCreateAndReturnAuthenticated()
             throws SQLException, AuthorizeException, IOException, Exception {
-        System.out.println("createAndReturn (authenticated)");
-
         // Fake up a request in REST form.
         RequestItemRest rir = new RequestItemRest();
         rir.setAllfiles(true);
@@ -400,7 +389,6 @@ public class RequestItemRepositoryIT
     @Test
     public void testCreateWithInvalidCSRF()
             throws Exception {
-        System.out.println("testCreateWithInvalidCSRF");
 
         // Login via password to retrieve a valid token
         String token = getAuthToken(eperson.getEmail(), password);
@@ -425,7 +413,7 @@ public class RequestItemRepositoryIT
         getClient().perform(post(URI_ROOT)
                 .content(mapper.writeValueAsBytes(rir))
                 .contentType(contentType)
-                .with(csrf().useInvalidToken().asHeader())
+                .with(invalidCsrfToken())
                 .secure(true)
                 .cookie(cookies))
                 // Should return a 403 Forbidden, for an invalid CSRF token
@@ -559,8 +547,6 @@ public class RequestItemRepositoryIT
     @Test
     public void testPutBadRequest()
             throws Exception {
-        System.out.println("put bad requests");
-
         // Create an item request to approve.
         RequestItem itemRequest = RequestItemBuilder
                 .createRequestItem(context, item, bitstream)
@@ -587,7 +573,6 @@ public class RequestItemRepositoryIT
     @Test
     public void testPutCompletedRequest()
             throws Exception {
-        System.out.println("put completed request");
 
         // Create an item request that is already denied.
         RequestItem itemRequest = RequestItemBuilder
@@ -615,7 +600,6 @@ public class RequestItemRepositoryIT
      */
     @Test
     public void testGetDomainClass() {
-        System.out.println("getDomainClass");
         RequestItemRepository instance = new RequestItemRepository();
         Class instanceClass = instance.getDomainClass();
         assertEquals("Wrong domain class", RequestItemRest.class, instanceClass);
@@ -627,7 +611,7 @@ public class RequestItemRepositoryIT
     @Test
     public void testGetLinkTokenEmailWithSubPath() throws MalformedURLException, URISyntaxException {
         RequestItemRepository instance = applicationContext.getBean(
-                RequestItemRest.CATEGORY + '.' + RequestItemRest.NAME,
+                RequestItemRest.CATEGORY + '.' + RequestItemRest.PLURAL_NAME,
                 RequestItemRepository.class);
         String currentDspaceUrl = configurationService.getProperty("dspace.ui.url");
         String newDspaceUrl = currentDspaceUrl + "/subdir";
@@ -646,7 +630,7 @@ public class RequestItemRepositoryIT
     @Test
     public void testGetLinkTokenEmailWithoutSubPath() throws MalformedURLException, URISyntaxException {
         RequestItemRepository instance = applicationContext.getBean(
-                RequestItemRest.CATEGORY + '.' + RequestItemRest.NAME,
+                RequestItemRest.CATEGORY + '.' + RequestItemRest.PLURAL_NAME,
                 RequestItemRepository.class);
         String currentDspaceUrl = configurationService.getProperty("dspace.ui.url");
         String expectedUrl = currentDspaceUrl + "/request-a-copy/token";

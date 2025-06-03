@@ -71,8 +71,7 @@ env:
   # See "Redeploy" steps below for more details.
   REDEPLOY_SANDBOX_URL: ${{ secrets.REDEPLOY_SANDBOX_URL }}
   REDEPLOY_DEMO_URL: ${{ secrets.REDEPLOY_DEMO_URL }}
-  # Current DSpace maintenance branch (and architecture) which is deployed to demo.dspace.org / sandbox.dspace.org
-  # (NOTE: No deployment branch specified for sandbox.dspace.org as it uses the default_branch)
+  # Current DSpace branches (and architecture) which are deployed to demo.dspace.org & sandbox.dspace.org respectively
   DEPLOY_DEMO_BRANCH: 'dspace-8_x'
   DEPLOY_SANDBOX_BRANCH: 'main'
   DEPLOY_ARCH: 'linux/amd64'

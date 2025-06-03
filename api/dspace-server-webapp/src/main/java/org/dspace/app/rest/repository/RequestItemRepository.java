@@ -18,10 +18,10 @@ import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
-import javax.servlet.http.HttpServletRequest;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.servlet.http.HttpServletRequest;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.validator.routines.EmailValidator;
 import org.apache.http.client.utils.URIBuilder;
@@ -55,7 +55,7 @@ import org.springframework.web.util.HtmlUtils;
  *
  * @author Mark H. Wood <mwood@iupui.edu>
  */
-@Component(RequestItemRest.CATEGORY + '.' + RequestItemRest.NAME)
+@Component(RequestItemRest.CATEGORY + '.' + RequestItemRest.PLURAL_NAME)
 public class RequestItemRepository
         extends DSpaceRestRepository<RequestItemRest, String> {
     private static final Logger LOG = LogManager.getLogger();

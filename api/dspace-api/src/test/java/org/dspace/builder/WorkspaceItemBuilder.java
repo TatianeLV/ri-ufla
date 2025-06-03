@@ -12,6 +12,8 @@ import java.io.InputStream;
 import java.sql.SQLException;
 import java.util.UUID;
 
+import org.dspace.app.ldn.NotifyPatternToTrigger;
+import org.dspace.app.ldn.NotifyServiceEntity;
 import org.dspace.authorize.AuthorizeException;
 import org.dspace.content.Bitstream;
 import org.dspace.content.Collection;
@@ -132,10 +134,12 @@ public class WorkspaceItemBuilder extends AbstractBuilder<WorkspaceItem, Workspa
                 delete(c, workspaceItem);
             } else {
                 item = c.reloadEntity(item);
-                // check if the wsi has been pushed to the workflow
-                XmlWorkflowItem wfi = workflowItemService.findByItem(c, item);
-                if (wfi != null) {
-                    workflowItemService.delete(c, wfi);
+                if (item != null) {
+                    // check if the wsi has been pushed to the workflow
+                    XmlWorkflowItem wfi = workflowItemService.findByItem(c, item);
+                    if (wfi != null) {
+                        workflowItemService.delete(c, wfi);
+                    }
                 }
             }
             item = c.reloadEntity(item);
@@ -237,4 +241,20 @@ public class WorkspaceItemBuilder extends AbstractBuilder<WorkspaceItem, Workspa
         }
         return this;
     }
+
+    public WorkspaceItemBuilder withCOARNotifyService(NotifyServiceEntity notifyService, String pattern) {
+        Item item = workspaceItem.getItem();
+
+        try {
+            NotifyPatternToTrigger notifyPatternToTrigger = notifyPatternToTriggerService.create(context);
+            notifyPatternToTrigger.setItem(item);
+            notifyPatternToTrigger.setNotifyService(notifyService);
+            notifyPatternToTrigger.setPattern(pattern);
+            notifyPatternToTriggerService.update(context, notifyPatternToTrigger);
+        } catch (Exception e) {
+            handleException(e);
+        }
+        return this;
+    }
+
 }
