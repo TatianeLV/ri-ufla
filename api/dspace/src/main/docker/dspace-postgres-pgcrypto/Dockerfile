@@ -11,7 +11,7 @@
 # This will be published as dspace/dspace-postgres-pgcrypto:$DSPACE_VERSION
 
 ARG POSTGRES_VERSION=15
-ARG POSTGRES_PASSWORD=dspace
+ARG POSTGRES_PASSWORD
 
 FROM docker.io/postgres:${POSTGRES_VERSION}
 
