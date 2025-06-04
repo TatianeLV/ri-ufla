@@ -3,3 +3,9 @@ rest:
   host: ri-beta.ufla.br
   port: 443
   nameSpace: /server
+
+# Theme Config
+themes:
+  - name: ufla
+
+defaultLanguage: pt
