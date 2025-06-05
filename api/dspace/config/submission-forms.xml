@@ -59,8 +59,8 @@
                     <repeatable>true</repeatable>
                     <label>Tipo de documento:</label>
                     <input-type value-pairs-name="common_types">dropdown</input-type>
-                    <hint>&lt;font color="red"&gt;CAMPO OBRIGATÓRIO: &lt;/font&gt; Selecione o tipo de documento.</hint>
-                    <required>&lt;font color="red"&gt;&lt;strong&gt;CAMPO OBRIGATÓRIO:&lt;/strong&gt; Selecione o tipo de documento. &lt;/font&gt;</required>
+                    <hint>CAMPO OBRIGATÓRIO: Selecione o tipo de documento.</hint>
+                    <required>CAMPO OBRIGATÓRIO: Selecione o tipo de documento.</required>
                 </field>
             </row>
             <row>
@@ -118,24 +118,36 @@
                     <dc-element>date</dc-element>
                     <dc-qualifier>issued</dc-qualifier>
                     <repeatable>false</repeatable>
-                    <label>Date of Issue</label>
-                    <style>col-sm-4</style>
+                    <label>Data da defesa ou publicação do item</label>
+                    <!-- <style>col-sm-6</style> -->
                     <input-type>date</input-type>
-                    <hint>Please give the date of previous publication or public distribution.
-                        You can leave out the day and/or month if they aren't applicable.
-                    </hint>
-                    <required>You must enter at least the year.</required>
+                    <hint>CAMPO OBRIGATÓRIO: Informe a data de defesa do documento descrito, ou seja, a data de defesa da tese ou dissertação.</hint>
+                    <required>CAMPO OBRIGATÓRIO: Informe a data de defesa do documento descrito, ou seja, a data de defesa da tese ou dissertação.</required>
                 </field>
-
+            </row>
+            <row>
                 <field>
                     <dc-schema>dc</dc-schema>
                     <dc-element>publisher</dc-element>
                     <dc-qualifier></dc-qualifier>
                     <repeatable>false</repeatable>
-                    <label>Publisher</label>
-                    <style>col-sm-8</style>
+                    <label>Nome da instituição por extenso:</label>
+					<input-type value-pairs-name="common_ies">dropdown</input-type>
+                    <hint>CAMPO OBRIGATÓRIO: Nome da instituição por extenso.</hint>
+					<required>CAMPO OBRIGATÓRIO: Nome da instituição por extenso.</required>
+                    <type-bind>dissertação, tese, TCC</type-bind>
+                </field>
+            </row>
+            <row>
+                <field>
+                    <dc-schema>dc</dc-schema>
+                    <dc-element>publisher</dc-element>
+                    <dc-qualifier></dc-qualifier>
+                    <repeatable>false</repeatable>
+                    <label>Editora</label>
+                    <!-- <style>col-sm-8</style> -->
                     <input-type>onebox</input-type>
-                    <hint>Enter the name of the publisher of the previously issued instance of this item.</hint>
+                    <hint>Editora responsável pela publicação.</hint>
                     <required></required>
                 </field>
             </row>
@@ -1340,6 +1352,19 @@
     <!-- stores the associated stored-values in the database.                  -->
 
     <form-value-pairs>
+        <value-pairs value-pairs-name="common_ies" dc-term="publisher">
+     <pair>
+       <displayed-value>Universidade Federal de Lavras</displayed-value>
+       <stored-value>Universidade Federal de Lavras</stored-value>
+     </pair>
+   </value-pairs>
+   
+   <value-pairs value-pairs-name="common_sigla_ies" dc-term="initials">
+     <pair>
+       <displayed-value>UFLA</displayed-value>
+       <stored-value>UFLA</stored-value>
+     </pair>
+   </value-pairs>
         <value-pairs value-pairs-name="common_identifiers" dc-term="identifier">
             <pair>
                 <displayed-value>ISSN</displayed-value>
