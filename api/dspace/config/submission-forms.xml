@@ -69,7 +69,7 @@
                     <dc-element>contributor</dc-element>
                     <dc-qualifier>author</dc-qualifier>
                     <repeatable>true</repeatable>
-                    <label>Author(es)</label>
+                    <label>Autor(es)</label>
                     <input-type>onebox</input-type>
                     <hint>Informe os autores.</hint>
                     <required></required>
