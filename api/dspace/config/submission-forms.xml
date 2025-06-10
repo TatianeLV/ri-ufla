@@ -223,12 +223,10 @@
                     <dc-schema>dc</dc-schema>
                     <dc-element>identifier</dc-element>
                     <dc-qualifier></dc-qualifier>
-                    <!-- An input-type of qualdrop_value MUST be marked as repeatable -->
                     <repeatable>true</repeatable>
                     <label>Identificadores</label>
                     <input-type value-pairs-name="common_identifiers">qualdrop_value</input-type>
                     <hint>Identificadores do documento, como ISBN, DOI, ISSN, etc.</hint>
-                    </hint>
                     <required></required>
                 </field>
             </row>
