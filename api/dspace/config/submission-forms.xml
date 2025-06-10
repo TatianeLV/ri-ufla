@@ -78,6 +78,19 @@
             <row>
                 <field>
                     <dc-schema>dc</dc-schema>
+                    <dc-element>creator</dc-element>
+                    <dc-qualifier>Lattes</dc-qualifier>
+                    <repeatable>false</repeatable>
+                    <label>URL do currículo lattes do autor:</label>
+                    <input-type>onebox</input-type>
+                    <hint>CAMPO OPCIONAL: Informe a URL do currículo lattes do autor.</hint>
+                    <required></required>
+                    <type-bind>dissertação, tese, TCC</type-bind>
+                </field>
+            </row>
+            <row>
+                <field>
+                    <dc-schema>dc</dc-schema>
                     <dc-element>contributor</dc-element>
                     <dc-qualifier>advisor</dc-qualifier>
                     <repeatable>true</repeatable>
@@ -142,6 +155,45 @@
                 <field>
                     <dc-schema>dc</dc-schema>
                     <dc-element>publisher</dc-element>
+                    <dc-qualifier>initials</dc-qualifier>
+                    <repeatable>false</repeatable>
+                    <label>Sigla da instituição:</label>
+                    <input-type value-pairs-name="common_sigla_ies">dropdown</input-type>
+                    <hint>CAMPO OBRIGATÓRIO: Sigla da instituição.</hint>
+                    <required>CAMPO OBRIGATÓRIO: Sigla da instituição.</required>
+                    <type-bind>dissertação, tese, TCC</type-bind>
+                </field>
+            </row>
+            <row>
+            <field>
+                <dc-schema>dc</dc-schema>
+                <dc-element>publisher</dc-element>
+                <dc-qualifier>program</dc-qualifier>
+                <repeatable>true</repeatable>
+                <label>Nome(s) do(s) programa(s) de pós-graduação por extenso:</label>
+                
+                <input-type>onebox</input-type>
+                <hint>CAMPO OBRIGATÓRIO: Nome(s) do(s) programa(s) de pós-graduação por extenso.</hint>
+                <required>CAMPO OBRIGATÓRIO: Nome(s) do(s) programa(s) de pós-graduação por extenso.</required>
+                <type-bind>dissertação, tese, TCC</type-bind>
+            </field>
+            </row>
+            <row>
+            <field>
+                <dc-schema>dc</dc-schema>
+                <dc-element>publisher</dc-element>
+                <dc-qualifier>country</dc-qualifier>
+                <repeatable>false</repeatable>
+                <label>País:</label>
+                <input-type value-pairs-name="common_publisher_country">dropdown</input-type> 
+                <hint>CAMPO OBRIGATÓRIO: Informe o país.</hint>
+                <required>CAMPO OBRIGATÓRIO: Informe o país.</required>
+            </field>
+            </row>
+            <row>
+                <field>
+                    <dc-schema>dc</dc-schema>
+                    <dc-element>publisher</dc-element> 
                     <dc-qualifier></dc-qualifier>
                     <repeatable>false</repeatable>
                     <label>Editora</label>
@@ -157,9 +209,9 @@
                     <dc-element>identifier</dc-element>
                     <dc-qualifier>citation</dc-qualifier>
                     <repeatable>false</repeatable>
-                    <label>Citation</label>
-                    <input-type>onebox</input-type>
-                    <hint>Enter the standard citation for the previously issued instance of this item.</hint>
+                    <label>Referência:</label>
+                    <input-type>textarea</input-type>
+                    <hint>CAMPO OPCIONAL: Referência bibliográfica do documento. Use as normas de acordo com a área, por exemplo: ABNT, APA, Vancouver.</hint>
                     <required></required>
                 </field>
             </row>
@@ -197,13 +249,10 @@
                     <dc-element>language</dc-element>
                     <dc-qualifier>iso</dc-qualifier>
                     <repeatable>false</repeatable>
-                    <label>Language</label>
+                    <label>Idioma:</label>
                     <input-type value-pairs-name="common_iso_languages">dropdown</input-type>
-                    <hint>Select the language of the main content of the item. If the language does not appear in the
-                        list, please select 'Other'. If the content does not really have a language (for example, if it
-                        is a dataset or an image) please select 'N/A'.
-                    </hint>
-                    <required></required>
+                    <hint>CAMPO OBRIGATÓRIO: Informe o idioma em que o documento está escrito.</hint>
+                    <required>CAMPO OBRIGATÓRIO: Informe o idioma em que o documento está escrito.</required>
                 </field>
             </row>
         </form>
@@ -218,23 +267,48 @@
                     <dc-qualifier></dc-qualifier>
                     <!-- An input-type of tag MUST be marked as repeatable -->
                     <repeatable>true</repeatable>
-                    <label>Subject Keywords</label>
+                    <label>Palavras-chave</label>
                     <input-type>tag</input-type>
-                    <hint>Enter appropriate subject keywords or phrases.</hint>
-                    <required></required>
-                    <vocabulary>srsc</vocabulary>
+                    <hint>CAMPO OBRIGATÓRIO: Informe as palavras-chave do documento descrito. Sugere-se também o uso de termos em inglês.</hint>
+                    <required>CAMPO OBRIGATÓRIO: Informe as palavras-chave do documento descrito. Sugere-se também o uso de termos em inglês.</required>  
+                    <!-- <vocabulary>srsc</vocabulary> -->
                 </field>
+            </row>
+            <row>
+            <field>
+                <dc-schema>dc</dc-schema>
+                <dc-element>subject</dc-element>
+                <dc-qualifier>cnpq</dc-qualifier>
+                <repeatable>true</repeatable>
+                <label>Áreas de conhecimento de acordo com tabela do CNPq:</label>
+                <input-type>textarea</input-type> 
+                <hint>CAMPO OBRIGATÓRIO: Selecione a(s) área(s) de conhecimento correspondente(s), de acordo com tabela do CNPq.</hint>
+                <required>CAMPO OBRIGATÓRIO: Selecione a(s) área(s) de conhecimento correspondente(s), de acordo com tabela do CNPq.</required>
+                <vocabulary>cnpq</vocabulary> 
+            </field>
             </row>
             <row>
                 <field>
                     <dc-schema>dc</dc-schema>
                     <dc-element>description</dc-element>
                     <dc-qualifier>abstract</dc-qualifier>
-                    <repeatable>false</repeatable>
+                    <repeatable>true</repeatable>
                     <label>Abstract</label>
                     <input-type>textarea</input-type>
-                    <hint>Enter the abstract of the item.</hint>
-                    <required></required>
+                    <hint>CAMPO OBRIGATÓRIO: Abstract do documento. Preencha com o resumo em língua estrangeira.</hint>
+                    <required>CAMPO OBRIGATÓRIO: Abstract do documento. Preencha com o resumo em língua estrangeira.</required>
+                </field>
+            </row>
+            <row>
+                <field>
+                    <dc-schema>dc</dc-schema>
+                    <dc-element>description</dc-element>
+                    <dc-qualifier>resumo</dc-qualifier>
+                    <repeatable>false</repeatable>
+                    <label>Resumo:</label>
+                    <input-type>textarea</input-type>
+                    <hint>CAMPO OBRIGATÓRIO: Resumo do documento. Preencha o campo de acordo com o idioma do documento.</hint>
+                    <required>CAMPO OBRIGATÓRIO: Resumo do documento. Preencha o campo de acordo com o idioma do documento.</required>
                 </field>
             </row>
             <row>
@@ -242,11 +316,12 @@
                     <dc-schema>dc</dc-schema>
                     <dc-element>description</dc-element>
                     <dc-qualifier>sponsorship</dc-qualifier>
-                    <repeatable>false</repeatable>
-                    <label>Sponsors</label>
+                    <repeatable>true</repeatable>
+                    <label>Agência(s) de fomento:</label>
                     <input-type>textarea</input-type>
-                    <hint>Enter the names of any sponsors and/or funding codes in the box.</hint>
+                    <hint>CAMPO OPCIONAL: Agência(s) de fomento que auxiliou(ram) o pesquisador.</hint>
                     <required></required>
+                    <type-bind>dissertação, tese, TCC</type-bind>
                 </field>
             </row>
             <row>
@@ -259,6 +334,18 @@
                     <input-type>textarea</input-type>
                     <hint>Enter any other description or comments in this box.</hint>
                     <required></required>
+                </field>
+            </row>
+            <row>
+            	<field>
+                    <dc-schema>dc</dc-schema>
+                    <dc-element>rights</dc-element>
+                    <dc-qualifier></dc-qualifier>
+                    <repeatable>false</repeatable>
+                    <label>Permissão de acesso:</label>
+                    <input-type value-pairs-name="common_rights">dropdown</input-type> 
+                    <hint>CAMPO OBRIGATÓRIO: Informe o tipo de acesso ao documento</hint>
+                    <required>CAMPO OBRIGATÓRIO: Informe o tipo de acesso ao documento.</required>
                 </field>
             </row>
         </form>
@@ -1365,7 +1452,7 @@
        <stored-value>UFLA</stored-value>
      </pair>
    </value-pairs>
-        <value-pairs value-pairs-name="common_identifiers" dc-term="identifier">
+    <value-pairs value-pairs-name="common_identifiers" dc-term="identifier">
             <pair>
                 <displayed-value>ISSN</displayed-value>
                 <stored-value>issn</stored-value>
@@ -1456,9 +1543,9 @@
           -->
         <value-pairs value-pairs-name="common_iso_languages" dc-term="language_iso">
             <pair>
-                <displayed-value>N/A</displayed-value>
-                <stored-value></stored-value>
-            </pair>
+       <displayed-value>Português</displayed-value>
+       <stored-value>pt_BR</stored-value>
+     </pair>
             <pair>
                 <displayed-value>English (United States)</displayed-value>
                 <stored-value>en_US</stored-value>
@@ -1953,6 +2040,102 @@
                 <stored-value>FundingOrganization</stored-value>
             </pair>
         </value-pairs>
+
+        <value-pairs value-pairs-name="common_publisher_country" dc-term="publisher_country">
+     <pair>
+       <displayed-value>Brasil</displayed-value>
+       <stored-value>brasil</stored-value>
+     </pair>
+     <pair>
+       <displayed-value>África do Sul</displayed-value>
+       <stored-value>africa do sul</stored-value>
+     </pair>
+	 <pair>
+       <displayed-value>Alemanha</displayed-value>
+       <stored-value>alemanha</stored-value>
+     </pair>
+	 <pair>
+       <displayed-value>Angola</displayed-value>
+       <stored-value>angola</stored-value>
+     </pair>
+	 <pair>
+       <displayed-value>Argentina</displayed-value>
+       <stored-value>argentina</stored-value>
+     </pair>
+	 <pair>
+       <displayed-value>Austrália</displayed-value>
+       <stored-value>austrália</stored-value>
+     </pair>
+	 <pair>
+       <displayed-value>Áustria</displayed-value>
+       <stored-value>austria</stored-value>
+     </pair>
+	 <pair>
+       <displayed-value>Béligica</displayed-value>
+       <stored-value>belgica</stored-value>
+     </pair>
+	 <pair>
+       <displayed-value>Bolívia</displayed-value>
+       <stored-value>bolivia</stored-value>
+     </pair>
+	 <pair>
+       <displayed-value>Canadá</displayed-value>
+       <stored-value>canada</stored-value>
+     </pair>
+	 <pair>
+       <displayed-value>Chile</displayed-value>
+       <stored-value>chile</stored-value>
+     </pair>
+	 <pair>
+       <displayed-value>China</displayed-value>
+       <stored-value>china</stored-value>
+     </pair>
+	 <pair>
+       <displayed-value>Colômbia</displayed-value>
+       <stored-value>colombia</stored-value>
+     </pair>
+	 <pair>
+       <displayed-value>Espanha</displayed-value>
+       <stored-value>espanha</stored-value>
+     </pair>
+	 <pair>
+       <displayed-value>Estados Unidos</displayed-value>
+       <stored-value>estados unidos</stored-value>
+     </pair>
+	 <pair>
+       <displayed-value>França</displayed-value>
+       <stored-value>franca</stored-value>
+     </pair>
+	 <pair>
+       <displayed-value>Grã-Bretanha</displayed-value>
+       <stored-value>gra-bretanha</stored-value>
+     </pair>
+	 <pair>
+       <displayed-value>Holanda</displayed-value>
+       <stored-value>holanda</stored-value>
+     </pair>
+	 <pair>
+       <displayed-value>Itália</displayed-value>
+       <stored-value>italia</stored-value>
+     </pair>
+	 <pair>
+       <displayed-value>México</displayed-value>
+       <stored-value>mexico</stored-value>
+     </pair>
+	 <pair>
+       <displayed-value>Portugal</displayed-value>
+       <stored-value>portugal</stored-value>
+     </pair>
+	 <pair>
+       <displayed-value>Suíça</displayed-value>
+       <stored-value>suica</stored-value>
+     </pair>
+	 <pair>
+       <displayed-value>Uruguai</displayed-value>
+       <stored-value>uruguai</stored-value>
+     </pair>
+	
+   </value-pairs>
 
     </form-value-pairs>
 

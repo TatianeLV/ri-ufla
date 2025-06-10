@@ -28,6 +28,7 @@ export class ComcolPageHandleComponent {
   @Input() content: string;
 
   public getHandle(): string {
-    return this.content;
+    // console.log("HD", this.content.replace("http://localhost:4000", "https://repositorio.ufla.br"));
+    return this.content.replace("http://localhost:4000", "https://repositorio.ufla.br");
   }
 }

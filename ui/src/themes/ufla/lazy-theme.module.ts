@@ -11,8 +11,10 @@ import { TranslateModule } from '@ngx-translate/core';
 import { ScrollToModule } from '@nicky-lenaers/ngx-scroll-to';
 
 import { RootModule } from '../../app/root.module';
+import { CommunityPageComponent } from './app/community-page/community-page.component';
 
 const DECLARATIONS = [
+  CommunityPageComponent
 ];
 
 @NgModule({
@@ -29,8 +31,9 @@ const DECLARATIONS = [
     StoreRouterConnectingModule,
     TranslateModule,
     FormsModule,
+    ...DECLARATIONS,
   ],
-  declarations: DECLARATIONS,
+  // declarations: DECLARATIONS,
 })
 
 /**
