@@ -63,44 +63,7 @@
                     <required>CAMPO OBRIGATÓRIO: Selecione o tipo de documento.</required>
                 </field>
             </row>
-            <row>
-                <field>
-                    <dc-schema>dc</dc-schema>
-                    <dc-element>contributor</dc-element>
-                    <dc-qualifier>author</dc-qualifier>
-                    <repeatable>true</repeatable>
-                    <label>Autor(es)</label>
-                    <input-type>onebox</input-type>
-                    <hint>Informe os autores.</hint>
-                    <required></required>
-                </field>
-            </row>
-            <row>
-                <field>
-                    <dc-schema>dc</dc-schema>
-                    <dc-element>creator</dc-element>
-                    <dc-qualifier>Lattes</dc-qualifier>
-                    <repeatable>false</repeatable>
-                    <label>URL do currículo lattes do autor:</label>
-                    <input-type>onebox</input-type>
-                    <hint>CAMPO OPCIONAL: Informe a URL do currículo lattes do autor.</hint>
-                    <required></required>
-                    <type-bind>dissertação, tese, TCC</type-bind>
-                </field>
-            </row>
-            <row>
-                <field>
-                    <dc-schema>dc</dc-schema>
-                    <dc-element>contributor</dc-element>
-                    <dc-qualifier>advisor</dc-qualifier>
-                    <repeatable>true</repeatable>
-                    <label>Orientador</label>
-                    <input-type>onebox</input-type>
-                    <hint>Informe o orientador.</hint>
-                    <required>O orientador é obrigatório</required>
-                    <type-bind>dissertação, tese, TCC</type-bind>
-                </field>
-            </row>
+           
             <row>
                 <field>
                     <dc-schema>dc</dc-schema>
@@ -125,6 +88,7 @@
                     <required></required>
                 </field>
             </row>
+           
             <row>
                 <field>
                     <dc-schema>dc</dc-schema>
@@ -165,13 +129,38 @@
                 </field>
             </row>
             <row>
+                <field>
+                    <dc-schema>dc</dc-schema>
+                    <dc-element>publisher</dc-element>
+                    <dc-qualifier>college</dc-qualifier>
+                    <repeatable>false</repeatable>
+                    <label>Faculdade, Instituto ou Escolas:</label>
+                    <input-type>onebox</input-type>
+                    <hint>CAMPO OBRIGATÓRIO: Faculdade, Instituto ou Escolas:.</hint>
+                    <required>CAMPO OBRIGATÓRIO: Faculdade, Instituto ou Escolas:.</required>
+                    <type-bind>dissertação, tese, TCC</type-bind>
+                </field>
+            </row>
+
+            <row>
+            <field>
+                <dc-schema>dc</dc-schema>
+                <dc-element>publisher</dc-element>
+                <dc-qualifier>department</dc-qualifier>
+                <repeatable>true</repeatable>
+                <label>Departamento:</label>
+                <input-type>onebox</input-type>
+                <hint>CAMPO OBRIGATÓRIO: Departamento</hint>
+                <required>CAMPO OBRIGATÓRIO: Departamento</required>
+            </field>
+            </row>
+            <row>
             <field>
                 <dc-schema>dc</dc-schema>
                 <dc-element>publisher</dc-element>
                 <dc-qualifier>program</dc-qualifier>
                 <repeatable>true</repeatable>
                 <label>Nome(s) do(s) programa(s) de pós-graduação por extenso:</label>
-                
                 <input-type>onebox</input-type>
                 <hint>CAMPO OBRIGATÓRIO: Nome(s) do(s) programa(s) de pós-graduação por extenso.</hint>
                 <required>CAMPO OBRIGATÓRIO: Nome(s) do(s) programa(s) de pós-graduação por extenso.</required>
@@ -201,6 +190,7 @@
                     <input-type>onebox</input-type>
                     <hint>Editora responsável pela publicação.</hint>
                     <required></required>
+                    <type-bind>Livro, Capítulo de livro</type-bind>
                 </field>
             </row>
             <row>
@@ -221,10 +211,11 @@
                     <dc-element>relation</dc-element>
                     <dc-qualifier>ispartofseries</dc-qualifier>
                     <repeatable>true</repeatable>
-                    <label>Series/Report No.</label>
+                    <label>Coleção</label>
                     <input-type>series</input-type>
-                    <hint>Enter the series and number assigned to this item by your community.</hint>
+                    <hint>Coleção do qual o livro faz parte.</hint>
                     <required></required>
+                    <type-bind>Livro, Capítulo de livro</type-bind>
                 </field>
             </row>
             <row>
@@ -234,10 +225,9 @@
                     <dc-qualifier></dc-qualifier>
                     <!-- An input-type of qualdrop_value MUST be marked as repeatable -->
                     <repeatable>true</repeatable>
-                    <label>Identifiers</label>
+                    <label>Identificadores</label>
                     <input-type value-pairs-name="common_identifiers">qualdrop_value</input-type>
-                    <hint>If the item has any identification numbers or codes associated with
-                        it, please enter the types and the actual numbers or codes.
+                    <hint>Identificadores do documento, como ISBN, DOI, ISSN, etc.</hint>
                     </hint>
                     <required></required>
                 </field>
@@ -256,10 +246,91 @@
                 </field>
             </row>
         </form>
+        <form name="traditionalpagetwo">
+         <row>
+                <field>
+                    <dc-schema>dc</dc-schema>
+                    <dc-element>creator</dc-element>
+                    <dc-qualifier>author</dc-qualifier>
+                    <repeatable>true</repeatable>
+                    <label>Autor(es)</label>
+                    <input-type>onebox</input-type>
+                    <hint>Informe os autores.</hint>
+                    <required></required>
+                </field>
+            </row>
+            <row>
+                <field>
+                    <dc-schema>dc</dc-schema>
+                    <dc-element>creator</dc-element>
+                    <dc-qualifier>Lattes</dc-qualifier>
+                    <repeatable>false</repeatable>
+                    <label>URL do currículo lattes do autor:</label>
+                    <input-type>onebox</input-type>
+                    <hint>CAMPO OPCIONAL: Informe a URL do currículo lattes do autor.</hint>
+                    <required></required>
+                    <type-bind>dissertação, tese, TCC</type-bind>
+                </field>
+            </row>
+            <row>
+                <field>
+                    <dc-schema>dc</dc-schema>
+                    <dc-element>creator</dc-element>
+                    <dc-qualifier>orcid</dc-qualifier>
+                    <repeatable>false</repeatable>
+                    <label>ORCID:</label>
+                    <input-type>onebox</input-type>
+                    <hint>CAMPO OPCIONAL: ORCID.</hint>
+                    <required></required>
+                    <type-bind>dissertação, tese, TCC</type-bind>
+                </field>
+            </row>
+            <row>
+                <field>
+                    <dc-schema>dc</dc-schema>
+                    <dc-element>contributor</dc-element>
+                    <dc-qualifier>advisor</dc-qualifier>
+                    <repeatable>true</repeatable>
+                    <label>Orientador</label>
+                    <input-type>onebox</input-type>
+                    <hint>Informe o orientador.</hint>
+                    <required>O orientador é obrigatório</required>
+                    <type-bind>dissertação, tese, TCC</type-bind>
+                </field>
+            </row>
+             <row>
+                <field>
+                    <dc-schema>dc</dc-schema>
+                    <dc-element>contributor</dc-element>
+                    <dc-qualifier>co-advisor</dc-qualifier>
+                    <repeatable>true</repeatable>
+                    <label>Coorientador</label>
+                    <input-type>onebox</input-type>
+                    <hint>Informe o coorientador.</hint>
+                    <required></required>
+                    <type-bind>dissertação, tese, TCC</type-bind>
+                </field>
+            </row>
+             <row>
+                <field>
+                    <dc-schema>dc</dc-schema>
+                    <dc-element>contributor</dc-element>
+                    <dc-qualifier>referee</dc-qualifier>
+                    <repeatable>true</repeatable>
+                    <label>Membro da banca:</label>
+                    <input-type>onebox</input-type>
+                    <hint>Membro da banca:</hint>
+                    <required></required>
+                    <type-bind>dissertação, tese, TCC</type-bind>
+                </field>
+            </row>
+
+        </form>
+            
 
         <!-- Form which defines the second page/section of the "traditional" DSpace submission process,
              often used when depositing normal Items. -->
-        <form name="traditionalpagetwo">
+        <form name="traditionalpagetheree">
             <row>
                 <field>
                     <dc-schema>dc</dc-schema>
@@ -281,7 +352,7 @@
                 <dc-qualifier>cnpq</dc-qualifier>
                 <repeatable>true</repeatable>
                 <label>Áreas de conhecimento de acordo com tabela do CNPq:</label>
-                <input-type>textarea</input-type> 
+                <input-type>tag</input-type> 
                 <hint>CAMPO OBRIGATÓRIO: Selecione a(s) área(s) de conhecimento correspondente(s), de acordo com tabela do CNPq.</hint>
                 <required>CAMPO OBRIGATÓRIO: Selecione a(s) área(s) de conhecimento correspondente(s), de acordo com tabela do CNPq.</required>
                 <vocabulary>cnpq</vocabulary> 
@@ -318,7 +389,7 @@
                     <dc-qualifier>sponsorship</dc-qualifier>
                     <repeatable>true</repeatable>
                     <label>Agência(s) de fomento:</label>
-                    <input-type>textarea</input-type>
+                    <input-type>onebox</input-type>
                     <hint>CAMPO OPCIONAL: Agência(s) de fomento que auxiliou(ram) o pesquisador.</hint>
                     <required></required>
                     <type-bind>dissertação, tese, TCC</type-bind>
@@ -330,12 +401,78 @@
                     <dc-element>description</dc-element>
                     <dc-qualifier></dc-qualifier>
                     <repeatable>false</repeatable>
-                    <label>Description</label>
+                    <label>Notas gerais</label>
                     <input-type>textarea</input-type>
-                    <hint>Enter any other description or comments in this box.</hint>
+                    <hint>Coloque aqui observações gerais sobre o documento</hint>
                     <required></required>
                 </field>
             </row>
+            <row>
+                <field>
+                    <dc-schema>dc</dc-schema>
+                    <dc-element>description</dc-element>
+                    <dc-qualifier>tipodeimpacto</dc-qualifier>
+                    <repeatable>true</repeatable>
+                    <label>Tipo de impacto</label>
+                    <input-type value-pairs-name="common_impactos_sociais">dropdown</input-type>
+                    <hint>Tipo de impacto</hint>
+                    <required>Tipo de impacto</required>
+                    <type-bind>dissertação, tese, TCC</type-bind>
+                </field>
+            </row>
+            <row>
+                <field>
+                    <dc-schema>dc</dc-schema>
+                    <dc-element>description</dc-element>
+                    <dc-qualifier>areastematicasdaextensao</dc-qualifier>
+                    <input-type value-pairs-name="extension_thematic_areas">dropdown</input-type>
+                    <repeatable>true</repeatable>
+                    <label>Tipo de impacto</label>
+                    <input-type>textarea</input-type>
+                    <hint>Tipo de impacto</hint>
+                    <required>Tipo de impacto</required>
+                    <type-bind>dissertação, tese, TCC</type-bind>
+                </field>
+            </row>
+            <row>
+                <field>
+                    <dc-schema>dc</dc-schema>
+                    <dc-element>description</dc-element>
+                    <dc-qualifier>ods</dc-qualifier>
+                    <input-type value-pairs-name="ods_types">dropdown</input-type>
+                    <repeatable>true</repeatable>
+                    <label>Objetivos desesenvolvimento sustentável</label>
+                    <hint>Objetivos desesenvolvimento sustentável</hint>
+                    <required>Objetivos desesenvolvimento sustentável</required>
+                    <type-bind>dissertação, tese, TCC</type-bind>
+                </field>
+            </row>
+
+             <row>
+                <field>
+                    <dc-schema>dc</dc-schema>
+                    <dc-element>relation</dc-element>
+                    <dc-qualifier>ispartof</dc-qualifier>
+                    <repeatable>true</repeatable>
+                    <label>Faz parte de</label>
+                    <input-type>onebox</input-type>
+                    <hint>Faz parte de.</hint>
+                    <required></required>
+                </field>
+            </row>
+            <row>
+                <field>
+                    <dc-schema>dc</dc-schema>
+                    <dc-element>relation</dc-element>
+                    <dc-qualifier>dadosabertos</dc-qualifier>
+                    <repeatable>false</repeatable>
+                    <label>Dados abertos</label>
+                    <input-type>onebox</input-type>
+                    <hint>Dados abertos.</hint>
+                    <required></required>
+                </field>
+            </row>
+
             <!-- <row>
             	<field>
                     <dc-schema>dc</dc-schema>
@@ -1466,8 +1603,8 @@
                 <stored-value>ismn</stored-value>
             </pair>
             <pair>
-                <displayed-value>Gov't Doc #</displayed-value>
-                <stored-value>govdoc</stored-value>
+                <displayed-value>DOI</displayed-value>
+                <stored-value>doi</stored-value>
             </pair>
             <pair>
                 <displayed-value>URI</displayed-value>
@@ -2136,6 +2273,132 @@
      </pair>
 	
    </value-pairs>
+   <value-pairs value-pairs-name="ods_types" dc-term="type">
+            <pair>
+                <displayed-value>ODS 1: Erradicação da Pobreza</displayed-value>
+                <stored-value>ods_1_erradicacao_pobreza</stored-value>
+            </pair>
+            <pair>
+                <displayed-value>ODS 2: Fome Zero e Agricultura Sustentável</displayed-value>
+                <stored-value>ods_2_fome_zero</stored-value>
+            </pair>
+            <pair>
+                <displayed-value>ODS 3: Saúde e Bem-Estar</displayed-value>
+                <stored-value>ods_3_saude_bem_estar</stored-value>
+            </pair>
+            <pair>
+                <displayed-value>ODS 4: Educação de Qualidade</displayed-value>
+                <stored-value>ods_4_educacao_qualidade</stored-value>
+            </pair>
+            <pair>
+                <displayed-value>ODS 5: Igualdade de Gênero</displayed-value>
+                <stored-value>ods_5_igualdade_genero</stored-value>
+            </pair>
+            <pair>
+                <displayed-value>ODS 6: Água Potável e Saneamento</displayed-value>
+                <stored-value>ods_6_agua_saneamento</stored-value>
+            </pair>
+            <pair>
+                <displayed-value>ODS 7: Energia Limpa e Acessível</displayed-value>
+                <stored-value>ods_7_energia_limpa</stored-value>
+            </pair>
+            <pair>
+                <displayed-value>ODS 8: Trabalho Decente e Crescimento Econômico</displayed-value>
+                <stored-value>ods_8_trabalho_crescimento</stored-value>
+            </pair>
+            <pair>
+                <displayed-value>ODS 9: Indústria, Inovação e Infraestrutura</displayed-value>
+                <stored-value>ods_9_industria_inovacao</stored-value>
+            </pair>
+            <pair>
+                <displayed-value>ODS 10: Redução das Desigualdades</displayed-value>
+                <stored-value>ods_10_reducao_desigualdades</stored-value>
+            </pair>
+            <pair>
+                <displayed-value>ODS 11: Cidades e Comunidades Sustentáveis</displayed-value>
+                <stored-value>ods_11_cidades_sustentaveis</stored-value>
+            </pair>
+            <pair>
+                <displayed-value>ODS 12: Consumo e Produção Responsáveis</displayed-value>
+                <stored-value>ods_12_consumo_producao</stored-value>
+            </pair>
+            <pair>
+                <displayed-value>ODS 13: Ação Contra a Mudança Global do Clima</displayed-value>
+                <stored-value>ods_13_acao_clima</stored-value>
+            </pair>
+            <pair>
+                <displayed-value>ODS 14: Vida na Água</displayed-value>
+                <stored-value>ods_14_vida_agua</stored-value>
+            </pair>
+            <pair>
+                <displayed-value>ODS 15: Vida Terrestre</displayed-value>
+                <stored-value>ods_15_vida_terrestre</stored-value>
+            </pair>
+            <pair>
+                <displayed-value>ODS 16: Paz, Justiça e Instituições Eficazes</displayed-value>
+                <stored-value>ods_16_paz_justica</stored-value>
+            </pair>
+            <pair>
+                <displayed-value>ODS 17: Parcerias e Meios de Implementação</displayed-value>
+                <stored-value>ods_17_parcerias</stored-value>
+            </pair>            
+        </value-pairs>
+        <value-pairs value-pairs-name="common_impactos_sociais" dc-term="type">
+            <pair>
+                <displayed-value>Sociais</displayed-value>
+                <stored-value>sociais</stored-value>
+            </pair>
+            <pair>
+                <displayed-value>Tecnológico</displayed-value>
+                <stored-value>Tecnológico</stored-value>
+            </pair>
+            <pair>
+                <displayed-value>Econômicos</displayed-value>
+                <stored-value>econômicos</stored-value>
+            </pair>
+            <pair>
+                <displayed-value>Culturais</displayed-value>
+                <stored-value>culturais</stored-value>
+            </pair>
+            <pair>
+                <displayed-value>Outros</displayed-value>
+                <stored-value>outros</stored-value>
+            </pair>             
+            </value-pairs>
+            <value-pairs value-pairs-name="extension_thematic_areas" dc-term="type">
+            <pair>
+                <displayed-value>Comunicação</displayed-value>
+                <stored-value>comunicacao</stored-value>
+            </pair>
+            <pair>
+                <displayed-value>Cultura</displayed-value>
+                <stored-value>cultura</stored-value>
+            </pair>
+            <pair>
+                <displayed-value>Direitos Humanos e Justiça</displayed-value>
+                <stored-value>direitos_humanos_justica</stored-value>
+            </pair>
+            <pair>
+                <displayed-value>Educação</displayed-value>
+                <stored-value>educacao</stored-value>
+            </pair>
+            <pair>
+                <displayed-value>Meio Ambiente</displayed-value>
+                <stored-value>meio_ambiente</stored-value>
+            </pair>
+            <pair>
+                <displayed-value>Saúde</displayed-value>
+                <stored-value>saude</stored-value>
+            </pair>
+            <pair>
+                <displayed-value>Trabalho</displayed-value>
+                <stored-value>Trabalho</stored-value>
+            </pair>
+            </value-pairs>
+
+
+
+
 
     </form-value-pairs>
 
