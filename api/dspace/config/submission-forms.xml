@@ -336,7 +336,7 @@
                     <required></required>
                 </field>
             </row>
-            <row>
+            <!-- <row>
             	<field>
                     <dc-schema>dc</dc-schema>
                     <dc-element>rights</dc-element>
@@ -347,7 +347,7 @@
                     <hint>CAMPO OBRIGATÓRIO: Informe o tipo de acesso ao documento</hint>
                     <required>CAMPO OBRIGATÓRIO: Informe o tipo de acesso ao documento.</required>
                 </field>
-            </row>
+            </row> -->
         </form>
 
 
