@@ -245,7 +245,7 @@
             </row>
         </form>
         <form name="traditionalpagetwo">
-         <row>
+            <row>
                 <field>
                     <dc-schema>dc</dc-schema>
                     <dc-element>creator</dc-element>
@@ -323,12 +323,6 @@
                 </field>
             </row>
 
-        </form>
-            
-
-        <!-- Form which defines the second page/section of the "traditional" DSpace submission process,
-             often used when depositing normal Items. -->
-        <form name="traditionalpagetheree">
             <row>
                 <field>
                     <dc-schema>dc</dc-schema>
@@ -344,7 +338,7 @@
                 </field>
             </row>
             <row>
-            <field>
+                <field>
                 <dc-schema>dc</dc-schema>
                 <dc-element>subject</dc-element>
                 <dc-qualifier>cnpq</dc-qualifier>
@@ -471,19 +465,156 @@
                 </field>
             </row>
 
-            <!-- <row>
-            	<field>
+             <row>
+                <field>
                     <dc-schema>dc</dc-schema>
-                    <dc-element>rights</dc-element>
+                    <dc-element>subject</dc-element>
+                    <dc-qualifier></dc-qualifier>
+                    <!-- An input-type of tag MUST be marked as repeatable -->
+                    <repeatable>true</repeatable>
+                    <label>Palavras-chave</label>
+                    <input-type>tag</input-type>
+                    <hint>CAMPO OBRIGATÓRIO: Informe as palavras-chave do documento descrito. Sugere-se também o uso de termos em inglês.</hint>
+                    <required>CAMPO OBRIGATÓRIO: Informe as palavras-chave do documento descrito. Sugere-se também o uso de termos em inglês.</required>  
+                    <!-- <vocabulary>srsc</vocabulary> -->
+                </field>
+            </row>
+            <row>
+                <field>
+                <dc-schema>dc</dc-schema>
+                <dc-element>subject</dc-element>
+                <dc-qualifier>cnpq</dc-qualifier>
+                <repeatable>true</repeatable>
+                <label>Áreas de conhecimento de acordo com tabela do CNPq:</label>
+                <input-type>tag</input-type> 
+                <hint>CAMPO OBRIGATÓRIO: Selecione a(s) área(s) de conhecimento correspondente(s), de acordo com tabela do CNPq.</hint>
+                <required>CAMPO OBRIGATÓRIO: Selecione a(s) área(s) de conhecimento correspondente(s), de acordo com tabela do CNPq.</required>
+                <vocabulary>cnpq</vocabulary> 
+                </field>
+            </row>
+            <row>
+                <field>
+                    <dc-schema>dc</dc-schema>
+                    <dc-element>description</dc-element>
+                    <dc-qualifier>abstract</dc-qualifier>
+                    <repeatable>true</repeatable>
+                    <label>Abstract</label>
+                    <input-type>textarea</input-type>
+                    <hint>CAMPO OBRIGATÓRIO: Abstract do documento. Preencha com o resumo em língua estrangeira.</hint>
+                    <required>CAMPO OBRIGATÓRIO: Abstract do documento. Preencha com o resumo em língua estrangeira.</required>
+                </field>
+            </row>
+            <row>
+                <field>
+                    <dc-schema>dc</dc-schema>
+                    <dc-element>description</dc-element>
+                    <dc-qualifier>resumo</dc-qualifier>
+                    <repeatable>false</repeatable>
+                    <label>Resumo:</label>
+                    <input-type>textarea</input-type>
+                    <hint>CAMPO OBRIGATÓRIO: Resumo do documento. Preencha o campo de acordo com o idioma do documento.</hint>
+                    <required>CAMPO OBRIGATÓRIO: Resumo do documento. Preencha o campo de acordo com o idioma do documento.</required>
+                </field>
+            </row>
+            <row>
+                <field>
+                    <dc-schema>dc</dc-schema>
+                    <dc-element>description</dc-element>
+                    <dc-qualifier>sponsorship</dc-qualifier>
+                    <repeatable>true</repeatable>
+                    <label>Agência(s) de fomento:</label>
+                    <input-type>onebox</input-type>
+                    <hint>CAMPO OPCIONAL: Agência(s) de fomento que auxiliou(ram) o pesquisador.</hint>
+                    <required></required>
+                    <type-bind>dissertação, tese, TCC</type-bind>
+                </field>
+            </row>
+            <row>
+                <field>
+                    <dc-schema>dc</dc-schema>
+                    <dc-element>description</dc-element>
                     <dc-qualifier></dc-qualifier>
                     <repeatable>false</repeatable>
-                    <label>Permissão de acesso:</label>
-                    <input-type value-pairs-name="common_rights">dropdown</input-type> 
-                    <hint>CAMPO OBRIGATÓRIO: Informe o tipo de acesso ao documento</hint>
-                    <required>CAMPO OBRIGATÓRIO: Informe o tipo de acesso ao documento.</required>
+                    <label>Notas gerais</label>
+                    <input-type>textarea</input-type>
+                    <hint>Coloque aqui observações gerais sobre o documento</hint>
+                    <required></required>
                 </field>
-            </row> -->
+            </row>
+            <row>
+                <field>
+                    <dc-schema>dc</dc-schema>
+                    <dc-element>description</dc-element>
+                    <dc-qualifier>tipodeimpacto</dc-qualifier>
+                    <repeatable>true</repeatable>
+                    <label>Tipo de impacto</label>
+                    <input-type value-pairs-name="common_impactos_sociais">dropdown</input-type>
+                    <hint>Tipo de impacto</hint>
+                    <required>Tipo de impacto</required>
+                    <type-bind>dissertação, tese, TCC</type-bind>
+                </field>
+            </row>
+            <row>
+                <field>
+                    <dc-schema>dc</dc-schema>
+                    <dc-element>description</dc-element>
+                    <dc-qualifier>areastematicasdaextensao</dc-qualifier>
+                    <input-type value-pairs-name="extension_thematic_areas">dropdown</input-type>
+                    <repeatable>true</repeatable>
+                    <label>Tipo de impacto</label>
+                    <input-type>textarea</input-type>
+                    <hint>Tipo de impacto</hint>
+                    <required>Tipo de impacto</required>
+                    <type-bind>dissertação, tese, TCC</type-bind>
+                </field>
+            </row>
+            <row>
+                <field>
+                    <dc-schema>dc</dc-schema>
+                    <dc-element>description</dc-element>
+                    <dc-qualifier>ods</dc-qualifier>
+                    <input-type value-pairs-name="ods_types">dropdown</input-type>
+                    <repeatable>true</repeatable>
+                    <label>Objetivos desesenvolvimento sustentável</label>
+                    <hint>Objetivos desesenvolvimento sustentável</hint>
+                    <required>Objetivos desesenvolvimento sustentável</required>
+                    <type-bind>dissertação, tese, TCC</type-bind>
+                </field>
+            </row>
+
+             <row>
+                <field>
+                    <dc-schema>dc</dc-schema>
+                    <dc-element>relation</dc-element>
+                    <dc-qualifier>ispartof</dc-qualifier>
+                    <repeatable>true</repeatable>
+                    <label>Faz parte de</label>
+                    <input-type>onebox</input-type>
+                    <hint>Faz parte de.</hint>
+                    <required></required>
+                </field>
+            </row>
+            <row>
+                <field>
+                    <dc-schema>dc</dc-schema>
+                    <dc-element>relation</dc-element>
+                    <dc-qualifier>dadosabertos</dc-qualifier>
+                    <repeatable>false</repeatable>
+                    <label>Dados abertos</label>
+                    <input-type>onebox</input-type>
+                    <hint>Dados abertos.</hint>
+                    <required></required>
+                </field>
+            </row>
+
         </form>
+            
+
+        <!-- Form which defines the second page/section of the "traditional" DSpace submission process,
+             often used when depositing normal Items. -->
+        <!-- <form name="traditionalpagetheree">
+           
+        </form> -->
 
 
         <!-- Form which defines the *first* metadata page/section for depositing Publication Entities.
