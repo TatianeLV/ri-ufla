@@ -249,7 +249,7 @@
                 <field>
                     <dc-schema>dc</dc-schema>
                     <dc-element>creator</dc-element>
-                    <dc-qualifier>author</dc-qualifier>
+                    <dc-qualifier></dc-qualifier>
                     <repeatable>true</repeatable>
                     <label>Autor(es)</label>
                     <input-type>onebox</input-type>
