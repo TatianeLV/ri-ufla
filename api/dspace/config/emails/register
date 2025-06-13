@@ -6,13 +6,22 @@
 ##
 #set($subject = "${config.get('dspace.name')} Account Registration")
 #set($phone = ${config.get('mail.message.helpdesk.telephone')})
-To complete registration for a ${config.get('dspace.name')} account, please click the link below:
+<!-- ##To complete registration for a ${config.get('dspace.name')} account, please click the link below: -->
+Para completar se cadastro no RI UFLA, clique no link abaixo:
 
   ${params[0]}
 
-If you need assistance with your account, please email ${config.get("mail.helpdesk")}
+Se precisar de ajuda entre em contato conosco:
+
+
+Repositório Institucional
+Universidade Federal de Lavras
+Email: repositorio.biblioteca@ufla.br
+Telefone: (35) 3829-1182
+
+<!-- If you need assistance with your account, please email ${config.get("mail.helpdesk")}
 #if( $phone )
 or call us at ${phone}.
 #end
 
-The ${config.get('dspace.name')} Team
+The ${config.get('dspace.name')} Team -->
