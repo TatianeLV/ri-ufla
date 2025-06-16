@@ -146,4 +146,15 @@ export class MetadataValuesComponent implements OnChanges {
       return { target: '_blank', rel: 'noopener noreferrer' };
     }
   }
+
+  isDate(value: string): string {
+    // return !isNaN(Date.parse(value));
+  const date = new Date(value);
+  if (isNaN(date.getTime())) {
+    return value.trim() // Não é uma data válida
+  }
+
+  // Formata para o padrão brasileiro: dd/mm/aaaa
+  return date.toLocaleDateString('pt-BR');
+}
 }

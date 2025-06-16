@@ -11,10 +11,31 @@ import { TranslateModule } from '@ngx-translate/core';
 import { ScrollToModule } from '@nicky-lenaers/ngx-scroll-to';
 
 import { RootModule } from '../../app/root.module';
-import { CommunityPageComponent } from './app/community-page/community-page.component';
+import { FileSectionComponent } from './app/item-page/simple/field-components/file-section/file-section.component';
+import { ItemPageTitleFieldComponent } from './app/item-page/simple/field-components/specific-field/title/item-page-title-field.component';
+import { ItemPageComponent } from './app/item-page/simple/item-page.component';
+import { MetadataRepresentationListComponent } from './app/item-page/simple/metadata-representation-list/metadata-representation-list.component';
+import { MediaViewerComponent } from './app/item-page/media-viewer/media-viewer.component';
+import { MediaViewerImageComponent } from './app/item-page/media-viewer/media-viewer-image/media-viewer-image.component';
+import { MediaViewerVideoComponent } from './app/item-page/media-viewer/media-viewer-video/media-viewer-video.component';
+import { FullFileSectionComponent } from './app/item-page/full/field-components/file-section/full-file-section.component';
+import { FullItemPageComponent } from './app/item-page/full/full-item-page.component';
+import { ItemStatusComponent } from './app/item-page/edit-item-page/item-status/item-status.component';
+import { ItemAlertsComponent } from './app/item-page/alerts/item-alerts.component';
+
 
 const DECLARATIONS = [
-  CommunityPageComponent
+  FileSectionComponent,
+  ItemPageTitleFieldComponent,
+  ItemPageComponent,
+  MetadataRepresentationListComponent,
+  MediaViewerComponent,
+  MediaViewerImageComponent,
+  MediaViewerVideoComponent,
+  FullFileSectionComponent,
+  FullItemPageComponent,
+  ItemStatusComponent,
+  ItemAlertsComponent
 ];
 
 @NgModule({

@@ -7,12 +7,18 @@ import { HeaderNavbarWrapperComponent } from './app/header-nav-wrapper/header-na
 import { HomeNewsComponent } from './app/home-page/home-news/home-news.component';
 import { NavbarComponent } from './app/navbar/navbar.component';
 import { FooterComponent } from './app/footer/footer.component';
+import { PublicationComponent } from './app/item-page/simple/item-types/publication/publication.component';
+import { UntypedItemComponent } from './app/item-page/simple/item-types/untyped-item/untyped-item.component';
 
 /**
  * Add components that use a custom decorator to ENTRY_COMPONENTS as well as DECLARATIONS.
  * This will ensure that decorator gets picked up when the app loads
  */
-const ENTRY_COMPONENTS = [];
+const ENTRY_COMPONENTS = [
+  PublicationComponent, 
+  UntypedItemComponent,
+  
+];
 
 const DECLARATIONS = [
   ...ENTRY_COMPONENTS,
@@ -20,7 +26,9 @@ const DECLARATIONS = [
   HeaderComponent,
   HeaderNavbarWrapperComponent,
   NavbarComponent,
-  FooterComponent
+  FooterComponent,
+  
+  
 ];
 
 @NgModule({

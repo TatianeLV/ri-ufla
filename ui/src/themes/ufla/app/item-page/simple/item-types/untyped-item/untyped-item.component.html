@@ -1,4 +1,5 @@
 <ds-results-back-button *ngIf="showBackButton$ | async" [back]="back"></ds-results-back-button>
+
 <div class="row" *ngIf="iiifEnabled">
   <div class="col-12">
     <ds-mirador-viewer id="iiif-viewer"
@@ -14,7 +15,9 @@
   </ds-item-page-title-field>
   <ds-dso-edit-menu></ds-dso-edit-menu>
 </div>
+
 <div class="row">
+
   <div class="col-xs-12 col-md-4">
     <ng-container *ngIf="!(mediaViewer.image || mediaViewer.video)">
       <ds-metadata-field-wrapper [hideIfNoTextContent]="false">
@@ -24,7 +27,7 @@
     <div *ngIf="mediaViewer.image || mediaViewer.video" class="mb-2">
       <ds-media-viewer [item]="object"></ds-media-viewer>
     </div>
-    <ds-item-page-file-section [item]="object"></ds-item-page-file-section>
+    <!-- <ds-item-page-file-section [item]="object"></ds-item-page-file-section> -->
     <ds-item-page-date-field [item]="object"></ds-item-page-date-field>
     <ds-metadata-representation-list class="ds-item-page-mixed-author-field"
       [parentItem]="object"
@@ -49,6 +52,7 @@
       [label]="'item.page.publisher'">
     </ds-generic-item-page-field>
   </div>
+
   <div class="col-xs-12 col-md-6">
     <ds-item-page-abstract-field [item]="object"></ds-item-page-abstract-field>
     <ds-generic-item-page-field [item]="object"
@@ -94,4 +98,4 @@
       </a>
     </div>
   </div>
-</div> 
+</div>
