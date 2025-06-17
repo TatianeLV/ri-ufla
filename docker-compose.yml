@@ -86,9 +86,7 @@ services:
     container_name: dspacedb
     # Uses a custom Postgres image with pgcrypto installed
     # image: "${DOCKER_REGISTRY:-docker.io}/${DOCKER_OWNER:-dspace}/dspace-postgres-pgcrypto:${DSPACE_VER:-dspace-8_x}"
-    image: "ufla/dspacedb:8.1"
-    environment:
-      TZ: "America/Sao_Paulo"
+    image: "ufla/dspacedb:8.1"      
     env_file:
        - .env
     build:
