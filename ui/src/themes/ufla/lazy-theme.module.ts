@@ -22,6 +22,7 @@ import { FullFileSectionComponent } from './app/item-page/full/field-components/
 import { FullItemPageComponent } from './app/item-page/full/full-item-page.component';
 import { ItemStatusComponent } from './app/item-page/edit-item-page/item-status/item-status.component';
 import { ItemAlertsComponent } from './app/item-page/alerts/item-alerts.component';
+import { CommunityPageComponent } from './app/community-page/community-page.component';
 
 
 const DECLARATIONS = [
@@ -35,7 +36,8 @@ const DECLARATIONS = [
   FullFileSectionComponent,
   FullItemPageComponent,
   ItemStatusComponent,
-  ItemAlertsComponent
+  ItemAlertsComponent,
+  CommunityPageComponent
 ];
 
 @NgModule({
