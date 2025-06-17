@@ -27,14 +27,40 @@
     <div *ngIf="mediaViewer.image || mediaViewer.video" class="mb-2">
       <ds-media-viewer [item]="object"></ds-media-viewer>
     </div>
-    <!-- <ds-item-page-file-section [item]="object"></ds-item-page-file-section> -->
+    <!-- Arquivos -->
+    <ds-item-page-file-section [item]="object"></ds-item-page-file-section>
+
+    <!-- Data -->
     <ds-item-page-date-field [item]="object"></ds-item-page-date-field>
+
     <ds-metadata-representation-list class="ds-item-page-mixed-author-field"
       [parentItem]="object"
       [itemType]="'Person'"
       [metadataFields]="['dc.contributor.author', 'dc.creator']"
       [label]="'relationships.isAuthorOf' | translate">
     </ds-metadata-representation-list>
+    <!-- Orientadores -->
+    <ds-metadata-representation-list class="ds-item-page-mixed-author-field"
+      [parentItem]="object"
+      [itemType]="'Person'"
+      [metadataFields]="['dc.contributor.advisor', 'dc.contributor.advisor1', 'dc.contributor.advisor2']"
+      label="Orientadores">
+    </ds-metadata-representation-list>
+    <!-- Coorientadores -->
+    <ds-metadata-representation-list class="ds-item-page-mixed-author-field"
+      [parentItem]="object"
+      [itemType]="'Person'"
+      [metadataFields]="['dc.contributor.advisor-co', 'dc.contributor.co-advisor']"
+      label="Coorientadores">
+    </ds-metadata-representation-list>
+    <!-- Membros de banca -->
+    <ds-metadata-representation-list class="ds-item-page-mixed-author-field"
+      [parentItem]="object"
+      [itemType]="'Person'"
+      [metadataFields]="['dc.contributor.referee', 'dc.contributor.referee1', 'dc.contributor.referee2', 'dc.contributor.referee3', 'dc.contributor.referee4', 'dc.contributor.referee5']"
+      label="Membros de banca">
+    </ds-metadata-representation-list>
+
     <ds-generic-item-page-field [item]="object"
       [fields]="['journal.title']"
       [label]="'item.page.journal-title'">
@@ -51,10 +77,38 @@
       [fields]="['dc.publisher']"
       [label]="'item.page.publisher'">
     </ds-generic-item-page-field>
+    <!-- Faculdade, Instituto ou Escola -->
+    <ds-generic-item-page-field [item]="object"
+      [fields]="['dc.publisher.college']"
+      label="Faculdade, Instituto ou Escola">
+    </ds-generic-item-page-field>
+    <!-- Departamento -->
+    <ds-generic-item-page-field [item]="object"
+      [fields]="['dc.publisher.department']"
+      label="Departamento">
+      </ds-generic-item-page-field>
+      <!-- Programa de Pós-Graduação -->
+    <ds-generic-item-page-field [item]="object"
+      [fields]="['dc.publisher.program']"
+      label="Programa de Pós-Graduação">
+    </ds-generic-item-page-field>
+    <!-- Agencia de fomento -->
+    <ds-generic-item-page-field [item]="object"
+      [fields]="['dc.description.sponsorship']"
+      label="Agência de fomento">
+    </ds-generic-item-page-field>
   </div>
 
   <div class="col-xs-12 col-md-6">
+    <!-- Resumo -->
+    <ds-generic-item-page-field [item]="object"
+      [fields]="['dc.description.resumo']"
+      label="Resumo">
+    </ds-generic-item-page-field>
+
     <ds-item-page-abstract-field [item]="object"></ds-item-page-abstract-field>
+
+
     <ds-generic-item-page-field [item]="object"
       [fields]="['dc.description']"
       [label]="'item.page.description'">

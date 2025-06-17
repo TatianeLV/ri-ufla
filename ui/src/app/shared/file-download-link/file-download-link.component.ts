@@ -79,6 +79,7 @@ export class FileDownloadLinkComponent implements OnInit {
   }
 
   ngOnInit() {
+
     if (this.enableRequestACopy) {
       this.canDownload$ = this.authorizationService.isAuthorized(FeatureID.CanDownload, isNotEmpty(this.bitstream) ? this.bitstream.self : undefined);
       const canRequestACopy$ = this.authorizationService.isAuthorized(FeatureID.CanRequestACopy, isNotEmpty(this.bitstream) ? this.bitstream.self : undefined);

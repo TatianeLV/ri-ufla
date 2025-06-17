@@ -39,6 +39,7 @@ export class ItemPageAbstractFieldComponent extends ItemPageFieldComponent {
      */
     fields: string[] = [
       'dc.description.abstract',
+      // 'dc.description.resumo',
     ];
 
     /**

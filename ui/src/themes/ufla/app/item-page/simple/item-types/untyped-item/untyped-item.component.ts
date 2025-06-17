@@ -68,5 +68,6 @@ import { ThemedThumbnailComponent } from '../../../../../../../app/thumbnail/the
   ],
 })
 export class UntypedItemComponent extends BaseComponent {
+
  
 }

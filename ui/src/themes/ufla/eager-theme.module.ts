@@ -9,6 +9,7 @@ import { NavbarComponent } from './app/navbar/navbar.component';
 import { FooterComponent } from './app/footer/footer.component';
 import { PublicationComponent } from './app/item-page/simple/item-types/publication/publication.component';
 import { UntypedItemComponent } from './app/item-page/simple/item-types/untyped-item/untyped-item.component';
+import { FileDownloadLinkComponent } from './app/shared/file-download-link/file-download-link.component';
 
 /**
  * Add components that use a custom decorator to ENTRY_COMPONENTS as well as DECLARATIONS.
@@ -17,6 +18,7 @@ import { UntypedItemComponent } from './app/item-page/simple/item-types/untyped-
 const ENTRY_COMPONENTS = [
   PublicationComponent, 
   UntypedItemComponent,
+  FileDownloadLinkComponent
   
 ];
 

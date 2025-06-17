@@ -1,7 +1,6 @@
 {
     "form.date-picker.placeholder.year": "Ano",
-
   "form.date-picker.placeholder.month": "Mês",
-
   "form.date-picker.placeholder.day": "Dia",
+   "item.page.abstract": "Abstract",
 }
