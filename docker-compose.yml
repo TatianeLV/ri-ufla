@@ -11,7 +11,7 @@ services:
      container_name: dspace-ui
      image: "ufla/ui:8.1"
      environment:
-      - TZ=America/Sao_Paulo
+      TZ: "America/Sao_Paulo"
      build: 
        context: .
        dockerfile: ui.dockerfile
@@ -27,6 +27,7 @@ services:
   dspace:
     container_name: dspace
     environment:
+      TZ: "America/Sao_Paulo"
       # Below syntax may look odd, but it is how to override dspace.cfg settings via env variables.
       # See https://github.com/DSpace/DSpace/blob/main/dspace/config/config-definition.xml
       # __P__ => "." (e.g. dspace__P__dir => dspace.dir)
@@ -45,7 +46,7 @@ services:
       # from the host machine. This IP range MUST correspond to the 'dspacenet' subnet defined above.
       proxies__P__trusted__P__ipranges: '172.23.0'
       LOGGING_CONFIG: /dspace/config/log4j2-container.xml
-      - TZ=America/Sao_Paulo
+      
     image: "ufla/api:8.1"
     build:
       context: ./api
@@ -87,7 +88,7 @@ services:
     # image: "${DOCKER_REGISTRY:-docker.io}/${DOCKER_OWNER:-dspace}/dspace-postgres-pgcrypto:${DSPACE_VER:-dspace-8_x}"
     image: "ufla/dspacedb:8.1"
     environment:
-      - TZ=America/Sao_Paulo
+      TZ: "America/Sao_Paulo"
     env_file:
        - .env
     build:
