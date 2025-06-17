@@ -45,7 +45,6 @@ services:
       # from the host machine. This IP range MUST correspond to the 'dspacenet' subnet defined above.
       proxies__P__trusted__P__ipranges: '172.23.0'
       LOGGING_CONFIG: /dspace/config/log4j2-container.xml
-      environment:
       - TZ=America/Sao_Paulo
     image: "ufla/api:8.1"
     build:
