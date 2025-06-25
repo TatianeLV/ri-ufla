@@ -22,7 +22,7 @@
 	<Loggers>
                 <!-- LOGS LDPA UFLA -->
 		<Logger name="org.dspace.authenticate.LDAPAuthentication" level="DEBUG" additivity="false">
-			<AppenderRef ref="Console" />
+			<AppenderRef ref="A1" />
 		</Logger>
 		<!-- Most parts of DSpace -->
 		<Logger name="org.dspace" level="${loglevel.dspace}" additivity="false">
