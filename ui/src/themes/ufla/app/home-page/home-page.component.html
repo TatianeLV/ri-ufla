@@ -1,0 +1,39 @@
+<ds-home-coar></ds-home-coar>
+<ds-home-news></ds-home-news>
+<ds-configuration-search-page *ngIf="showDiscoverFilters"
+                              [sideBarWidth]="3"
+                              [showViewModes]="false"
+                              [searchEnabled]="false"
+                              [inPlaceSearch]="false"
+                              [showScopeSelector]="false">
+  <ng-container searchContentTop *ngTemplateOutlet="homeContent"></ng-container>
+</ds-configuration-search-page>
+<div *ngIf="!showDiscoverFilters" class="container">
+  <ng-container *ngTemplateOutlet="homeContent"></ng-container>
+</div>
+<ds-suggestions-popup></ds-suggestions-popup>
+
+<ng-template #homeContent>
+  <ng-container *ngIf="(site$ | async) as site">
+    <ds-view-tracker [object]="site"></ds-view-tracker>
+  </ng-container>
+  <ds-search-form [inPlaceSearch]="false"
+                         [searchPlaceholder]="'home.search-form.placeholder' | translate">
+  </ds-search-form>
+  <!-- <ds-top-level-community-list></ds-top-level-community-list> -->
+    <div class="container">
+        <h2>Principais Coleções do Repositório</h2>
+        <div class="row">
+            <div *ngFor="let item of collections" class="col-12 col-md-4 col-lg-3 col-xl-2 mb-4">
+                <div class="card h-100 w-100">
+                    <a [routerLink]="item.link" class="text-decoration-none text-dark">
+                        <div class="card-body align-items-center justify-content-center text-center">
+                            <p class="card-subtitle fs-6 mb-0">{{item.title}}</p>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+  <ds-recent-item-list *ngIf="recentSubmissionspageSize>0"></ds-recent-item-list>
+</ng-template>
