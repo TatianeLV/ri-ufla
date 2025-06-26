@@ -61,6 +61,7 @@
       label="Membros de banca">
     </ds-metadata-representation-list>
 
+
     <ds-generic-item-page-field [item]="object"
       [fields]="['journal.title']"
       [label]="'item.page.journal-title'">
@@ -96,6 +97,26 @@
     <ds-generic-item-page-field [item]="object"
       [fields]="['dc.description.sponsorship']"
       label="Agência de fomento">
+    </ds-generic-item-page-field>
+     <!-- Tipo de impacto -->
+    <ds-generic-item-page-field [item]="object"
+      [fields]="['dc.description.tipodeimpacto']"
+      label="Tipo de impacto">
+    </ds-generic-item-page-field>
+     <!-- Áreas Temáticas da Extenção -->
+    <ds-generic-item-page-field [item]="object"
+      [fields]="['dc.description.areastematicasdaextensao']"
+      label="Áreas Temáticas da Extenção">
+    </ds-generic-item-page-field>
+      <!-- Objetivos desesenvolvimento sustentável -->
+    <ds-generic-item-page-field [item]="object"
+      [fields]="['dc.description.ods']"
+      label="Objetivos do desesenvolvimento sustentável">
+    </ds-generic-item-page-field>
+     <!-- Dados abertos -->
+    <ds-generic-item-page-field [item]="object"
+      [fields]="['dc.relation.dadosabertos']"
+      label="Dados abertos">
     </ds-generic-item-page-field>
   </div>
 
