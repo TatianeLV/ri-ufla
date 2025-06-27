@@ -24,6 +24,8 @@ import { ItemStatusComponent } from './app/item-page/edit-item-page/item-status/
 import { ItemAlertsComponent } from './app/item-page/alerts/item-alerts.component';
 import { CommunityPageComponent } from './app/community-page/community-page.component';
 import { HomePageComponent } from './app/home-page/home-page.component';
+import { AuthNavMenuComponent } from './app/shared/auth-nav-menu/auth-nav-menu.component';
+import { ForgotEmailComponent } from './app/forgot-password/forgot-password-email/forgot-email.component';
 
 
 
@@ -40,7 +42,9 @@ const DECLARATIONS = [
   ItemStatusComponent,
   ItemAlertsComponent,
   CommunityPageComponent,
-  HomePageComponent
+  HomePageComponent,
+  AuthNavMenuComponent,
+  ForgotEmailComponent
 ];
 
 @NgModule({
