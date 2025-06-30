@@ -1,6 +1,6 @@
 rest:
   ssl: true
-  host: ri-beta.ufla.br
+  host: repositorio.ufla.br
   port: 443
   nameSpace: /server
 
