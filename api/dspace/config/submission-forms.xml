@@ -463,6 +463,18 @@
                     <required></required>
                 </field>
             </row>          
+            <row>
+                <field>
+                    <dc-schema>dc</dc-schema>
+                    <dc-element>relation</dc-element>
+                    <dc-qualifier>uri</dc-qualifier>
+                    <repeatable>true</repeatable>
+                    <label>Link externo</label>
+                    <input-type>onebox</input-type>
+                    <hint>Link externo.</hint>
+                    <required></required>
+                </field>
+            </row>      
         </form>
 
         <!-- Form which defines the *first* metadata page/section for depositing Publication Entities.
