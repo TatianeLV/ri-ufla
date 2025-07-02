@@ -150,8 +150,8 @@
                 <repeatable>true</repeatable>
                 <label>Departamento:</label>
                 <input-type>onebox</input-type>
-                <hint>CAMPO OBRIGATÓRIO: Departamento</hint>
-                <required></required> -->
+                <hint>CAMPO OPCIONAL: Departamento.</hint>
+                <required></required>
             </field>
             </row>
             <row>
@@ -213,7 +213,7 @@
                     <repeatable>true</repeatable>
                     <label>Coleção</label>
                     <input-type>series</input-type>
-                    <hint>Coleção do qual o livro faz parte.</hint>
+                    <hint>Coleção da qual o livro faz parte.</hint>
                     <required></required>
                     <type-bind>Livro, Capítulo de livro</type-bind>
                 </field>
