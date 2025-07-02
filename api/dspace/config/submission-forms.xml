@@ -151,7 +151,7 @@
                 <label>Departamento:</label>
                 <input-type>onebox</input-type>
                 <hint>CAMPO OBRIGATÓRIO: Departamento</hint>
-                <required>CAMPO OBRIGATÓRIO: Departamento</required>
+                <required></required> -->
             </field>
             </row>
             <row>
@@ -1616,7 +1616,7 @@
      </pair>
      <pair>
        <displayed-value>Dissertação</displayed-value>
-       <stored-value>dissertação</stored-value>
+       <stored-value>Dissertação</stored-value>
      </pair>
      <pair>
        <displayed-value>Livro</displayed-value>
@@ -1624,7 +1624,7 @@
      </pair>
      <pair>
        <displayed-value>Tese</displayed-value>
-       <stored-value>tese</stored-value>
+       <stored-value>Tese</stored-value>
      </pair>
      <pair>
        <displayed-value>Trabalho apresentado em evento</displayed-value>
@@ -1640,23 +1640,23 @@
      </pair>
      <pair>
        <displayed-value>Patente</displayed-value>
-       <stored-value>patente</stored-value>
+       <stored-value>Patente</stored-value>
      </pair>
      <pair>
        <displayed-value>Dados de pesquisa</displayed-value>
-       <stored-value>dados_de_pesquisa</stored-value>
+       <stored-value>Dados de pesquisa</stored-value>
      </pair>
      <pair>
        <displayed-value>Conjunto de dados</displayed-value>
-       <stored-value>conjunto_de_dados</stored-value>
+       <stored-value>Conjunto de dados</stored-value>
      </pair>
      <pair>
        <displayed-value>Video</displayed-value>
-       <stored-value>video</stored-value>
+       <stored-value>Video</stored-value>
      </pair>
      <pair>
        <displayed-value>Imagem</displayed-value>
-       <stored-value>imagem</stored-value>
+       <stored-value>Imagem</stored-value>
      </pair>
      <pair>
        <displayed-value>Outros</displayed-value>
@@ -2265,77 +2265,77 @@
    <value-pairs value-pairs-name="ods_types" dc-term="type">
             <pair>
                 <displayed-value>ODS 1: Erradicação da Pobreza</displayed-value>
-                <stored-value>ods_1_erradicacao_pobreza</stored-value>
+                <stored-value>ODS 1: Erradicação da pobreza</stored-value>
             </pair>
             <pair>
                 <displayed-value>ODS 2: Fome Zero e Agricultura Sustentável</displayed-value>
-                <stored-value>ods_2_fome_zero</stored-value>
+                <stored-value>ODS 2: Fome zero e agricultura sustentável</stored-value>
             </pair>
             <pair>
                 <displayed-value>ODS 3: Saúde e Bem-Estar</displayed-value>
-                <stored-value>ods_3_saude_bem_estar</stored-value>
+                <stored-value>ODS 3: Saúde e bem-estar</stored-value>
             </pair>
             <pair>
                 <displayed-value>ODS 4: Educação de Qualidade</displayed-value>
-                <stored-value>ods_4_educacao_qualidade</stored-value>
+                <stored-value>ODS 4: Educação de qualidade</stored-value>
             </pair>
             <pair>
                 <displayed-value>ODS 5: Igualdade de Gênero</displayed-value>
-                <stored-value>ods_5_igualdade_genero</stored-value>
+                <stored-value>ODS 5: Igualdade de gênero</stored-value>
             </pair>
             <pair>
                 <displayed-value>ODS 6: Água Potável e Saneamento</displayed-value>
-                <stored-value>ods_6_agua_saneamento</stored-value>
+                <stored-value>ODS 6: Água potável e saneamento</stored-value>
             </pair>
             <pair>
                 <displayed-value>ODS 7: Energia Limpa e Acessível</displayed-value>
-                <stored-value>ods_7_energia_limpa</stored-value>
+                <stored-value>ODS 7: Energia limpa e acessível</stored-value>
             </pair>
             <pair>
                 <displayed-value>ODS 8: Trabalho Decente e Crescimento Econômico</displayed-value>
-                <stored-value>ods_8_trabalho_crescimento</stored-value>
+                <stored-value>ODS 8: Trabalho decente e crescimento econômico</stored-value>
             </pair>
             <pair>
                 <displayed-value>ODS 9: Indústria, Inovação e Infraestrutura</displayed-value>
-                <stored-value>ods_9_industria_inovacao</stored-value>
+                <stored-value>ODS 9: Indústria, inovação e infraestrutura</stored-value>
             </pair>
             <pair>
                 <displayed-value>ODS 10: Redução das Desigualdades</displayed-value>
-                <stored-value>ods_10_reducao_desigualdades</stored-value>
+                <stored-value>ODS 10: Redução das desigualdades</stored-value>
             </pair>
             <pair>
                 <displayed-value>ODS 11: Cidades e Comunidades Sustentáveis</displayed-value>
-                <stored-value>ods_11_cidades_sustentaveis</stored-value>
+                <stored-value>ODS 11: Cidades e comunidades sustentáveis</stored-value>
             </pair>
             <pair>
                 <displayed-value>ODS 12: Consumo e Produção Responsáveis</displayed-value>
-                <stored-value>ods_12_consumo_producao</stored-value>
+                <stored-value>ODS 12: Consumo e produção responsáveis</stored-value>
             </pair>
             <pair>
                 <displayed-value>ODS 13: Ação Contra a Mudança Global do Clima</displayed-value>
-                <stored-value>ods_13_acao_clima</stored-value>
+                <stored-value>ODS 13: Ação contra a mudança global do clima</stored-value>
             </pair>
             <pair>
                 <displayed-value>ODS 14: Vida na Água</displayed-value>
-                <stored-value>ods_14_vida_agua</stored-value>
+                <stored-value>ODS 14: Vida na água</stored-value>
             </pair>
             <pair>
                 <displayed-value>ODS 15: Vida Terrestre</displayed-value>
-                <stored-value>ods_15_vida_terrestre</stored-value>
+                <stored-value>ODS 15: Vida terrestre</stored-value>
             </pair>
             <pair>
                 <displayed-value>ODS 16: Paz, Justiça e Instituições Eficazes</displayed-value>
-                <stored-value>ods_16_paz_justica</stored-value>
+                <stored-value>ODS 16: Paz, justiça e instituições eficazes</stored-value>
             </pair>
             <pair>
                 <displayed-value>ODS 17: Parcerias e Meios de Implementação</displayed-value>
-                <stored-value>ods_17_parcerias</stored-value>
+                <stored-value>ODS 17: Parcerias e meios de implementação</stored-value>
             </pair>            
         </value-pairs>
         <value-pairs value-pairs-name="common_impactos_sociais" dc-term="type">
             <pair>
                 <displayed-value>Sociais</displayed-value>
-                <stored-value>sociais</stored-value>
+                <stored-value>Sociais</stored-value>
             </pair>
             <pair>
                 <displayed-value>Tecnológico</displayed-value>
@@ -2343,41 +2343,45 @@
             </pair>
             <pair>
                 <displayed-value>Econômicos</displayed-value>
-                <stored-value>econômicos</stored-value>
+                <stored-value>Econômicos</stored-value>
             </pair>
             <pair>
                 <displayed-value>Culturais</displayed-value>
-                <stored-value>culturais</stored-value>
+                <stored-value>Culturais</stored-value>
             </pair>
             <pair>
                 <displayed-value>Outros</displayed-value>
-                <stored-value>outros</stored-value>
+                <stored-value>Outros</stored-value>
             </pair>             
             </value-pairs>
             <value-pairs value-pairs-name="extension_thematic_areas" dc-term="type">
             <pair>
                 <displayed-value>Comunicação</displayed-value>
-                <stored-value>comunicacao</stored-value>
+                <stored-value>Comunicacao</stored-value>
             </pair>
             <pair>
                 <displayed-value>Cultura</displayed-value>
-                <stored-value>cultura</stored-value>
+                <stored-value>Cultura</stored-value>
             </pair>
             <pair>
                 <displayed-value>Direitos Humanos e Justiça</displayed-value>
-                <stored-value>direitos_humanos_justica</stored-value>
+                <stored-value>Direitos humanos e justica</stored-value>
             </pair>
             <pair>
                 <displayed-value>Educação</displayed-value>
-                <stored-value>educacao</stored-value>
+                <stored-value>Educacao</stored-value>
             </pair>
             <pair>
                 <displayed-value>Meio Ambiente</displayed-value>
-                <stored-value>meio_ambiente</stored-value>
+                <stored-value>Meio ambiente</stored-value>
             </pair>
             <pair>
                 <displayed-value>Saúde</displayed-value>
-                <stored-value>saude</stored-value>
+                <stored-value>Saude</stored-value>
+            </pair>
+            <pair>
+                <displayed-value>Tecnologia e Produção</displayed-value>
+                <stored-value>Tecnologia e produção</stored-value>
             </pair>
             <pair>
                 <displayed-value>Trabalho</displayed-value>
