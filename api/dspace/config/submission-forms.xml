@@ -1616,7 +1616,7 @@
      </pair>
      <pair>
        <displayed-value>Dissertação</displayed-value>
-       <stored-value>Dissertação</stored-value>
+       <stored-value>dissertação</stored-value>
      </pair>
      <pair>
        <displayed-value>Livro</displayed-value>
@@ -1624,7 +1624,7 @@
      </pair>
      <pair>
        <displayed-value>Tese</displayed-value>
-       <stored-value>Tese</stored-value>
+       <stored-value>tese</stored-value>
      </pair>
      <pair>
        <displayed-value>Trabalho apresentado em evento</displayed-value>
