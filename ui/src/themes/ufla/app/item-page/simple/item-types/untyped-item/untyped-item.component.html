@@ -140,6 +140,46 @@
     </ds-generic-item-page-field>
 
     <ds-generic-item-page-field [item]="object"
+      [fields]="['dc.description.concentration']"
+      label="Área de concentração">
+  </ds-generic-item-page-field>
+
+  <ds-generic-item-page-field [item]="object"
+    [fields]="['dc.description.development-agency']"
+    label="Agência de desenvolvimento">
+</ds-generic-item-page-field>
+
+<ds-generic-item-page-field [item]="object"
+  [fields]="['dc.description.keywords']"
+  label="Palavra chave">
+</ds-generic-item-page-field>
+
+<ds-generic-item-page-field [item]="object"
+  [fields]="['dc.description.marca']"
+  label="Marca">
+</ds-generic-item-page-field>
+
+<ds-generic-item-page-field [item]="object"
+  [fields]="['dc.description.objective']"
+  label="Objetivo">
+</ds-generic-item-page-field>
+
+<ds-generic-item-page-field [item]="object"
+  [fields]="['dc.description.provenance']"
+  label="Procedência">
+</ds-generic-item-page-field> 
+
+<ds-generic-item-page-field [item]="object"
+  [fields]="['dc.description.researchimpacts']"
+  label="Impacto da pesquisa">
+</ds-generic-item-page-field>
+
+<ds-generic-item-page-field [item]="object"
+  [fields]="['dc.description.resumen']"
+  label="Resumen">
+</ds-generic-item-page-field>
+
+    <ds-generic-item-page-field [item]="object"
       [fields]="['dc.subject']"
       [separator]="', '"
       [label]="'item.page.subject'">
