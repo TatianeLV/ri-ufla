@@ -432,9 +432,9 @@
                     <dc-qualifier>ods</dc-qualifier>
                     <input-type value-pairs-name="ods_types">dropdown</input-type>
                     <repeatable>true</repeatable>
-                    <label>Objetivos do desesenvolvimento sustentável</label>
-                    <hint>Objetivos do desesenvolvimento sustentável</hint>
-                    <required>Objetivos do desesenvolvimento sustentável</required>
+                    <label>Objetivos de desenvolvimento sustentável</label>
+                    <hint>Objetivos de desenvolvimento sustentável</hint>
+                    <required>Objetivos de desenvolvimento sustentável</required>
                     <type-bind>dissertação, tese, TCC</type-bind>
                 </field>
             </row>
