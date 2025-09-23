@@ -442,8 +442,8 @@
                     <dc-schema>dc</dc-schema>
                     <dc-element>description</dc-element>
                     <dc-qualifier>notes</dc-qualifier>
-                    <repeatable>false</repeatable>
-                    <label>Notas</label>
+                    <repeatable>true</repeatable>
+                    <label>Notas:</label>
                     <input-type>textarea</input-type>
                     <hint>Notes</hint>
                     <required></required>
