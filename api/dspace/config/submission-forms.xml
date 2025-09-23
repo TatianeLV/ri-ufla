@@ -135,7 +135,7 @@
                     <dc-qualifier>college</dc-qualifier>
                     <repeatable>false</repeatable>
                     <label>Faculdade, Instituto ou Escolas:</label>
-                    <input-type>onebox</input-type>
+                    <input-type value-pairs-name="common_college">dropdown</input-type>
                     <hint>CAMPO OBRIGATÓRIO: Faculdade, Instituto ou Escolas:.</hint>
                     <required>CAMPO OBRIGATÓRIO: Faculdade, Instituto ou Escolas:.</required>
                     <type-bind>dissertação, tese, TCC</type-bind>
@@ -205,6 +205,32 @@
                     <required></required>
                 </field>
             </row>
+             <row>
+                <field>
+                    <dc-schema>dc</dc-schema>
+                    <dc-element>identifier</dc-element>
+                    <dc-qualifier>inpi</dc-qualifier>
+                    <repeatable>false</repeatable>
+                    <label>Número de registro:</label>
+                    <input-type>onebox</input-type>
+                    <hint>CAMPO OPCIONAL: Número de registro.</hint>
+                    <required></required>
+                    <type-bind>Software</type-bind>              
+                </field>
+            </row>
+            <row>
+                <field>
+                    <dc-schema>dc</dc-schema>
+                    <dc-element>identifier</dc-element>
+                    <dc-qualifier>ipc</dc-qualifier>
+                    <repeatable>false</repeatable>
+                    <label>Classificação Internacional de Patente(IPC):</label>
+                    <input-type>onebox</input-type>
+                    <hint>CAMPO OPCIONAL: Classificação Internacional de Patente(IPC).</hint>
+                    <required></required>
+                    <type-bind>Software</type-bind>              
+                </field>
+            </row>
             <row>
                 <field>
                     <dc-schema>dc</dc-schema>
@@ -241,6 +267,18 @@
                     <input-type value-pairs-name="common_iso_languages">dropdown</input-type>
                     <hint>CAMPO OBRIGATÓRIO: Informe o idioma em que o documento está escrito.</hint>
                     <required>CAMPO OBRIGATÓRIO: Informe o idioma em que o documento está escrito.</required>
+                </field>
+            </row>
+            <row>
+                <field>
+                    <dc-schema>dc</dc-schema>
+                    <dc-element>rights</dc-element>
+                    <dc-qualifier>holder</dc-qualifier>
+                    <repeatable>true</repeatable>
+                    <label>Titular:</label>
+                    <input-type>onebox</input-type>
+                    <hint></hint>
+                    <required></required>
                 </field>
             </row>
         </form>
@@ -384,7 +422,7 @@
                     <input-type>onebox</input-type>
                     <hint>CAMPO OPCIONAL: Agência(s) de fomento que auxiliou(ram) o pesquisador.</hint>
                     <required></required>
-                    <type-bind>dissertação, tese, TCC</type-bind>
+                    <type-bind>dissertação, tese, TCC, Software</type-bind>
                 </field>
             </row>
             <row>
@@ -396,6 +434,18 @@
                     <label>Notas gerais</label>
                     <input-type>textarea</input-type>
                     <hint>Coloque aqui observações gerais sobre o documento</hint>
+                    <required></required>
+                </field>
+            </row>
+            <row>
+                <field>
+                    <dc-schema>dc</dc-schema>
+                    <dc-element>description</dc-element>
+                    <dc-qualifier>notes</dc-qualifier>
+                    <repeatable>false</repeatable>
+                    <label>Notas</label>
+                    <input-type>textarea</input-type>
+                    <hint>Notes</hint>
                     <required></required>
                 </field>
             </row>
@@ -438,7 +488,19 @@
                     <type-bind>dissertação, tese, TCC</type-bind>
                 </field>
             </row>
-
+             <row>
+                <field>
+                    <dc-schema>dc</dc-schema>
+                    <dc-element>description</dc-element>
+                    <dc-qualifier>objective</dc-qualifier>
+                    <input-type>textarea</input-type>
+                    <repeatable>false</repeatable>
+                    <label>Objetivo</label>
+                    <hint>Objetivo</hint>
+                    <required>Objetivo do item</required>
+                    <type-bind>Software</type-bind>
+                </field>
+            </row>
              <row>
                 <field>
                     <dc-schema>dc</dc-schema>
@@ -1659,8 +1721,8 @@
        <stored-value>Imagem</stored-value>
      </pair>
      <pair>
-       <displayed-value>Outros</displayed-value>
-       <stored-value>Outros</stored-value>
+       <displayed-value>Software</displayed-value>
+       <stored-value>Software</stored-value>
      </pair>
         </value-pairs>
 
@@ -2389,6 +2451,40 @@
             </pair>
             </value-pairs>
 
+ <value-pairs value-pairs-name="common_college" dc-term="type">
+            <pair>
+                <displayed-value>Escola de Ciências Agrárias de Lavras (ESAL)</displayed-value>
+                <stored-value>Escola de Ciências Agrárias de Lavras (ESAL)</stored-value>
+            </pair>
+            <pair>
+                <displayed-value>Escola de Engenharia (EENG)</displayed-value>
+                <stored-value>Escola de Engenharia (EENG)</stored-value>
+            </pair>
+            <pair>
+                <displayed-value>Faculdade de Ciências da Saúde (FCS)</displayed-value>
+                <stored-value>Faculdade de Ciências da Saúde (FCS)</stored-value>
+            </pair>
+            <pair>
+                <displayed-value>Faculdade de Ciências Sociais Aplicadas (FCSA)</displayed-value>
+                <stored-value>Faculdade de Ciências Sociais Aplicadas (FCSA)</stored-value>
+            </pair>
+            <pair>
+                <displayed-value>Faculdade de Filosofia, Ciências Humanas, Educação e Letras (FAELCH)</displayed-value>
+                <stored-value>Faculdade de Filosofia, Ciências Humanas, Educação e Letras (FAELCH)</stored-value>
+            </pair> 
+            <pair>
+                <displayed-value>Faculdade de Zootecnia e Medicina Veterinária (FZMV)</displayed-value>
+                <stored-value>Faculdade de Zootecnia e Medicina Veterinária (FZMV)</stored-value>
+            </pair> 
+            <pair>
+                <displayed-value>Instituto de Ciências Exatas e Tecnológicas (ICET)</displayed-value>
+                <stored-value>Instituto de Ciências Exatas e Tecnológicas (ICET)</stored-value>
+            </pair> 
+            <pair>
+                <displayed-value>Instituto de Ciências Naturais (ICN)</displayed-value>
+                <stored-value>Instituto de Ciências Naturais (ICN)</stored-value>
+            </pair>             
+            </value-pairs>
 
 
 

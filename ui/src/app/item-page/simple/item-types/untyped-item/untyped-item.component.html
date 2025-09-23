@@ -9,6 +9,10 @@
   </div>
 </div>
 
+<ds-generic-item-page-field [item]="object"
+      [fields]="['dc.type']">
+    </ds-generic-item-page-field>
+    
 <div class="d-flex flex-row">
   <ds-item-page-title-field [item]="object" class="mr-auto">
   </ds-item-page-title-field>
@@ -32,6 +36,14 @@
       [metadataFields]="['dc.contributor.author', 'dc.creator']"
       [label]="'relationships.isAuthorOf' | translate">
     </ds-metadata-representation-list>
+    <ds-item-page-uri-field [item]="object"
+      [fields]="['dc.creator.Lattes']"
+      label="Lattes">
+      <ds-item-page-uri-field [item]="object"
+      [fields]="['dc.creator.orcid']"
+      label="Orcid">
+    </ds-item-page-uri-field>
+    </ds-item-page-uri-field>
     <ds-generic-item-page-field [item]="object"
       [fields]="['journal.title']"
       [label]="'item.page.journal-title'">
