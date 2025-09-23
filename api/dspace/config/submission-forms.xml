@@ -469,8 +469,8 @@
                     <dc-qualifier>areastematicasdaextensao</dc-qualifier>
                     <input-type value-pairs-name="extension_thematic_areas">dropdown</input-type>
                     <repeatable>true</repeatable>
-                    <label>Áreas Temáticas da Extenção</label>
-                    <hint>Áreas Temáticas da Extenção</hint>
+                    <label>Áreas Temáticas da Extensão</label>
+                    <hint>Áreas Temáticas da Extensão</hint>
                     <required>Tipo de impacto</required>
                     <type-bind>dissertação, tese, TCC</type-bind>
                 </field>
