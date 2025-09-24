@@ -279,6 +279,7 @@
                     <input-type>onebox</input-type>
                     <hint></hint>
                     <required></required>
+                    <type-bind>Software</type-bind>
                 </field>
             </row>
         </form>
@@ -2419,7 +2420,7 @@
             <value-pairs value-pairs-name="extension_thematic_areas" dc-term="type">
             <pair>
                 <displayed-value>Comunicação</displayed-value>
-                <stored-value>Comunicacao</stored-value>
+                <stored-value>Comunicação</stored-value>
             </pair>
             <pair>
                 <displayed-value>Cultura</displayed-value>
@@ -2431,7 +2432,7 @@
             </pair>
             <pair>
                 <displayed-value>Educação</displayed-value>
-                <stored-value>Educacao</stored-value>
+                <stored-value>Educação</stored-value>
             </pair>
             <pair>
                 <displayed-value>Meio Ambiente</displayed-value>
@@ -2439,7 +2440,7 @@
             </pair>
             <pair>
                 <displayed-value>Saúde</displayed-value>
-                <stored-value>Saude</stored-value>
+                <stored-value>Saúde</stored-value>
             </pair>
             <pair>
                 <displayed-value>Tecnologia e Produção</displayed-value>
