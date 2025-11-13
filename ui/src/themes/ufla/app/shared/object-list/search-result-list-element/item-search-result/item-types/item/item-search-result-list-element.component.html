@@ -29,10 +29,12 @@
           <span *ngIf="dso.firstMetadataValue('dc.date.issued')" class="item-list-date" [innerHTML]="firstMetadataValue('dc.date.issued')"></span>)
           </ng-container>
           
-          <ds-generic-item-page-field
-              [item]="dso"
-              [fields]="['dc.type']">
-          </ds-generic-item-page-field>
+          <!-- Tipo de Item como badge azul (modelo UDESC) -->
+          <span *ngIf="dso.firstMetadataValue('dc.type')" 
+                class="badge badge-primary mr-1" 
+                style="background-color:#0d6efd; color:white; font-size:12px; margin-right:4px;">
+              {{ dso.firstMetadataValue('dc.type') }}
+          </span>
 
           <span *ngIf="dso.allMetadata(['dc.contributor.author', 'dc.creator', 'dc.contributor.*']).length > 0" class="item-list-authors">
             <span *ngFor="let author of allMetadataValues(['dc.contributor.author', 'dc.creator', 'dc.contributor.*']); let last=last;">
