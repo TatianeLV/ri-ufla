@@ -52,6 +52,13 @@
       [metadataFields]="['dc.contributor.advisor', 'dc.contributor.advisor1', 'dc.contributor.advisor2']"
       label="Orientadores">
     </ds-metadata-representation-list>
+    <!-- Editores -->
+    <ds-metadata-representation-list class="ds-item-page-mixed-author-field"
+      [parentItem]="object"
+      [itemType]="'Person'"
+      [metadataFields]="['dc.contributor.editor']"
+      [label]="'Editores'">
+    </ds-metadata-representation-list>
     <!-- Coorientadores -->
     <ds-metadata-representation-list class="ds-item-page-mixed-author-field"
       [parentItem]="object"
