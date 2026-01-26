@@ -489,6 +489,19 @@
                     <type-bind>dissertação, tese, TCC</type-bind>
                 </field>
             </row>
+               <row>
+                <field>
+                    <dc-schema>dc</dc-schema>
+                    <dc-element>description</dc-element>
+                    <dc-qualifier>acaoclimatica</dc-qualifier>
+                    <input-type value-pairs-name="acaoclimatica_types">dropdown</input-type>
+                    <repeatable>true</repeatable>
+                    <label>Ação Climática</label>
+                    <hint>Ação Climática</hint>
+                    <required>Ação Climática</required>
+                    <type-bind>dissertação, tese, TCC</type-bind>
+                </field>
+            </row>
              <row>
                 <field>
                     <dc-schema>dc</dc-schema>
@@ -500,6 +513,45 @@
                     <hint>Objetivo</hint>
                     <required>Objetivo do item</required>
                     <type-bind>Software</type-bind>
+                </field>
+            </row>
+             <row>
+                <field>
+                    <dc-schema>dc</dc-schema>
+                    <dc-element>description</dc-element>
+                    <dc-qualifier>relatedResearchProject</dc-qualifier>
+                    <input-type>onebox</input-type>
+                    <repeatable>false</repeatable>
+                    <label>Projeto de pesquisa vinculado</label>
+                    <hint>Projeto de pesquisa vinculado</hint>
+                    <required></required>
+                    <type-bind>dissertação, tese, TCC</type-bind>
+                </field>
+            </row>
+            <row>
+                <field>
+                    <dc-schema>dc</dc-schema>
+                    <dc-element>description</dc-element>
+                    <dc-qualifier>researchLine</dc-qualifier>
+                    <input-type>onebox</input-type>
+                    <repeatable>false</repeatable>
+                    <label>Linha de pesquisa</label>
+                    <hint>Linha de pesquisa</hint>
+                    <required></required>
+                    <type-bind>dissertação, tese, TCC</type-bind>
+                </field>
+            </row>
+             <row>
+                <field>
+                    <dc-schema>dc</dc-schema>
+                    <dc-element>description</dc-element>
+                    <dc-qualifier>concentration</dc-qualifier>
+                    <input-type>onebox</input-type>
+                    <repeatable>false</repeatable>
+                    <label>Área de Concentração</label>
+                    <hint>Área de Concentração</hint>
+                    <required></required>
+                    <type-bind>dissertação, tese, TCC</type-bind>
                 </field>
             </row>
              <row>
@@ -2395,6 +2447,38 @@
                 <stored-value>ODS 17: Parcerias e meios de implementação</stored-value>
             </pair>            
         </value-pairs>
+
+         <value-pairs value-pairs-name="acaoclimatica_types" dc-term="type">
+            <pair>
+                <displayed-value>1. Agricultura de baixa emissão de carbono</displayed-value>
+                <stored-value>1. Agricultura de baixa emissão de carbono</stored-value>
+            </pair>
+            <pair>
+                <displayed-value>2. Uso sustentável da água e do solo</displayed-value>
+                <stored-value>2. Uso sustentável da água e do solo</stored-value>
+            </pair>
+            <pair>
+                <displayed-value>3. Produção orgânica e sustentável</displayed-value>
+                <stored-value>3. Produção orgânica e sustentável</stored-value>
+            </pair>
+            <pair>
+                <displayed-value>4. Bioenergia, compostagem, biodigestores</displayed-value>
+                <stored-value>4. Bioenergia, compostagem, biodigestores</stored-value>
+            </pair>
+            <pair>
+                <displayed-value>5. Energia limpa e renovável</displayed-value>
+                <stored-value>5. Energia limpa e renovável</stored-value>
+            </pair>
+            <pair>
+                <displayed-value>6. Eficiência energética ou inovação ambiental</displayed-value>
+                <stored-value>6. Eficiência energética ou inovação ambiental</stored-value>
+            </pair>
+            <pair>
+                <displayed-value>7. Manejo de resíduos ou recuperação de áreas degradadas</displayed-value>
+                <stored-value>7. Manejo de resíduos ou recuperação de áreas degradadas</stored-value>
+            </pair>
+        </value-pairs>
+
         <value-pairs value-pairs-name="common_impactos_sociais" dc-term="type">
             <pair>
                 <displayed-value>Sociais</displayed-value>
@@ -2417,6 +2501,8 @@
                 <stored-value>Outros</stored-value>
             </pair>             
             </value-pairs>
+
+            
             <value-pairs value-pairs-name="extension_thematic_areas" dc-term="type">
             <pair>
                 <displayed-value>Comunicação</displayed-value>
