@@ -497,8 +497,8 @@
                     <input-type value-pairs-name="acaoclimatica_types">dropdown</input-type>
                     <repeatable>true</repeatable>
                     <label>Ação Climática</label>
-                    <hint>Ação Climática</hint>
-                    <required>Ação Climática</required>
+                    <hint>CAMPO OPCIONAL: Ação Climática</hint>
+                    <required></required>
                     <type-bind>dissertação, tese, TCC</type-bind>
                 </field>
             </row>
