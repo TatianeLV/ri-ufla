@@ -170,6 +170,32 @@
             <row>
             <field>
                 <dc-schema>dc</dc-schema>
+                <dc-element>description</dc-element>
+                <dc-qualifier>researchLine</dc-qualifier>
+                <input-type>onebox</input-type>
+                <repeatable>false</repeatable>
+                <label>Linha de pesquisa</label>
+                <hint>Linha de pesquisa</hint>
+                <required></required>
+                <type-bind>dissertação, tese, TCC</type-bind>
+            </field>
+            </row>
+             <row>
+            <field>
+                <dc-schema>dc</dc-schema>
+                <dc-element>description</dc-element>
+                <dc-qualifier>concentration</dc-qualifier>
+                <input-type>onebox</input-type>
+                <repeatable>false</repeatable>
+                <label>Área de Concentração</label>
+                <hint>Área de Concentração</hint>
+                <required></required>
+                <type-bind>dissertação, tese, TCC</type-bind>
+            </field>
+            </row>
+            <row>
+            <field>
+                <dc-schema>dc</dc-schema>
                 <dc-element>publisher</dc-element>
                 <dc-qualifier>country</dc-qualifier>
                 <repeatable>false</repeatable>
@@ -450,6 +476,19 @@
                     <required></required>
                 </field>
             </row>
+             <row>
+                <field>
+                    <dc-schema>dc</dc-schema>
+                    <dc-element>description</dc-element>
+                    <dc-qualifier>acaoclimatica</dc-qualifier>
+                    <input-type value-pairs-name="acaoclimatica_types">dropdown</input-type>
+                    <repeatable>true</repeatable>
+                    <label>Ação Climática</label>
+                    <hint>CAMPO OPCIONAL: Ação Climática</hint>
+                    <required></required>
+                    <type-bind>dissertação, tese, TCC</type-bind>
+                </field>
+            </row>
             <row>
                 <field>
                     <dc-schema>dc</dc-schema>
@@ -489,20 +528,7 @@
                     <type-bind>dissertação, tese, TCC</type-bind>
                 </field>
             </row>
-               <row>
-                <field>
-                    <dc-schema>dc</dc-schema>
-                    <dc-element>description</dc-element>
-                    <dc-qualifier>acaoclimatica</dc-qualifier>
-                    <input-type value-pairs-name="acaoclimatica_types">dropdown</input-type>
-                    <repeatable>true</repeatable>
-                    <label>Ação Climática</label>
-                    <hint>CAMPO OPCIONAL: Ação Climática</hint>
-                    <required></required>
-                    <type-bind>dissertação, tese, TCC</type-bind>
-                </field>
-            </row>
-             <row>
+            <row>
                 <field>
                     <dc-schema>dc</dc-schema>
                     <dc-element>description</dc-element>
@@ -529,32 +555,6 @@
                 </field>
             </row>
             <row>
-                <field>
-                    <dc-schema>dc</dc-schema>
-                    <dc-element>description</dc-element>
-                    <dc-qualifier>researchLine</dc-qualifier>
-                    <input-type>onebox</input-type>
-                    <repeatable>false</repeatable>
-                    <label>Linha de pesquisa</label>
-                    <hint>Linha de pesquisa</hint>
-                    <required></required>
-                    <type-bind>dissertação, tese, TCC</type-bind>
-                </field>
-            </row>
-             <row>
-                <field>
-                    <dc-schema>dc</dc-schema>
-                    <dc-element>description</dc-element>
-                    <dc-qualifier>concentration</dc-qualifier>
-                    <input-type>onebox</input-type>
-                    <repeatable>false</repeatable>
-                    <label>Área de Concentração</label>
-                    <hint>Área de Concentração</hint>
-                    <required></required>
-                    <type-bind>dissertação, tese, TCC</type-bind>
-                </field>
-            </row>
-             <row>
                 <field>
                     <dc-schema>dc</dc-schema>
                     <dc-element>relation</dc-element>
