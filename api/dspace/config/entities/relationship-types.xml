@@ -18,6 +18,48 @@
         </rightCardinality>
         <copyToLeft>true</copyToLeft>
     </type>
+    <!-- Relação orientador => Publication -->
+    <type>
+        <leftType>Publication</leftType>
+        <rightType>Person</rightType>
+        <leftwardType>isAdvisorOfPublication</leftwardType>
+        <rightwardType>isPublicationOfAdvisor</rightwardType> 
+        <leftCardinality>
+            <min>0</min>
+        </leftCardinality>
+        <rightCardinality>
+            <min>0</min>
+        </rightCardinality>
+        <copyToLeft>true</copyToLeft>
+    </type>
+    <!-- Relação coorientador => Publication -->
+    <type>
+        <leftType>Publication</leftType>
+        <rightType>Person</rightType>
+        <leftwardType>isCoAdvisorOfPublication</leftwardType>
+        <rightwardType>isPublicationOfCoAdvisor</rightwardType>
+        <leftCardinality>
+            <min>0</min>
+        </leftCardinality>
+        <rightCardinality>
+            <min>0</min>
+        </rightCardinality>
+        <copyToLeft>true</copyToLeft>
+    </type>
+    <!-- Relação membro de banca => Publication -->
+    <type>
+        <leftType>Publication</leftType>
+        <rightType>Person</rightType>
+        <leftwardType>isRefereeOfPublication</leftwardType>
+        <rightwardType>isPublicationOfReferee</rightwardType>
+        <leftCardinality>
+            <min>0</min>
+        </leftCardinality>
+        <rightCardinality>
+            <min>0</min>
+        </rightCardinality>
+        <copyToLeft>true</copyToLeft>
+    </type>
     <type>
         <leftType>Publication</leftType>
         <rightType>Project</rightType>
@@ -44,6 +86,7 @@
         </rightCardinality>
         <copyToLeft>true</copyToLeft>
     </type>
+
     <type>
         <leftType>Person</leftType>
         <rightType>Project</rightType>
@@ -122,6 +165,20 @@
         <rightType>Publication</rightType>
         <leftwardType>isPublicationOfJournalIssue</leftwardType>
         <rightwardType>isJournalIssueOfPublication</rightwardType>
+        <leftCardinality>
+            <min>0</min>
+        </leftCardinality>
+        <rightCardinality>
+            <min>0</min>
+        </rightCardinality>
+        <copyToRight>true</copyToRight>
+    </type>
+    <!--Relação Journal => Publication-->
+     <type>
+        <leftType>Journal</leftType>
+        <rightType>Publication</rightType>
+        <leftwardType>isPublicationOfJournal</leftwardType>
+        <rightwardType>isJournalOfPublication</rightwardType>
         <leftCardinality>
             <min>0</min>
         </leftCardinality>
