@@ -795,7 +795,7 @@
         </form>
 
         <!-- Form which defines the metadata page/section for depositing Person Entities -->
-        <form name="personStep">
+<form name="personStep">
             <row>
                 <relation-field>
                     <relationship-type>isPublicationOfAuthor</relationship-type>
@@ -804,6 +804,15 @@
                     <hint>import a publicaton</hint>
                     <externalsources>pubmed</externalsources>
                 </relation-field>
+            </row>
+            <row>
+                <field>
+                    <dc-schema>person</dc-schema>
+                    <dc-element>name</dc-element>
+                    <label>Nome completo</label>
+                    <input-type>onebox</input-type>
+                    <hint>Nome completo</hint>
+                </field>
             </row>
             <row>
                 <field>
@@ -826,32 +835,121 @@
             <row>
                 <field>
                     <dc-schema>person</dc-schema>
-                    <dc-element>email</dc-element>
-                    <label>Email</label>
+                    <dc-element>affiliation</dc-element>
+                    <dc-qualifier>name</dc-qualifier>
+                    <repeatable>true</repeatable>
+                    <label>Instituição</label>
                     <input-type>onebox</input-type>
-                    <hint>Enter the email of the person</hint>
+                    <hint>Instituição a qual o autor está ligado</hint>
                 </field>
             </row>
-            <!--     <row>-->
-            <!--     <field>-->
-            <!--       <dc-schema>person</dc-schema>-->
-            <!--       <dc-element>identifier</dc-element>-->
-            <!--       <dc-qualifier>orcid</dc-qualifier>-->
-            <!--       <label>Orcid</label>-->
-            <!--       <input-type>onebox</input-type>-->
-            <!--       <hint>Enter the orcid of the person</hint>-->
-            <!--     </field>-->
-            <!--     </row>-->
+            <row>
+                <field>
+                  <dc-schema>person</dc-schema>
+                  <dc-element>identifier</dc-element>
+                  <dc-qualifier>orcid</dc-qualifier>
+                  <label>Orcid</label>
+                  <input-type>onebox</input-type>
+                  <hint>Entre com o Orcid do autor</hint>
+                </field>
+            </row>
+            <row>
+                <field>
+                  <dc-schema>person</dc-schema>
+                  <dc-element>identifier</dc-element>
+                  <dc-qualifier>lattes</dc-qualifier>
+                  <label>Lattes</label>
+                  <input-type>onebox</input-type>
+                  <hint>Entre com o Lattes do autor</hint>
+                </field>
+            </row>
+             <row>
+                <field>
+                  <dc-schema>person</dc-schema>
+                  <dc-element>identifier</dc-element>
+                  <dc-qualifier>scopus-author-id</dc-qualifier>
+                  <label>Scopus</label>
+                  <input-type>onebox</input-type>
+                  <hint>Entre com o id Scopus do autor</hint>
+                </field>
+            </row>
+            <row>
+                <field>
+                  <dc-schema>person</dc-schema>
+                  <dc-element>identifier</dc-element>
+                  <dc-qualifier>gsid</dc-qualifier>
+                  <label>Google Scholar ID</label>
+                  <input-type>onebox</input-type>
+                  <hint>Entre com o Google Scholar ID do autor</hint>
+                </field>
+            </row>
+            <row>
+                <field>
+                  <dc-schema>person</dc-schema>
+                  <dc-element>identifier</dc-element>
+                  <dc-qualifier>rid</dc-qualifier>
+                  <label>Web of Science ResearcherID</label>
+                  <input-type>onebox</input-type>
+                  <hint>Entre com o Web of Science ResearcherID do autor</hint>
+                </field>
+            </row>
+            <row>
+                <field>
+                  <dc-schema>person</dc-schema>
+                  <dc-element>identifier</dc-element>
+                  <dc-qualifier>ciencia-id</dc-qualifier>
+                  <label>Ciência ID</label>
+                  <input-type>onebox</input-type>
+                  <hint>Entre com o Ciência ID do autor</hint>
+                </field>
+            </row>
+            <row>
+                <field>
+                  <dc-schema>person</dc-schema>
+                  <dc-element>identifier</dc-element>
+                  <dc-qualifier>linkedin</dc-qualifier>
+                  <label>Linkedin</label>
+                  <input-type>onebox</input-type>
+                  <hint>Entre com o linkedin do autor</hint>
+                </field>
+            </row>
             <row>
                 <field>
                     <dc-schema>person</dc-schema>
                     <dc-element>birthDate</dc-element>
-                    <label>Birth date</label>
+                    <label>Data de Nascimento</label>
                     <input-type>date</input-type>
                     <hint>Enter the birth date of the person</hint>
+                    <style>col-sm-6</style>
+                </field>
+                <field>
+                    <dc-schema>person</dc-schema>
+                    <dc-element>deathDate</dc-element>
+                    <label>Data da Morte</label>
+                    <input-type>date</input-type>
+                    <hint>Enter the birth date of the person</hint>
+                    <style>col-sm-6</style>
                 </field>
             </row>
-
+            <row>
+                <field>
+                  <dc-schema>person</dc-schema>
+                  <dc-element>sameAs</dc-element>
+                  <label>Link Externo (Wikipedia, página pessoal, etc.)</label>
+                  <input-type>onebox</input-type>
+                  <hint>Entre com o link da página pessoal do autor</hint>
+                </field>
+            </row>
+            <row>
+                <field>
+                    <dc-schema>person</dc-schema>
+                    <dc-element>description</dc-element>
+                    <dc-qualifier>biography</dc-qualifier>
+                    <label>Biografia</label>
+                    <input-type>textarea</input-type>
+                    <hint>Biografia</hint>
+                </field>
+            </row>
             <row>
                 <field>
                     <dc-schema>person</dc-schema>
@@ -862,7 +960,6 @@
                 </field>
             </row>
         </form>
-
         <!-- Form which defines the metadata page/section for depositing Project Entities -->
         <form name="projectStep">
             <row>
