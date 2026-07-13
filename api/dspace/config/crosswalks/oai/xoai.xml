@@ -20,6 +20,7 @@
             <Format ref="marc"/>
             <Format ref="uketd_dc"/>
             <Format ref="rioxx"/>
+            <Format ref="oaicapes"/>
             <!--<Format ref="junii2" />-->
             <Description>
                 This is the default context of the DSpace OAI-PMH data provider.
@@ -202,6 +203,13 @@
             <XSLT>metadataFormats/oai_openaire.xsl</XSLT>
             <Namespace>http://namespace.openaire.eu/schema/oaire/</Namespace>
             <SchemaLocation>https://www.openaire.eu/schema/repo-lit/4.0/openaire.xsd</SchemaLocation>
+        </Format>
+        <!-- Metadata format based on the CAPES OAI_CAPES profile -->
+        <Format id="oaicapes">
+            <Prefix>oai_capes</Prefix>
+            <XSLT>metadataFormats/oai_capes.xsl</XSLT>
+            <Namespace>http://capes.gov.br/schema/oai_capes/1.0/</Namespace>
+            <SchemaLocation>http://capes.gov.br/schema/oai_capes/1.0/</SchemaLocation>
         </Format>
         <!-- Metadata format based on the Rioxx Application Profile Version 3.0 Final
              - https://www.rioxx.net/profiles/v3-0-final
