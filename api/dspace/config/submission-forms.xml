@@ -2597,7 +2597,11 @@
             <pair>
                 <displayed-value>ODS 17: Parcerias e Meios de Implementação</displayed-value>
                 <stored-value>ODS 17: Parcerias e meios de implementação</stored-value>
-            </pair>            
+            </pair>    
+            <pair>
+                <displayed-value>ODS 18: Igualdade Étnico-Racial</displayed-value>
+                <stored-value>ODS 18: Igualdade étnico-racial</stored-value>
+            </pair>        
         </value-pairs>
 
          <value-pairs value-pairs-name="acaoclimatica_types" dc-term="type">
