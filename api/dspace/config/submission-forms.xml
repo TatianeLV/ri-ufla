@@ -481,7 +481,7 @@
                     <dc-schema>dc</dc-schema>
                     <dc-element>description</dc-element>
                     <dc-qualifier>acaoclimatica</dc-qualifier>
-                    <input-type value-pairs-name="acaoclimatica_types">dropdown</input-type>
+                    <input-type value-pairs-name="acaoclimatica_types">list</input-type>
                     <repeatable>true</repeatable>
                     <label>Ação Climática</label>
                     <hint>CAMPO OPCIONAL: Ação Climática</hint>
@@ -496,7 +496,7 @@
                     <dc-qualifier>tipodeimpacto</dc-qualifier>
                     <repeatable>true</repeatable>
                     <label>Tipo de impacto</label>
-                    <input-type value-pairs-name="common_impactos_sociais">dropdown</input-type>
+                    <input-type value-pairs-name="common_impactos_sociais">list</input-type>
                     <hint>Tipo de impacto</hint>
                     <required>Tipo de impacto</required>
                     <type-bind>dissertação, tese, TCC</type-bind>
@@ -507,7 +507,7 @@
                     <dc-schema>dc</dc-schema>
                     <dc-element>description</dc-element>
                     <dc-qualifier>areastematicasdaextensao</dc-qualifier>
-                    <input-type value-pairs-name="extension_thematic_areas">dropdown</input-type>
+                    <input-type value-pairs-name="extension_thematic_areas">list</input-type>
                     <repeatable>true</repeatable>
                     <label>Áreas Temáticas da Extensão</label>
                     <hint>Áreas Temáticas da Extensão</hint>
@@ -520,7 +520,7 @@
                     <dc-schema>dc</dc-schema>
                     <dc-element>description</dc-element>
                     <dc-qualifier>ods</dc-qualifier>
-                    <input-type value-pairs-name="ods_types">dropdown</input-type>
+                    <input-type value-pairs-name="ods_types">list</input-type>
                     <repeatable>true</repeatable>
                     <label>Objetivos de Desenvolvimento Sustentável</label>
                     <hint>Objetivos de Desenvolvimento Sustentável</hint>
@@ -2601,7 +2601,7 @@
             <pair>
                 <displayed-value>ODS 18: Igualdade Étnico-Racial</displayed-value>
                 <stored-value>ODS 18: Igualdade étnico-racial</stored-value>
-            </pair>        
+            </pair>       
         </value-pairs>
 
          <value-pairs value-pairs-name="acaoclimatica_types" dc-term="type">
