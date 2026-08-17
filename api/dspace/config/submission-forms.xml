@@ -506,6 +506,18 @@
                 <field>
                     <dc-schema>dc</dc-schema>
                     <dc-element>description</dc-element>
+                    <dc-qualifier>tipodeimpactooutros</dc-qualifier>
+                    <repeatable>false</repeatable>
+                    <label>Outro tipo de impacto</label>
+                    <input-type>onebox</input-type>
+                    <hint>Se selecionou "Outros" no campo Tipo de impacto, especifique.</hint>
+                    <type-bind>dissertação, tese, TCC</type-bind>
+                </field>
+            </row>
+            <row>
+                <field>
+                    <dc-schema>dc</dc-schema>
+                    <dc-element>description</dc-element>
                     <dc-qualifier>areastematicasdaextensao</dc-qualifier>
                     <input-type value-pairs-name="extension_thematic_areas">list</input-type>
                     <repeatable>true</repeatable>
@@ -2641,7 +2653,7 @@
                 <stored-value>Sociais</stored-value>
             </pair>
             <pair>
-                <displayed-value>Tecnológico</displayed-value>
+                <displayed-value>Tecnológicos</displayed-value>
                 <stored-value>Tecnológico</stored-value>
             </pair>
             <pair>
@@ -2661,35 +2673,35 @@
             
             <value-pairs value-pairs-name="extension_thematic_areas" dc-term="type">
             <pair>
-                <displayed-value>Comunicação</displayed-value>
+                <displayed-value>1. Comunicação</displayed-value>
                 <stored-value>Comunicação</stored-value>
             </pair>
             <pair>
-                <displayed-value>Cultura</displayed-value>
+                <displayed-value>2. Cultura</displayed-value>
                 <stored-value>Cultura</stored-value>
             </pair>
             <pair>
-                <displayed-value>Direitos Humanos e Justiça</displayed-value>
+                <displayed-value>3. Direitos Humanos e Justiça</displayed-value>
                 <stored-value>Direitos humanos e justica</stored-value>
             </pair>
             <pair>
-                <displayed-value>Educação</displayed-value>
+                <displayed-value>4. Educação</displayed-value>
                 <stored-value>Educação</stored-value>
             </pair>
             <pair>
-                <displayed-value>Meio Ambiente</displayed-value>
+                <displayed-value>5. Meio Ambiente</displayed-value>
                 <stored-value>Meio ambiente</stored-value>
             </pair>
             <pair>
-                <displayed-value>Saúde</displayed-value>
+                <displayed-value>6. Saúde</displayed-value>
                 <stored-value>Saúde</stored-value>
             </pair>
             <pair>
-                <displayed-value>Tecnologia e Produção</displayed-value>
+                <displayed-value>7. Tecnologia e Produção</displayed-value>
                 <stored-value>Tecnologia e produção</stored-value>
             </pair>
             <pair>
-                <displayed-value>Trabalho</displayed-value>
+                <displayed-value>8. Trabalho</displayed-value>
                 <stored-value>Trabalho</stored-value>
             </pair>
             </value-pairs>
