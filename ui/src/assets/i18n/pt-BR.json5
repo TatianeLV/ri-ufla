@@ -4378,6 +4378,46 @@
 
   "search.filters.filter.author.label": "Procurar por nome do autor",
 
+  "search.filters.filter.advisor.head": "Orientador",
+  "search.filters.filter.advisor.placeholder": "Nome do orientador",
+  "search.filters.filter.advisor.label": "Procurar por orientador",
+
+  "search.filters.filter.coadvisor.head": "Coorientador",
+  "search.filters.filter.coadvisor.placeholder": "Nome do coorientador",
+  "search.filters.filter.coadvisor.label": "Procurar por coorientador",
+
+  "search.filters.filter.referee.head": "Membros da banca",
+  "search.filters.filter.referee.placeholder": "Nome do membro da banca",
+  "search.filters.filter.referee.label": "Procurar por membro da banca",
+
+  "search.filters.filter.college.head": "Instituto, faculdade ou escola",
+  "search.filters.filter.college.placeholder": "Instituto, faculdade ou escola",
+  "search.filters.filter.college.label": "Procurar por instituto, faculdade ou escola",
+
+  "search.filters.filter.department.head": "Departamento",
+  "search.filters.filter.department.placeholder": "Departamento",
+  "search.filters.filter.department.label": "Procurar por departamento",
+
+  "search.filters.filter.program.head": "Programa",
+  "search.filters.filter.program.placeholder": "Programa",
+  "search.filters.filter.program.label": "Procurar por programa",
+
+  "search.filters.filter.sponsorship.head": "Financiador",
+  "search.filters.filter.sponsorship.placeholder": "Financiador",
+  "search.filters.filter.sponsorship.label": "Procurar por financiador",
+
+  "search.filters.filter.impactType.head": "Tipo de impacto",
+  "search.filters.filter.impactType.placeholder": "Tipo de impacto",
+  "search.filters.filter.impactType.label": "Procurar por tipo de impacto",
+
+  "search.filters.filter.extensionArea.head": "Área de extensão",
+  "search.filters.filter.extensionArea.placeholder": "Área de extensão",
+  "search.filters.filter.extensionArea.label": "Procurar por área de extensão",
+
+  "search.filters.filter.ods.head": "Objetivos de Desenvolvimento Sustentável",
+  "search.filters.filter.ods.placeholder": "Objetivos de Desenvolvimento Sustentável",
+  "search.filters.filter.ods.label": "Procurar por Objetivos de Desenvolvimento Sustentável",
+
   "search.filters.filter.birthDate.head": "Data de Nascimento",
 
   "search.filters.filter.birthDate.placeholder": "Data de Nascimento",
