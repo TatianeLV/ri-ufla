@@ -2708,7 +2708,7 @@
         <property name="indexFieldName" value="impactType"/>
         <property name="metadataFields">
             <list>
-                <value>dc.description.tipoimpacto</value>
+                <value>dc.description.tipodeimpacto</value>
             </list>
         </property>
         <property name="facetLimit" value="5"/>
@@ -2724,7 +2724,7 @@
         <property name="indexFieldName" value="extensionArea"/>
         <property name="metadataFields">
             <list>
-                <value>dc.description.areatematicaextensao</value>
+                <value>dc.description.areastematicasdaextensao</value>
             </list>
         </property>
         <property name="facetLimit" value="5"/>
