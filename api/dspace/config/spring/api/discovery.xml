@@ -185,11 +185,21 @@
         <!--Which sidebar facets are to be displayed-->
         <property name="sidebarFacets">
             <list>
-                <ref bean="searchFilterAuthor" />
-                <ref bean="searchFilterSubject" />
-                <ref bean="searchFilterIssued" />
-                <ref bean="searchFilterContentInOriginalBundle"/>
                 <ref bean="searchFilterEntityType"/>
+                <ref bean="searchFilterAuthor" />
+                <ref bean="searchFilterAdvisor" />
+                <ref bean="searchFilterCoAdvisor" />
+                <ref bean="searchFilterReferee" />
+                <ref bean="searchFilterIssued" />
+                <ref bean="searchFilterCollege" />
+                <ref bean="searchFilterDepartment" />
+                <ref bean="searchFilterProgram" />
+                <ref bean="searchFilterSubject" />
+                <ref bean="searchFilterSponsorship" />
+                <ref bean="searchFilterImpactType" />
+                <ref bean="searchFilterExtensionArea" />
+                <ref bean="searchFilterODS" />
+                <ref bean="searchFilterContentInOriginalBundle"/>
             </list>
         </property>
         <!-- Set TagCloud configuration per discovery configuration -->
@@ -198,13 +208,25 @@
         <property name="searchFilters">
             <list>
                 <ref bean="searchFilterTitle" />
+                <ref bean="searchFilterEntityType"/>
                 <ref bean="searchFilterAuthor" />
-                <ref bean="searchFilterSubject" />
+                <ref bean="searchFilterAdvisor" />
+                <ref bean="searchFilterCoAdvisor" />
+                <ref bean="searchFilterReferee" />
                 <ref bean="searchFilterIssued" />
+                <ref bean="searchFilterCollege" />
+                <ref bean="searchFilterDepartment" />
+                <ref bean="searchFilterProgram" />
+                <ref bean="searchFilterSubject" />
+                <ref bean="searchFilterSponsorship" />
+                <ref bean="searchFilterImpactType" />
+                <ref bean="searchFilterExtensionArea" />
+                <ref bean="searchFilterODS" />
+
                 <ref bean="searchFilterContentInOriginalBundle"/>
                 <ref bean="searchFilterFileNameInOriginalBundle" />
                 <ref bean="searchFilterFileDescriptionInOriginalBundle" />
-                <ref bean="searchFilterEntityType"/>
+
                 <ref bean="searchFilterIsAuthorOfPublicationRelation"/>
                 <ref bean="searchFilterIsProjectOfPublicationRelation"/>
                 <ref bean="searchFilterIsOrgUnitOfPublicationRelation"/>
@@ -2559,6 +2581,166 @@
             <list>
                 <value>dc.contributor.author</value>
                 <value>dc.creator</value>
+            </list>
+        </property>
+        <property name="facetLimit" value="5"/>
+        <property name="sortOrderSidebar" value="COUNT"/>
+        <property name="sortOrderFilterPage" value="COUNT"/>
+        <property name="isOpenByDefault" value="true"/>
+        <property name="pageSize" value="10"/>
+        <property name="exposeMinAndMaxValue" value="true"/>
+    </bean>
+
+    <bean id="searchFilterAdvisor"
+          class="org.dspace.discovery.configuration.DiscoverySearchFilterFacet">
+        <property name="indexFieldName" value="advisor"/>
+        <property name="metadataFields">
+            <list>
+                <value>dc.contributor.advisor</value>
+            </list>
+        </property>
+        <property name="facetLimit" value="5"/>
+        <property name="sortOrderSidebar" value="COUNT"/>
+        <property name="sortOrderFilterPage" value="COUNT"/>
+        <property name="isOpenByDefault" value="true"/>
+        <property name="pageSize" value="10"/>
+        <property name="exposeMinAndMaxValue" value="true"/>
+    </bean>
+
+    <bean id="searchFilterCoAdvisor"
+          class="org.dspace.discovery.configuration.DiscoverySearchFilterFacet">
+        <property name="indexFieldName" value="coadvisor"/>
+        <property name="metadataFields">
+            <list>
+                <value>dc.contributor.co-advisor</value>
+            </list>
+        </property>
+        <property name="facetLimit" value="5"/>
+        <property name="sortOrderSidebar" value="COUNT"/>
+        <property name="sortOrderFilterPage" value="COUNT"/>
+        <property name="isOpenByDefault" value="true"/>
+        <property name="pageSize" value="10"/>
+        <property name="exposeMinAndMaxValue" value="true"/>
+    </bean>
+
+    <bean id="searchFilterReferee"
+          class="org.dspace.discovery.configuration.DiscoverySearchFilterFacet">
+        <property name="indexFieldName" value="referee"/>
+        <property name="metadataFields">
+            <list>
+                <value>dc.contributor.referee</value>
+            </list>
+        </property>
+        <property name="facetLimit" value="5"/>
+        <property name="sortOrderSidebar" value="COUNT"/>
+        <property name="sortOrderFilterPage" value="COUNT"/>
+        <property name="isOpenByDefault" value="true"/>
+        <property name="pageSize" value="10"/>
+        <property name="exposeMinAndMaxValue" value="true"/>
+    </bean>
+
+    <bean id="searchFilterCollege"
+          class="org.dspace.discovery.configuration.DiscoverySearchFilterFacet">
+        <property name="indexFieldName" value="college"/>
+        <property name="metadataFields">
+            <list>
+                <value>dc.publisher.college</value>
+            </list>
+        </property>
+        <property name="facetLimit" value="5"/>
+        <property name="sortOrderSidebar" value="COUNT"/>
+        <property name="sortOrderFilterPage" value="COUNT"/>
+        <property name="isOpenByDefault" value="true"/>
+        <property name="pageSize" value="10"/>
+        <property name="exposeMinAndMaxValue" value="true"/>
+    </bean>
+
+    <bean id="searchFilterDepartment"
+          class="org.dspace.discovery.configuration.DiscoverySearchFilterFacet">
+        <property name="indexFieldName" value="department"/>
+        <property name="metadataFields">
+            <list>
+                <value>dc.publisher.department</value>
+            </list>
+        </property>
+        <property name="facetLimit" value="5"/>
+        <property name="sortOrderSidebar" value="COUNT"/>
+        <property name="sortOrderFilterPage" value="COUNT"/>
+        <property name="isOpenByDefault" value="true"/>
+        <property name="pageSize" value="10"/>
+        <property name="exposeMinAndMaxValue" value="true"/>
+    </bean>
+
+    <bean id="searchFilterProgram"
+          class="org.dspace.discovery.configuration.DiscoverySearchFilterFacet">
+        <property name="indexFieldName" value="program"/>
+        <property name="metadataFields">
+            <list>
+                <value>dc.publisher.program</value>
+            </list>
+        </property>
+        <property name="facetLimit" value="5"/>
+        <property name="sortOrderSidebar" value="COUNT"/>
+        <property name="sortOrderFilterPage" value="COUNT"/>
+        <property name="isOpenByDefault" value="true"/>
+        <property name="pageSize" value="10"/>
+        <property name="exposeMinAndMaxValue" value="true"/>
+    </bean>
+
+    <bean id="searchFilterSponsorship"
+          class="org.dspace.discovery.configuration.DiscoverySearchFilterFacet">
+        <property name="indexFieldName" value="sponsorship"/>
+        <property name="metadataFields">
+            <list>
+                <value>dc.description.sponsorship</value>
+            </list>
+        </property>
+        <property name="facetLimit" value="5"/>
+        <property name="sortOrderSidebar" value="COUNT"/>
+        <property name="sortOrderFilterPage" value="COUNT"/>
+        <property name="isOpenByDefault" value="true"/>
+        <property name="pageSize" value="10"/>
+        <property name="exposeMinAndMaxValue" value="true"/>
+    </bean>
+
+    <bean id="searchFilterImpactType"
+          class="org.dspace.discovery.configuration.DiscoverySearchFilterFacet">
+        <property name="indexFieldName" value="impactType"/>
+        <property name="metadataFields">
+            <list>
+                <value>dc.description.tipoimpacto</value>
+            </list>
+        </property>
+        <property name="facetLimit" value="5"/>
+        <property name="sortOrderSidebar" value="COUNT"/>
+        <property name="sortOrderFilterPage" value="COUNT"/>
+        <property name="isOpenByDefault" value="true"/>
+        <property name="pageSize" value="10"/>
+        <property name="exposeMinAndMaxValue" value="true"/>
+    </bean>
+
+    <bean id="searchFilterExtensionArea"
+          class="org.dspace.discovery.configuration.DiscoverySearchFilterFacet">
+        <property name="indexFieldName" value="extensionArea"/>
+        <property name="metadataFields">
+            <list>
+                <value>dc.description.areatematicaextensao</value>
+            </list>
+        </property>
+        <property name="facetLimit" value="5"/>
+        <property name="sortOrderSidebar" value="COUNT"/>
+        <property name="sortOrderFilterPage" value="COUNT"/>
+        <property name="isOpenByDefault" value="true"/>
+        <property name="pageSize" value="10"/>
+        <property name="exposeMinAndMaxValue" value="true"/>
+    </bean>
+
+    <bean id="searchFilterODS"
+          class="org.dspace.discovery.configuration.DiscoverySearchFilterFacet">
+        <property name="indexFieldName" value="ods"/>
+        <property name="metadataFields">
+            <list>
+                <value>dc.description.ods</value>
             </list>
         </property>
         <property name="facetLimit" value="5"/>
