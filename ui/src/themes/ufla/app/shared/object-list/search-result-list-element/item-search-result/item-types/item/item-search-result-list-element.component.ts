@@ -9,7 +9,7 @@ import {
 
   import { Context } from '../../../../../../../../../app/core/shared/context.model';
   import { ViewMode } from '../../../../../../../../../app/core/shared/view-mode.model';
-  import { ThemedAccessStatusBadgeComponent } from '../../../../../../../../../../app/shared/object-collection/shared/badges/access-status-badge/themed-access-status-badge.component';
+  import { ThemedAccessStatusBadgeComponent } from '../../../../../../../../../app/shared/object-collection/shared/badges/access-status-badge/themed-access-status-badge.component';
   import { ItemSearchResult } from '../../../../../../../../../app/shared/object-collection/shared/item-search-result.model';
   import { listableObjectComponent } from '../../../../../../../../../app/shared/object-collection/shared/listable-object/listable-object.decorator';
   import { ItemSearchResultListElementComponent as BaseComponent } from '../../../../../../../../../app/shared/object-list/search-result-list-element/item-search-result/item-types/item/item-search-result-list-element.component';
