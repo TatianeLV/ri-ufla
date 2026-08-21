@@ -11,8 +11,14 @@
     </span>
   </div>
   <div [ngClass]="showThumbnails ? 'col-9' : 'col-md-12'">
-    <div class="d-flex">
-      <ds-badges *ngIf="showLabel" [object]="dso" [context]="context" [showAccessStatus]="true"></ds-badges>
+    <div class="d-flex align-items-center mb-1" *ngIf="showLabel">
+      <span *ngIf="dso.firstMetadataValue('dc.type') || dso.firstMetadataValue('dc.type.*')"
+            class="badge badge-primary mr-1"
+            style="background-color:#0d6efd; color:white; font-size:12px; margin-right:4px; text-transform: capitalize;">
+        {{ dso.firstMetadataValue('dc.type') || dso.firstMetadataValue('dc.type.*') }}
+      </span>
+
+      <ds-access-status-badge [object]="dso"></ds-access-status-badge>
     </div>
 
     <ds-truncatable [id]="dso.id" *ngIf="object !== undefined && object !== null">
@@ -28,13 +34,6 @@
             <span *ngIf="dso.firstMetadataValue('dc.publisher') && dso.firstMetadataValue('dc.date.issued')">, </span>
           <span *ngIf="dso.firstMetadataValue('dc.date.issued')" class="item-list-date" [innerHTML]="firstMetadataValue('dc.date.issued')"></span>)
           </ng-container>
-          
-          <!-- Tipo de Item como badge azul (modelo UDESC) -->
-          <span *ngIf="dso.firstMetadataValue('dc.type') || dso.firstMetadataValue('dc.type.*')"
-                class="badge badge-primary mr-1"
-                style="background-color:#0d6efd; color:white; font-size:12px; margin-right:4px;">
-            {{ dso.firstMetadataValue('dc.type') || dso.firstMetadataValue('dc.type.*') }}
-          </span>
 
           <span *ngIf="dso.allMetadata(['dc.contributor.author', 'dc.creator', 'dc.contributor.*']).length > 0" class="item-list-authors">
             <span *ngFor="let author of allMetadataValues(['dc.contributor.author', 'dc.creator', 'dc.contributor.*']); let last=last;">
