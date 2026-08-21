@@ -10,6 +10,7 @@
     <ds-vocabulary-treeview [description]="description"
                             [vocabularyOptions]=vocabularyOptions
                             [multiSelect]="true"
+                            [selectOnlyLeafNodes]="true"
                             [showAdd]="false"
                             (select)="onSelect($event)"
                             (deselect)="onDeselect($event)">

@@ -174,7 +174,7 @@ export class BrowseByTaxonomyComponent implements OnInit, OnChanges, OnDestroy {
   onSelect(detail: VocabularyEntryDetail): void {
     this.selectedItems.push(detail);
     this.filterValues = this.selectedItems
-      .map((item: VocabularyEntryDetail) => `${item.value},equals`);
+      .map((item: VocabularyEntryDetail) => `${item.display},equals`);
     this.updateQueryParams();
   }
 
@@ -188,7 +188,7 @@ export class BrowseByTaxonomyComponent implements OnInit, OnChanges, OnDestroy {
       return entry.id !== detail.id;
     });
     this.filterValues = this.filterValues.filter((value: string) => {
-      return value !== `${detail.value},equals`;
+      return value !== `${detail.display},equals`;
     });
     this.updateQueryParams();
   }

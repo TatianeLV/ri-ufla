@@ -46,7 +46,7 @@
                  container="body"
           >
             <input class="mr-2" type="checkbox"
-                   [disabled]="!node.item?.selectable"
+                   [disabled]="!node.item?.selectable || (selectOnlyLeafNodes && node.hasChildren)"
                    [(ngModel)]="node.isSelected"
                    [checked]="node.isSelected"
                    (change)="onSelect(node.item)"
@@ -55,7 +55,7 @@
           </label>
           <button *ngIf="!multiSelect" class="btn btn-outline-link btn-sm text-left"
                   [class.text-success]="node.isSelected"
-                  [dsBtnDisabled]="!node.item?.selectable"
+                  [dsBtnDisabled]="!node.item?.selectable || (selectOnlyLeafNodes && node.hasChildren)"
                   [ngbTooltip]="node.item?.otherInformation?.note"
                   [openDelay]="500"
                   container="body"
@@ -78,7 +78,7 @@
                 [openDelay]="500"
                 container="body">
             <input class="mr-2" type="checkbox"
-                   [disabled]="!node.item?.selectable"
+                   [disabled]="!node.item?.selectable || (selectOnlyLeafNodes && node.hasChildren)""
                    [(ngModel)]="node.isSelected"
                    [checked]="node.isSelected"
                    (change)="onSelect(node.item)"
@@ -87,7 +87,7 @@
           </label>
           <button *ngIf="!multiSelect" class="btn btn-outline-link btn-sm text-left"
                   [class.text-success]="node.isSelected"
-                  [dsBtnDisabled]="!node.item?.selectable"
+                  [dsBtnDisabled]="!node.item?.selectable || (selectOnlyLeafNodes && node.hasChildren)"
                   [ngbTooltip]="node.item?.otherInformation?.note"
                   [openDelay]="500"
                   container="body"

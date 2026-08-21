@@ -100,6 +100,11 @@ export class VocabularyTreeviewComponent implements OnDestroy, OnInit, OnChanges
   @Input() multiSelect = false;
 
   /**
+   * Whether to allow selecting only leaf nodes
+   */
+  @Input() selectOnlyLeafNodes = false;
+
+  /**
    * A boolean representing if to show the add button or not
    */
   @Input() showAdd = true;
