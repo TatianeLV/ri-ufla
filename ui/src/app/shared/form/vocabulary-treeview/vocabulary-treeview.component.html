@@ -78,7 +78,7 @@
                 [openDelay]="500"
                 container="body">
             <input class="mr-2" type="checkbox"
-                   [disabled]="!node.item?.selectable || (selectOnlyLeafNodes && node.hasChildren)""
+                   [disabled]="!node.item?.selectable || (selectOnlyLeafNodes && node.hasChildren)"
                    [(ngModel)]="node.isSelected"
                    [checked]="node.isSelected"
                    (change)="onSelect(node.item)"
