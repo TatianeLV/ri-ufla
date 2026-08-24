@@ -43,4 +43,38 @@ import { ItemComponent } from '../shared/item.component';
 })
 export class PublicationComponent extends ItemComponent {
 
+  /**
+   * Returns the Lattes URL stored in the publication metadata.
+   */
+  get lattesUrl(): string | undefined {
+    const value = this.object?.firstMetadataValue('dc.creator.Lattes')?.trim();
+
+    if (!value) {
+      return undefined;
+    }
+
+    if (/^https?:\/\//i.test(value)) {
+      return value;
+    }
+
+    return `http://lattes.cnpq.br/${value}`;
+  }
+
+  /**
+   * Returns a normalized ORCID URL stored in the publication metadata.
+   */
+  get orcidUrl(): string | undefined {
+    const value = this.object?.firstMetadataValue('dc.creator.orcid')?.trim();
+
+    if (!value) {
+      return undefined;
+    }
+
+    const orcid = value
+      .replace(/^https?:\/\/(www\.)?orcid\.org\//i, '')
+      .replace(/^orcid:\s*/i, '');
+
+    return `https://orcid.org/${orcid}`;
+  }
+
 }
