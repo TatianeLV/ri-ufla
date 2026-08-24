@@ -47,7 +47,7 @@ export class PublicationComponent extends ItemComponent {
    * Returns the Lattes URL stored in the publication metadata.
    */
   get lattesUrl(): string | undefined {
-    const value = this.object?.firstMetadataValue('dc.creator.Lattes')?.trim();
+    const value = this.object?.metadata?.['dc.creator.Lattes']?.[0]?.value?.trim();
 
     if (!value) {
       return undefined;
@@ -64,7 +64,7 @@ export class PublicationComponent extends ItemComponent {
    * Returns a normalized ORCID URL stored in the publication metadata.
    */
   get orcidUrl(): string | undefined {
-    const value = this.object?.firstMetadataValue('dc.creator.orcid')?.trim();
+    const value = this.object?.metadata?.['dc.creator.orcid']?.[0]?.value?.trim();
 
     if (!value) {
       return undefined;
