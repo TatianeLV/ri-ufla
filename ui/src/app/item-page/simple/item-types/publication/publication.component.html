@@ -31,30 +31,53 @@
       [metadataFields]="['dc.contributor.author', 'dc.creator']"
       [label]="'relationships.isAuthorOf' | translate">
     </ds-metadata-representation-list>
-    <div *ngIf="lattesUrl || orcidUrl" class="author-identifiers">
+    <div
+  *ngIf="object?.metadata?.['dc.creator.Lattes']?.[0]?.value ||
+         object?.metadata?.['dc.creator.orcid']?.[0]?.value"
+  class="author-identifiers">
 
-      <a *ngIf="lattesUrl"
-         [href]="lattesUrl"
-         target="_blank"
-         rel="noopener noreferrer"
-         class="author-identifier-link"
-         title="Currículo Lattes"
-         aria-label="Acessar Currículo Lattes">
-        <i class="fas fa-link lattes-icon" aria-hidden="true"></i>
-      </a>
-      <a *ngIf="orcidUrl"
-         [href]="orcidUrl"
-         target="_blank"
-         rel="noopener noreferrer"
-         class="author-identifier-link"
-         title="ORCID"
-         aria-label="Acessar ORCID">
-        <img
-          src="assets/images/orcid.logo.icon.svg"
-          alt=""
-          class="orcid-author-icon">
-      </a>
-    </div>
+  <ng-container
+    *ngIf="object?.metadata?.['dc.creator.Lattes']?.[0]?.value as lattes">
+
+    <a
+      [href]="lattes.startsWith('http://') || lattes.startsWith('https://')
+        ? lattes
+        : 'http://lattes.cnpq.br/' + lattes"
+      target="_blank"
+      rel="noopener noreferrer"
+      class="author-identifier-link"
+      title="Currículo Lattes"
+      aria-label="Acessar Currículo Lattes">
+
+      <i class="fas fa-link lattes-icon" aria-hidden="true"></i>
+
+    </a>
+
+  </ng-container>
+
+  <ng-container
+    *ngIf="object?.metadata?.['dc.creator.orcid']?.[0]?.value as orcid">
+
+    <a
+      [href]="orcid.startsWith('http://') || orcid.startsWith('https://')
+        ? orcid
+        : 'https://orcid.org/' + orcid"
+      target="_blank"
+      rel="noopener noreferrer"
+      class="author-identifier-link"
+      title="ORCID"
+      aria-label="Acessar ORCID">
+
+      <img
+        src="assets/images/orcid.logo.icon.svg"
+        alt=""
+        class="orcid-author-icon">
+
+    </a>
+
+  </ng-container>
+
+</div>
     <ds-generic-item-page-field [item]="object"
       [fields]="['journal.title']"
       [label]="'publication.page.journal-title'">
