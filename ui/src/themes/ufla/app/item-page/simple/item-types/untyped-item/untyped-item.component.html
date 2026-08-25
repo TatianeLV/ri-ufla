@@ -48,7 +48,7 @@
     <div
   *ngIf="object?.metadata?.['dc.creator.Lattes']?.[0]?.value ||
          object?.metadata?.['dc.creator.orcid']?.[0]?.value"
-    class="d-flex align-items-center mt-1 mb-3"
+  class="author-identifiers">
 
   <ng-container
     *ngIf="object?.metadata?.['dc.creator.Lattes']?.[0]?.value as lattes">
@@ -59,10 +59,10 @@
         : 'http://lattes.cnpq.br/' + lattes"
       target="_blank"
       rel="noopener noreferrer"
-      class="d-inline-flex align-items-center me-2"
+      class="author-identifier-link"
       title="Currículo Lattes"
       aria-label="Acessar Currículo Lattes">
-      <i class="fas fa-link" aria-hidden="true"></i>
+      <i class="fas fa-link lattes-icon" aria-hidden="true"></i>
     </a>
 
   </ng-container>
@@ -76,14 +76,13 @@
         : 'https://orcid.org/' + orcid"
       target="_blank"
       rel="noopener noreferrer"
-      class="d-inline-flex align-items-center me-2"
+      class="author-identifier-link"
       title="ORCID"
       aria-label="Acessar ORCID">
       <img
         src="assets/images/orcid.logo.icon.svg"
         alt=""
-        width="16"
-        height="16">
+        class="orcid-author-icon">
     </a>
 
   </ng-container>
@@ -201,7 +200,7 @@
       [fields]="['dc.description.researchLine']"
       label="Linha de pesquisa">
   </ds-generic-item-page-field>
-  
+
   <ds-generic-item-page-field [item]="object"
     [fields]="['dc.description.development-agency']"
     label="Agência de desenvolvimento">
@@ -225,7 +224,7 @@
 <ds-generic-item-page-field [item]="object"
   [fields]="['dc.description.provenance']"
   label="Procedência">
-</ds-generic-item-page-field> 
+</ds-generic-item-page-field>
 
 <ds-generic-item-page-field [item]="object"
   [fields]="['dc.description.researchimpacts']"
