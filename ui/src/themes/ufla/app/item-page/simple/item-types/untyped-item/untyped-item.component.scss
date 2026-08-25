@@ -1,0 +1,21 @@
+.author-identifiers {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    margin-top: -0.35rem;
+    margin-bottom: 0.75rem;
+  }
+  .author-identifier-link {
+    display: inline-flex;
+    align-items: center;
+    line-height: 1;
+    text-decoration: none;
+  }
+  .lattes-icon {
+    font-size: 0.9rem;
+  }
+  .orcid-author-icon {
+    width: 1rem;
+    height: 1rem;
+    display: block;
+  }
