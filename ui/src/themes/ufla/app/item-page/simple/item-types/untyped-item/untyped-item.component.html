@@ -45,6 +45,49 @@
       [metadataFields]="['dc.contributor.author', 'dc.creator']"
       [label]="'relationships.isAuthorOf' | translate">
     </ds-metadata-representation-list>
+    <div
+  *ngIf="object?.metadata?.['dc.creator.Lattes']?.[0]?.value ||
+         object?.metadata?.['dc.creator.orcid']?.[0]?.value"
+  class="author-identifiers">
+
+  <ng-container
+    *ngIf="object?.metadata?.['dc.creator.Lattes']?.[0]?.value as lattes">
+
+    <a
+      [href]="lattes.startsWith('http://') || lattes.startsWith('https://')
+        ? lattes
+        : 'http://lattes.cnpq.br/' + lattes"
+      target="_blank"
+      rel="noopener noreferrer"
+      class="author-identifier-link"
+      title="Currículo Lattes"
+      aria-label="Acessar Currículo Lattes">
+      <i class="fas fa-link lattes-icon" aria-hidden="true"></i>
+    </a>
+
+  </ng-container>
+
+  <ng-container
+    *ngIf="object?.metadata?.['dc.creator.orcid']?.[0]?.value as orcid">
+
+    <a
+      [href]="orcid.startsWith('http://') || orcid.startsWith('https://')
+        ? orcid
+        : 'https://orcid.org/' + orcid"
+      target="_blank"
+      rel="noopener noreferrer"
+      class="author-identifier-link"
+      title="ORCID"
+      aria-label="Acessar ORCID">
+      <img
+        src="assets/images/orcid.logo.icon.svg"
+        alt=""
+        class="orcid-author-icon">
+    </a>
+
+  </ng-container>
+
+</div>
     <!-- Orientadores -->
     <ds-metadata-representation-list class="ds-item-page-mixed-author-field"
       [parentItem]="object"
