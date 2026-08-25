@@ -48,7 +48,7 @@
     <div
   *ngIf="object?.metadata?.['dc.creator.Lattes']?.[0]?.value ||
          object?.metadata?.['dc.creator.orcid']?.[0]?.value"
-  class="author-identifiers">
+    class="d-flex align-items-center mt-1 mb-3"
 
   <ng-container
     *ngIf="object?.metadata?.['dc.creator.Lattes']?.[0]?.value as lattes">
@@ -59,10 +59,10 @@
         : 'http://lattes.cnpq.br/' + lattes"
       target="_blank"
       rel="noopener noreferrer"
-      class="author-identifier-link"
+      class="d-inline-flex align-items-center me-2"
       title="Currículo Lattes"
       aria-label="Acessar Currículo Lattes">
-      <i class="fas fa-link lattes-icon" aria-hidden="true"></i>
+      <i class="fas fa-link" aria-hidden="true"></i>
     </a>
 
   </ng-container>
@@ -76,13 +76,14 @@
         : 'https://orcid.org/' + orcid"
       target="_blank"
       rel="noopener noreferrer"
-      class="author-identifier-link"
+      class="d-inline-flex align-items-center me-2"
       title="ORCID"
       aria-label="Acessar ORCID">
       <img
         src="assets/images/orcid.logo.icon.svg"
         alt=""
-        class="orcid-author-icon">
+        width="16"
+        height="16">
     </a>
 
   </ng-container>
