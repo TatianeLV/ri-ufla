@@ -48,7 +48,8 @@
     <div
   *ngIf="object?.metadata?.['dc.creator.Lattes']?.[0]?.value ||
          object?.metadata?.['dc.creator.orcid']?.[0]?.value"
-  class="author-identifiers">
+  class="author-identifiers"
+  style="margin-top: -10px; margin-bottom: 4px;">
 
   <ng-container
     *ngIf="object?.metadata?.['dc.creator.Lattes']?.[0]?.value as lattes">
