@@ -93,6 +93,36 @@
       [metadataFields]="['dc.contributor.advisor', 'dc.contributor.advisor1', 'dc.contributor.advisor2']"
       label="Orientadores">
     </ds-metadata-representation-list>
+    <div class="mb-3">
+    <ng-container *ngFor="let orcidEntry of object?.metadata?.['dc.contributor.advisororcid']; let i = index">
+      <ng-container *ngIf="orcidEntry?.value as orcid">
+        <div class="small mb-1">
+          <span *ngIf="
+            object?.metadata?.['dc.contributor.advisor']?.length ===
+            object?.metadata?.['dc.contributor.advisororcid']?.length &&
+            object?.metadata?.['dc.contributor.advisor']?.[i]?.value as advisorName">
+            {{ advisorName }}:
+          </span>
+          <a
+            [href]="orcid.startsWith('http://') || orcid.startsWith('https://')
+              ? orcid
+              : 'https://orcid.org/' + orcid"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="author-identifier-link"
+            title="ORCID"
+            aria-label="Acessar ORCID">
+            <img
+              src="assets/images/orcid.logo.icon.svg"
+              alt=""
+              width="16"
+              height="16">
+            {{ orcid }}
+          </a>
+        </div>
+      </ng-container>
+    </ng-container>
+  </div>
     <!-- Editores -->
     <ds-metadata-representation-list class="ds-item-page-mixed-author-field"
       [parentItem]="object"
@@ -107,6 +137,36 @@
       [metadataFields]="['dc.contributor.advisor-co', 'dc.contributor.co-advisor']"
       label="Coorientadores">
     </ds-metadata-representation-list>
+    <div class="mb-3">
+    <ng-container *ngFor="let orcidEntry of object?.metadata?.['dc.contributor.co-advisororcid']; let i = index">
+      <ng-container *ngIf="orcidEntry?.value as orcid">
+        <div class="small mb-1">
+          <span *ngIf="
+            object?.metadata?.['dc.contributor.co-advisor']?.length ===
+            object?.metadata?.['dc.contributor.co-advisororcid']?.length &&
+            object?.metadata?.['dc.contributor.co-advisor']?.[i]?.value as coAdvisorName">
+            {{ coAdvisorName }}:
+          </span>
+          <a
+            [href]="orcid.startsWith('http://') || orcid.startsWith('https://')
+              ? orcid
+              : 'https://orcid.org/' + orcid"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="author-identifier-link"
+            title="ORCID"
+            aria-label="Acessar ORCID">
+            <img
+              src="assets/images/orcid.logo.icon.svg"
+              alt=""
+              width="16"
+              height="16">
+            {{ orcid }}
+          </a>
+        </div>
+      </ng-container>
+    </ng-container>
+  </div>
     <!-- Membros de banca -->
     <ds-metadata-representation-list class="ds-item-page-mixed-author-field"
       [parentItem]="object"
@@ -114,7 +174,36 @@
       [metadataFields]="['dc.contributor.referee', 'dc.contributor.referee1', 'dc.contributor.referee2', 'dc.contributor.referee3', 'dc.contributor.referee4', 'dc.contributor.referee5']"
       label="Membros de banca">
     </ds-metadata-representation-list>
-
+    <div class="mb-3">
+      <ng-container *ngFor="let orcidEntry of object?.metadata?.['dc.contributor.refereeorcid']; let i = index">
+        <ng-container *ngIf="orcidEntry?.value as orcid">
+          <div class="small mb-1">
+            <span *ngIf="
+              object?.metadata?.['dc.contributor.referee']?.length ===
+              object?.metadata?.['dc.contributor.refereeorcid']?.length &&
+              object?.metadata?.['dc.contributor.referee']?.[i]?.value as refereeName">
+              {{ refereeName }}:
+            </span>
+            <a
+              [href]="orcid.startsWith('http://') || orcid.startsWith('https://')
+                ? orcid
+                : 'https://orcid.org/' + orcid"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="author-identifier-link"
+              title="ORCID"
+              aria-label="Acessar ORCID">
+              <img
+                src="assets/images/orcid.logo.icon.svg"
+                alt=""
+                width="16"
+                height="16">
+              {{ orcid }}
+            </a>
+          </div>
+        </ng-container>
+      </ng-container>
+    </div>
 
     <ds-generic-item-page-field [item]="object"
       [fields]="['journal.title']"

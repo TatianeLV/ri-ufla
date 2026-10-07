@@ -361,6 +361,19 @@
                     <type-bind>dissertação, tese, TCC</type-bind>
                 </field>
             </row>
+            <row>
+                <field>
+                    <dc-schema>dc</dc-schema>
+                    <dc-element>contributor</dc-element>
+                    <dc-qualifier>advisororcid</dc-qualifier>
+                    <repeatable>true</repeatable>
+                    <label>ORCID do orientador</label>
+                    <input-type>onebox</input-type>
+                    <hint>Informe os ORCIDs na mesma ordem em que os orientadores foram informados.</hint>
+                    <required></required>
+                    <type-bind>dissertação, tese, TCC</type-bind>
+                </field>
+            </row>
              <row>
                 <field>
                     <dc-schema>dc</dc-schema>
@@ -374,6 +387,19 @@
                     <type-bind>dissertação, tese, TCC</type-bind>
                 </field>
             </row>
+            <row>
+                <field>
+                    <dc-schema>dc</dc-schema>
+                    <dc-element>contributor</dc-element>
+                    <dc-qualifier>co-advisororcid</dc-qualifier>
+                    <repeatable>true</repeatable>
+                    <label>ORCID do coorientador</label>
+                    <input-type>onebox</input-type>
+                    <hint>Informe os ORCIDs na mesma ordem em que os coorientadores foram informados.</hint>
+                    <required></required>
+                    <type-bind>dissertação, tese, TCC</type-bind>
+                </field>
+             </row>
              <row>
                 <field>
                     <dc-schema>dc</dc-schema>
@@ -387,7 +413,19 @@
                     <type-bind>dissertação, tese, TCC</type-bind>
                 </field>
             </row>
-
+            <row>
+                <field>
+                    <dc-schema>dc</dc-schema>
+                    <dc-element>contributor</dc-element>
+                    <dc-qualifier>refereeorcid</dc-qualifier>
+                    <repeatable>true</repeatable>
+                    <label>ORCID do membro da banca</label>
+                    <input-type>onebox</input-type>
+                    <hint>Informe os ORCIDs na mesma ordem em que os membros da banca foram informados.</hint>
+                    <required></required>
+                    <type-bind>dissertação, tese, TCC</type-bind>
+                </field>
+            </row>
             <row>
                 <field>
                     <dc-schema>dc</dc-schema>
