@@ -207,31 +207,19 @@
           </advisor>
         </xsl:for-each>
 
-<!-- Estrutura atual: dc.contributor.advisor + dc.contributor.advisororcid -->
-<xsl:if test="not(*[local-name()='element' and @name='advisor1'])">
-    <xsl:for-each select="*[local-name()='element' and @name='advisor']//*[local-name()='field' and @name='value']">
-        <xsl:variable name="pos" select="position()"/>
-        <xsl:variable name="contributor" select="ancestor::*[local-name()='element' and @name='contributor'][1]"/>
+<xsl:for-each select="*[local-name()='element' and @name='advisor2']">
+    <advisor>
+        <capes:advisor>
+            <xsl:value-of select="normalize-space(.//*[local-name()='field' and @name='value'][1])"/>
+        </capes:advisor>
 
-        <advisor>
-            <capes:advisor>
+        <xsl:for-each select="../*[local-name()='element' and (@name='advisor2ID' or @name='advisor2id')]//*[local-name()='field' and @name='value'][1]">
+            <vivo:orcidId>
                 <xsl:value-of select="normalize-space(.)"/>
-            </capes:advisor>
-
-            <xsl:if test="
-                count($contributor/*[local-name()='element' and @name='advisor']//*[local-name()='field' and @name='value'])
-                =
-                count($contributor/*[local-name()='element' and @name='advisororcid']//*[local-name()='field' and @name='value'])
-            ">
-                <xsl:for-each select="($contributor/*[local-name()='element' and @name='advisororcid']//*[local-name()='field' and @name='value'])[$pos]">
-                    <vivo:orcidId>
-                        <xsl:value-of select="normalize-space(.)"/>
-                    </vivo:orcidId>
-                </xsl:for-each>
-            </xsl:if>
-        </advisor>
-    </xsl:for-each>
-</xsl:if>
+            </vivo:orcidId>
+        </xsl:for-each>
+    </advisor>
+</xsl:for-each>
 
         <xsl:for-each select="*[local-name()='element' and @name='advisor-co1']">
           <coAdvisor>
@@ -247,31 +235,19 @@
           </coAdvisor>
         </xsl:for-each>
 
-<!-- Estrutura atual: dc.contributor.co-advisor + dc.contributor.co-advisororcid -->
-<xsl:if test="not(*[local-name()='element' and @name='advisor-co1'])">
-    <xsl:for-each select="*[local-name()='element' and @name='co-advisor']//*[local-name()='field' and @name='value']">
-        <xsl:variable name="pos" select="position()"/>
-        <xsl:variable name="contributor" select="ancestor::*[local-name()='element' and @name='contributor'][1]"/>
+<xsl:for-each select="*[local-name()='element' and @name='advisor-co2']">
+    <coAdvisor>
+        <capes:coAdvisor>
+            <xsl:value-of select="normalize-space(.//*[local-name()='field' and @name='value'][1])"/>
+        </capes:coAdvisor>
 
-        <coAdvisor>
-            <capes:coAdvisor>
+        <xsl:for-each select="../*[local-name()='element' and (@name='advisor-co2ID' or @name='advisor-co2id')]//*[local-name()='field' and @name='value'][1]">
+            <vivo:orcidId>
                 <xsl:value-of select="normalize-space(.)"/>
-            </capes:coAdvisor>
-
-            <xsl:if test="
-                count($contributor/*[local-name()='element' and @name='co-advisor']//*[local-name()='field' and @name='value'])
-                =
-                count($contributor/*[local-name()='element' and @name='co-advisororcid']//*[local-name()='field' and @name='value'])
-            ">
-                <xsl:for-each select="($contributor/*[local-name()='element' and @name='co-advisororcid']//*[local-name()='field' and @name='value'])[$pos]">
-                    <vivo:orcidId>
-                        <xsl:value-of select="normalize-space(.)"/>
-                    </vivo:orcidId>
-                </xsl:for-each>
-            </xsl:if>
-        </coAdvisor>
-    </xsl:for-each>
-</xsl:if>
+            </vivo:orcidId>
+        </xsl:for-each>
+    </coAdvisor>
+</xsl:for-each>
 
         <xsl:for-each select="*[local-name()='element' and (
           @name='referee1' or @name='referee2' or @name='referee3' or @name='referee4' or @name='referee5'
@@ -292,35 +268,6 @@
             </xsl:for-each>
           </committeeMember>
         </xsl:for-each>
-
-<!-- Estrutura atual: dc.contributor.referee + dc.contributor.refereeorcid -->
-<xsl:if test="not(*[local-name()='element' and (
-    @name='referee1' or @name='referee2' or @name='referee3' or
-    @name='referee4' or @name='referee5'
-)])">
-    <xsl:for-each select="*[local-name()='element' and @name='referee']//*[local-name()='field' and @name='value']">
-        <xsl:variable name="pos" select="position()"/>
-        <xsl:variable name="contributor" select="ancestor::*[local-name()='element' and @name='contributor'][1]"/>
-
-        <committeeMember>
-            <capes:committeeMember>
-                <xsl:value-of select="normalize-space(.)"/>
-            </capes:committeeMember>
-
-            <xsl:if test="
-                count($contributor/*[local-name()='element' and @name='referee']//*[local-name()='field' and @name='value'])
-                =
-                count($contributor/*[local-name()='element' and @name='refereeorcid']//*[local-name()='field' and @name='value'])
-            ">
-                <xsl:for-each select="($contributor/*[local-name()='element' and @name='refereeorcid']//*[local-name()='field' and @name='value'])[$pos]">
-                    <vivo:orcidId>
-                        <xsl:value-of select="normalize-space(.)"/>
-                    </vivo:orcidId>
-                </xsl:for-each>
-            </xsl:if>
-        </committeeMember>
-    </xsl:for-each>
-</xsl:if>
 
       </xsl:for-each>
 

@@ -349,83 +349,254 @@
                 </field>
             </row>
             <row>
-                <field>
-                    <dc-schema>dc</dc-schema>
-                    <dc-element>contributor</dc-element>
-                    <dc-qualifier>advisor</dc-qualifier>
-                    <repeatable>true</repeatable>
-                    <label>Orientador</label>
-                    <input-type>onebox</input-type>
-                    <hint>Informe o orientador.</hint>
-                    <required>O orientador é obrigatório</required>
-                    <type-bind>dissertação, tese, TCC</type-bind>
-                </field>
-            </row>
-            <row>
-                <field>
-                    <dc-schema>dc</dc-schema>
-                    <dc-element>contributor</dc-element>
-                    <dc-qualifier>advisororcid</dc-qualifier>
-                    <repeatable>true</repeatable>
-                    <label>ORCID do orientador</label>
-                    <input-type>onebox</input-type>
-                    <hint>Informe os ORCIDs na mesma ordem em que os orientadores foram informados.</hint>
-                    <required></required>
-                    <type-bind>dissertação, tese, TCC</type-bind>
-                </field>
-            </row>
+    <field>
+        <dc-schema>dc</dc-schema>
+        <dc-element>contributor</dc-element>
+        <dc-qualifier>advisor1</dc-qualifier>
+        <repeatable>false</repeatable>
+        <label>Orientador 1</label>
+        <input-type>onebox</input-type>
+        <hint>Informe o orientador principal.</hint>
+        <required>O orientador é obrigatório</required>
+        <type-bind>dissertação, tese, TCC</type-bind>
+    </field>
+</row>
+
+<row>
+    <field>
+        <dc-schema>dc</dc-schema>
+        <dc-element>contributor</dc-element>
+        <dc-qualifier>advisor1ID</dc-qualifier>
+        <repeatable>false</repeatable>
+        <label>ORCID do orientador 1</label>
+        <input-type>onebox</input-type>
+        <hint>Informe o ORCID do orientador 1.</hint>
+        <required></required>
+        <type-bind>dissertação, tese, TCC</type-bind>
+    </field>
+</row>
+
+<row>
+    <field>
+        <dc-schema>dc</dc-schema>
+        <dc-element>contributor</dc-element>
+        <dc-qualifier>advisor2</dc-qualifier>
+        <repeatable>false</repeatable>
+        <label>Orientador 2</label>
+        <input-type>onebox</input-type>
+        <hint>Informe o segundo orientador, quando houver.</hint>
+        <required></required>
+        <type-bind>dissertação, tese, TCC</type-bind>
+    </field>
+</row>
+
+<row>
+    <field>
+        <dc-schema>dc</dc-schema>
+        <dc-element>contributor</dc-element>
+        <dc-qualifier>advisor2ID</dc-qualifier>
+        <repeatable>false</repeatable>
+        <label>ORCID do orientador 2</label>
+        <input-type>onebox</input-type>
+        <hint>Informe o ORCID do orientador 2, quando houver.</hint>
+        <required></required>
+        <type-bind>dissertação, tese, TCC</type-bind>
+    </field>
+</row>
              <row>
-                <field>
-                    <dc-schema>dc</dc-schema>
-                    <dc-element>contributor</dc-element>
-                    <dc-qualifier>co-advisor</dc-qualifier>
-                    <repeatable>true</repeatable>
-                    <label>Coorientador</label>
-                    <input-type>onebox</input-type>
-                    <hint>Informe o coorientador.</hint>
-                    <required></required>
-                    <type-bind>dissertação, tese, TCC</type-bind>
-                </field>
-            </row>
-            <row>
-                <field>
-                    <dc-schema>dc</dc-schema>
-                    <dc-element>contributor</dc-element>
-                    <dc-qualifier>co-advisororcid</dc-qualifier>
-                    <repeatable>true</repeatable>
-                    <label>ORCID do coorientador</label>
-                    <input-type>onebox</input-type>
-                    <hint>Informe os ORCIDs na mesma ordem em que os coorientadores foram informados.</hint>
-                    <required></required>
-                    <type-bind>dissertação, tese, TCC</type-bind>
-                </field>
-             </row>
+    <field>
+        <dc-schema>dc</dc-schema>
+        <dc-element>contributor</dc-element>
+        <dc-qualifier>advisor-co1</dc-qualifier>
+        <repeatable>false</repeatable>
+        <label>Coorientador 1</label>
+        <input-type>onebox</input-type>
+        <hint>Informe o coorientador 1, quando houver.</hint>
+        <required></required>
+        <type-bind>dissertação, tese, TCC</type-bind>
+    </field>
+</row>
+
+<row>
+    <field>
+        <dc-schema>dc</dc-schema>
+        <dc-element>contributor</dc-element>
+        <dc-qualifier>advisor-co1ID</dc-qualifier>
+        <repeatable>false</repeatable>
+        <label>ORCID do coorientador 1</label>
+        <input-type>onebox</input-type>
+        <hint>Informe o ORCID do coorientador 1, quando houver.</hint>
+        <required></required>
+        <type-bind>dissertação, tese, TCC</type-bind>
+    </field>
+</row>
+
+<row>
+    <field>
+        <dc-schema>dc</dc-schema>
+        <dc-element>contributor</dc-element>
+        <dc-qualifier>advisor-co2</dc-qualifier>
+        <repeatable>false</repeatable>
+        <label>Coorientador 2</label>
+        <input-type>onebox</input-type>
+        <hint>Informe o coorientador 2, quando houver.</hint>
+        <required></required>
+        <type-bind>dissertação, tese, TCC</type-bind>
+    </field>
+</row>
+
+<row>
+    <field>
+        <dc-schema>dc</dc-schema>
+        <dc-element>contributor</dc-element>
+        <dc-qualifier>advisor-co2ID</dc-qualifier>
+        <repeatable>false</repeatable>
+        <label>ORCID do coorientador 2</label>
+        <input-type>onebox</input-type>
+        <hint>Informe o ORCID do coorientador 2, quando houver.</hint>
+        <required></required>
+        <type-bind>dissertação, tese, TCC</type-bind>
+    </field>
+</row>
              <row>
-                <field>
-                    <dc-schema>dc</dc-schema>
-                    <dc-element>contributor</dc-element>
-                    <dc-qualifier>referee</dc-qualifier>
-                    <repeatable>true</repeatable>
-                    <label>Membro da banca:</label>
-                    <input-type>onebox</input-type>
-                    <hint>Membro da banca:</hint>
-                    <required></required>
-                    <type-bind>dissertação, tese, TCC</type-bind>
-                </field>
-            </row>
-            <row>
-                <field>
-                    <dc-schema>dc</dc-schema>
-                    <dc-element>contributor</dc-element>
-                    <dc-qualifier>refereeorcid</dc-qualifier>
-                    <repeatable>true</repeatable>
-                    <label>ORCID do membro da banca</label>
-                    <input-type>onebox</input-type>
-                    <hint>Informe os ORCIDs na mesma ordem em que os membros da banca foram informados.</hint>
-                    <required></required>
-                    <type-bind>dissertação, tese, TCC</type-bind>
-                </field>
-            </row>
+    <field>
+        <dc-schema>dc</dc-schema>
+        <dc-element>contributor</dc-element>
+        <dc-qualifier>referee1</dc-qualifier>
+        <repeatable>false</repeatable>
+        <label>Membro da banca 1</label>
+        <input-type>onebox</input-type>
+        <hint>Informe o membro da banca 1.</hint>
+        <required></required>
+        <type-bind>dissertação, tese, TCC</type-bind>
+    </field>
+</row>
+
+<row>
+    <field>
+        <dc-schema>dc</dc-schema>
+        <dc-element>contributor</dc-element>
+        <dc-qualifier>referee1ID</dc-qualifier>
+        <repeatable>false</repeatable>
+        <label>ORCID do membro da banca 1</label>
+        <input-type>onebox</input-type>
+        <hint>Informe o ORCID do membro da banca 1, quando houver.</hint>
+        <required></required>
+        <type-bind>dissertação, tese, TCC</type-bind>
+    </field>
+</row>
+
+<row>
+    <field>
+        <dc-schema>dc</dc-schema>
+        <dc-element>contributor</dc-element>
+        <dc-qualifier>referee2</dc-qualifier>
+        <repeatable>false</repeatable>
+        <label>Membro da banca 2</label>
+        <input-type>onebox</input-type>
+        <hint>Informe o membro da banca 2, quando houver.</hint>
+        <required></required>
+        <type-bind>dissertação, tese, TCC</type-bind>
+    </field>
+</row>
+
+<row>
+    <field>
+        <dc-schema>dc</dc-schema>
+        <dc-element>contributor</dc-element>
+        <dc-qualifier>referee2ID</dc-qualifier>
+        <repeatable>false</repeatable>
+        <label>ORCID do membro da banca 2</label>
+        <input-type>onebox</input-type>
+        <hint>Informe o ORCID do membro da banca 2, quando houver.</hint>
+        <required></required>
+        <type-bind>dissertação, tese, TCC</type-bind>
+    </field>
+</row>
+
+<row>
+    <field>
+        <dc-schema>dc</dc-schema>
+        <dc-element>contributor</dc-element>
+        <dc-qualifier>referee3</dc-qualifier>
+        <repeatable>false</repeatable>
+        <label>Membro da banca 3</label>
+        <input-type>onebox</input-type>
+        <hint>Informe o membro da banca 3, quando houver.</hint>
+        <required></required>
+        <type-bind>dissertação, tese, TCC</type-bind>
+    </field>
+</row>
+
+<row>
+    <field>
+        <dc-schema>dc</dc-schema>
+        <dc-element>contributor</dc-element>
+        <dc-qualifier>referee3ID</dc-qualifier>
+        <repeatable>false</repeatable>
+        <label>ORCID do membro da banca 3</label>
+        <input-type>onebox</input-type>
+        <hint>Informe o ORCID do membro da banca 3, quando houver.</hint>
+        <required></required>
+        <type-bind>dissertação, tese, TCC</type-bind>
+    </field>
+</row>
+
+<row>
+    <field>
+        <dc-schema>dc</dc-schema>
+        <dc-element>contributor</dc-element>
+        <dc-qualifier>referee4</dc-qualifier>
+        <repeatable>false</repeatable>
+        <label>Membro da banca 4</label>
+        <input-type>onebox</input-type>
+        <hint>Informe o membro da banca 4, quando houver.</hint>
+        <required></required>
+        <type-bind>dissertação, tese, TCC</type-bind>
+    </field>
+</row>
+
+<row>
+    <field>
+        <dc-schema>dc</dc-schema>
+        <dc-element>contributor</dc-element>
+        <dc-qualifier>referee4ID</dc-qualifier>
+        <repeatable>false</repeatable>
+        <label>ORCID do membro da banca 4</label>
+        <input-type>onebox</input-type>
+        <hint>Informe o ORCID do membro da banca 4, quando houver.</hint>
+        <required></required>
+        <type-bind>dissertação, tese, TCC</type-bind>
+    </field>
+</row>
+
+<row>
+    <field>
+        <dc-schema>dc</dc-schema>
+        <dc-element>contributor</dc-element>
+        <dc-qualifier>referee5</dc-qualifier>
+        <repeatable>false</repeatable>
+        <label>Membro da banca 5</label>
+        <input-type>onebox</input-type>
+        <hint>Informe o membro da banca 5, quando houver.</hint>
+        <required></required>
+        <type-bind>dissertação, tese, TCC</type-bind>
+    </field>
+</row>
+
+<row>
+    <field>
+        <dc-schema>dc</dc-schema>
+        <dc-element>contributor</dc-element>
+        <dc-qualifier>referee5ID</dc-qualifier>
+        <repeatable>false</repeatable>
+        <label>ORCID do membro da banca 5</label>
+        <input-type>onebox</input-type>
+        <hint>Informe o ORCID do membro da banca 5, quando houver.</hint>
+        <required></required>
+        <type-bind>dissertação, tese, TCC</type-bind>
+    </field>
+</row>
             <row>
                 <field>
                     <dc-schema>dc</dc-schema>
