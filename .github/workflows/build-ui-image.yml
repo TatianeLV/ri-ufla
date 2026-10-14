@@ -1,0 +1,44 @@
+
+name: Construir imagem Docker UI do RIUFLA
+
+on:
+  push:
+    branches:
+      - ci/build-dspace-ui-image
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build-ui:
+    name: Build Docker Linux AMD64
+    runs-on: ubuntu-22.04
+    timeout-minutes: 90
+
+    steps:
+      - name: Obter codigo do projeto
+        uses: actions/checkout@v5
+
+      - name: Configurar Docker Buildx
+        uses: docker/setup-buildx-action@v4
+
+      - name: Construir imagem Docker do frontend
+        uses: docker/build-push-action@v7
+        with:
+          context: .
+          file: ./ui.dockerfile
+          platforms: linux/amd64
+          push: false
+          provenance: false
+          tags: ufla/ui:8.1-ssr-fix-20261014
+          outputs: type=docker,dest=${{ runner.temp }}/riufla-ui-amd64.tar
+
+      - name: Armazenar imagem como artefato
+        uses: actions/upload-artifact@v4
+        with:
+          name: riufla-ui-amd64
+          path: ${{ runner.temp }}/riufla-ui-amd64.tar
+          retention-days: 3
+          compression-level: 0
+          if-no-files-found: error
