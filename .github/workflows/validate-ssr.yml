@@ -1,0 +1,39 @@
+
+name: Validar frontend SSR do RIUFLA
+
+on:
+  push:
+    branches:
+      - fix/ssr-headers-sent
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validar-ssr:
+    runs-on: ubuntu-22.04
+
+    defaults:
+      run:
+        working-directory: ui
+
+    steps:
+      - name: Obter codigo do projeto
+        uses: actions/checkout@v4
+
+      - name: Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18.20.8'
+
+      - name: Instalar Yarn
+        run: npm install --global yarn@1.22.22
+
+      - name: Instalar dependencias
+        run: yarn install --frozen-lockfile --non-interactive
+
+      - name: Compilar frontend e servidor SSR
+        run: yarn run build:ssr
+        env:
+          NODE_OPTIONS: --max-old-space-size=4096
