@@ -268,7 +268,12 @@ function serverSideRender(req, res, next, sendToUser: boolean = true) {
       ],
     })
     .then((html) => {
-      if (hasValue(html)) {
+        // Evita enviar uma segunda resposta HTTP
+        if (res.headersSent) {
+          return;
+        }
+
+        if (hasValue(html)) {
         // Replace REST URL with UI URL
         if (environment.ssr.replaceRestUrl && REST_BASE_URL !== environment.rest.baseUrl) {
           html = html.replace(new RegExp(REST_BASE_URL, 'g'), environment.rest.baseUrl);
