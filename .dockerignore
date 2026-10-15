@@ -1,0 +1,19 @@
+# Controle de versao e automacoes
+.git
+.github
+
+# Configuracoes locais sensiveis
+.env
+**/.env
+**/.env.*
+
+# Dependencias e arquivos compilados
+**/node_modules
+**/dist
+**/.angular
+**/.cache
+
+# Logs e arquivos temporarios
+**/*.log
+**/*.tmp
+**/*.bak
