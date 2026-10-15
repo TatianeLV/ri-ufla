@@ -445,7 +445,6 @@ function checkCacheForRequest(cacheName: string, cache: LRU<string, any>, req, r
       }
       return undefined;
     }
-    }
   } else {
     if (environment.cache.serverSide.debug) { console.log(`CACHE MISS FOR ${key} in ${cacheName} cache.`); }
   }
