@@ -411,14 +411,28 @@
   </div>
 
   <div class="col-xs-12 col-md-6">
-    <!-- Resumo -->
+        <!-- Resumo -->
     <ds-generic-item-page-field [item]="object"
-      [fields]="['dc.description.resumo']"
-      label="Resumo">
+    [fields]="['dc.description.resumo']"
+    label="Resumo">
     </ds-generic-item-page-field>
 
+    <!-- Palavras-chave -->
+    <ds-generic-item-page-field [item]="object"
+    [fields]="['dc.subject']"
+    [separator]="', '"
+    label="Palavras-chave">
+    </ds-generic-item-page-field>
+
+    <!-- Abstract -->
     <ds-item-page-abstract-field [item]="object"></ds-item-page-abstract-field>
 
+    <!-- Keywords -->
+    <ds-generic-item-page-field [item]="object"
+    [fields]="['dc.description.keywords']"
+    [separator]="', '"
+    label="Keywords">
+    </ds-generic-item-page-field>
 
     <ds-generic-item-page-field [item]="object"
       [fields]="['dc.description']"
@@ -438,11 +452,6 @@
   <ds-generic-item-page-field [item]="object"
     [fields]="['dc.description.development-agency']"
     label="Agência de desenvolvimento">
-</ds-generic-item-page-field>
-
-<ds-generic-item-page-field [item]="object"
-  [fields]="['dc.description.keywords']"
-  label="Palavra chave">
 </ds-generic-item-page-field>
 
 <ds-generic-item-page-field [item]="object"
@@ -470,12 +479,7 @@
   label="Resumen">
 </ds-generic-item-page-field>
 
-    <ds-generic-item-page-field [item]="object"
-      [fields]="['dc.subject']"
-      [separator]="', '"
-      [label]="'item.page.subject'">
-    </ds-generic-item-page-field>
-    <!-- isbn -->
+<!-- isbn -->
     <ds-generic-item-page-field [item]="object"
     [fields]="['dc.identifier.isbn']"
     label="ISBN">

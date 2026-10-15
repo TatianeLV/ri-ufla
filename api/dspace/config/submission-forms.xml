@@ -606,9 +606,21 @@
                     <repeatable>true</repeatable>
                     <label>Palavras-chave</label>
                     <input-type>tag</input-type>
-                    <hint>CAMPO OBRIGATÓRIO: Informe as palavras-chave do documento descrito. Sugere-se também o uso de termos em inglês.</hint>
-                    <required>CAMPO OBRIGATÓRIO: Informe as palavras-chave do documento descrito. Sugere-se também o uso de termos em inglês.</required>  
+                    <hint>CAMPO OBRIGATÓRIO: Informe as palavras-chave do documento em português.</hint>
+                    <required>CAMPO OBRIGATÓRIO: Informe as palavras-chave do documento em português.</required>
                     <!-- <vocabulary>srsc</vocabulary> -->
+                </field>
+            </row>
+            <row>
+                <field>
+                    <dc-schema>dc</dc-schema>
+                    <dc-element>description</dc-element>
+                    <dc-qualifier>keywords</dc-qualifier>
+                    <repeatable>true</repeatable>
+                    <label>Keywords</label>
+                    <input-type>tag</input-type>
+                    <hint>Informe as palavras-chave do documento em inglês.</hint>
+                    <required></required>
                 </field>
             </row>
             <row>
