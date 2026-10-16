@@ -435,15 +435,14 @@ function checkCacheForRequest(cacheName: string, cache: LRU<string, any>, req, r
   if (cachedCopy) {
     if (environment.cache.serverSide.debug) { console.log(`CACHE HIT FOR ${key} in ${cacheName} cache`); }
 
-    // Check if cached copy is expired.
-    // If it is stale, do not start a background SSR using the same HTTP response.
-    // Return undefined so the request continues through the normal SSR path and
-    // generates a fresh response only once.
+    // Check if cached copy is expired (If expired, the key will now be gone from cache)
+    // NOTE: This will only occur when "allowStale=true", as it means the "get(key)" above returned a stale value.
     if (!cache.has(key)) {
-      if (environment.cache.serverSide.debug) {
-        console.log(`CACHE EXPIRED FOR ${key} in ${cacheName} cache. Rendering fresh copy...`);
-      }
-      return undefined;
+      if (environment.cache.serverSide.debug) { console.log(`CACHE EXPIRED FOR ${key} in ${cacheName} cache. Re-rendering...`); }
+      // Update cached copy by rerendering server-side
+      // NOTE: In this scenario the currently cached copy will be returned to the current user.
+      // This re-render is peformed behind the scenes to update cached copy for next user.
+      serverSideRender(req, res, next, false);
     }
   } else {
     if (environment.cache.serverSide.debug) { console.log(`CACHE MISS FOR ${key} in ${cacheName} cache.`); }

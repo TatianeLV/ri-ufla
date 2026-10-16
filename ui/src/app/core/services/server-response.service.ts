@@ -76,8 +76,8 @@ export class ServerResponseService {
    * @param header
    * @param content
    */
-  setHeader(header: string, content: string) {
-    if (this.response) {
+   setHeader(header: string, content: string) {
+    if (this.response && !this.response.headersSent) {
       this.response.setHeader(header, content);
     }
   }
