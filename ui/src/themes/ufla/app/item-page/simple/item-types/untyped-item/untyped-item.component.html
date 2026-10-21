@@ -91,6 +91,7 @@ class="mb-3">
 
 <!-- Orientadores -->
 <ds-metadata-field-wrapper
+class="riufla-person-identifiers"
 label="Orientadores"
 *ngIf="object?.metadata?.['dc.contributor.advisor']?.length ||
        object?.metadata?.['dc.contributor.advisor1']?.length ||
@@ -172,6 +173,7 @@ label="Orientadores"
 
     <!-- Coorientadores -->
 <ds-metadata-field-wrapper
+class="riufla-person-identifiers"
 label="Coorientadores"
 *ngIf="object?.metadata?.['dc.contributor.advisor-co']?.length ||
        object?.metadata?.['dc.contributor.co-advisor']?.length ||
@@ -257,6 +259,7 @@ label="Coorientadores"
 
 <!-- Membros de banca -->
 <ds-metadata-field-wrapper
+class="riufla-person-identifiers"
 label="Membros de banca"
 *ngIf="object?.metadata?.['dc.contributor.referee']?.length ||
        object?.metadata?.['dc.contributor.referee1']?.length ||
