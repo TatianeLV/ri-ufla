@@ -1,17 +1,15 @@
 /* RIUFLA - Ajuste de espacamento dos identificadores pessoais */
 :host ::ng-deep {
 
-    /* Remove a margem inferior do componente que apresenta o nome */
-    .riufla-person-identifiers
-    ds-metadata-representation-list
-    .simple-view-element {
+    /* Aproxima Lattes e ORCID dos nomes */
+    .riufla-person-identifiers ds-metadata-representation-list .simple-view-element,
+    ds-metadata-representation-list.riufla-person-identifiers .simple-view-element {
       margin-bottom: 0;
     }
 
     /* Oculta apenas blocos vazios de navegacao */
-    .riufla-person-identifiers
-    ds-metadata-representation-list
-    .d-inline-block.w-100.mt-2:empty {
+    .riufla-person-identifiers ds-metadata-representation-list .d-inline-block.w-100.mt-2:empty,
+    ds-metadata-representation-list.riufla-person-identifiers .d-inline-block.w-100.mt-2:empty {
       display: none !important;
     }
 
