@@ -27,6 +27,12 @@ services:
   # Container da API
   dspace:
     container_name: dspace
+    logging:
+      driver: json-file
+      options:
+        max-size: "200m"
+        max-file: "20"
+
     environment:
       TZ: "America/Sao_Paulo"
       dspace__P__dir: /dspace
@@ -89,6 +95,12 @@ services:
   # DSpace Solr container
   dspacesolr:
     container_name: dspacesolr
+    logging:
+      driver: json-file
+      options:
+        max-size: "200m"
+        max-file: "20"
+
     # image: "${DOCKER_REGISTRY:-docker.io}/${DOCKER_OWNER:-dspace}/dspace-solr:${DSPACE_VER:-dspace-8_x}"
     image: "ufla/dspacesolr:8.1"
     environment:
