@@ -9,6 +9,7 @@ RUN yarn install --network-timeout 300000
 
 ADD ./ui /app/
 ENV NODE_OPTIONS="--max_old_space_size=8192"
+RUN yarn merge-i18n -s src/themes/custom/assets/i18n
 RUN yarn build:prod
 
 FROM node:18-alpine
