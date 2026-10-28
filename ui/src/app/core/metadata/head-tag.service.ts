@@ -159,8 +159,9 @@ export class HeadTagService {
 
       this.addMetaTag('title', pageTitle);
       this.title.setTitle(pageTitle);
+  });
+}
 
-    }
     if (routeInfo.data.value.description) {
       this.translate.get(routeInfo.data.value.description).pipe(take(1)).subscribe((translatedDescription: string) => {
         this.addMetaTag('description', translatedDescription);
