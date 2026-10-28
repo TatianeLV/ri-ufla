@@ -153,9 +153,13 @@ export class HeadTagService {
       const titlePrefix = this.translate.get('repository.title.prefix');
       const title = this.translate.get(routeInfo.data.value.title, routeInfo.data.value);
       combineLatest([titlePrefix, title]).pipe(take(1)).subscribe(([translatedTitlePrefix, translatedTitle]: [string, string]) => {
-        this.addMetaTag('title', translatedTitlePrefix + translatedTitle);
-        this.title.setTitle(translatedTitlePrefix + translatedTitle);
-      });
+      const pageTitle = routeInfo.data.value.title === 'home.title'
+      ? translatedTitlePrefix.replace(/\s*::\s*$/, '')
+      : translatedTitlePrefix + translatedTitle;
+
+      this.addMetaTag('title', pageTitle);
+      this.title.setTitle(pageTitle);
+
     }
     if (routeInfo.data.value.description) {
       this.translate.get(routeInfo.data.value.description).pipe(take(1)).subscribe((translatedDescription: string) => {
